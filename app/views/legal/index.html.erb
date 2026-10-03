@@ -1,0 +1,128 @@
+<% content_for :title, "Legal Terms and Conditions" %>
+<% content_for :page_heading, "Legal Terms & Conditions" %>
+
+<div class="hmHero">
+  <span class="hmHero-eyebrow">Legal</span>
+  <h1 class="hmHero-title">Legal Terms &amp; Conditions</h1>
+  <p class="hmHero-lead">Please review the rules and policies governing all <%= SITE_TITLE %> leagues below.</p>
+</div>
+
+<div data-controller="accordion">
+  <div class="faqToolbar">
+    <button type="button" class="hmBtn hmBtn--outline" data-action="accordion#expandAll">Expand All</button>
+    <button type="button" class="hmBtn hmBtn--outline" data-action="accordion#collapseAll">Collapse All</button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 ptfgPageWidth">
+      <div class="faqAccordion">
+        <%= render layout: "shared/accordion_item", locals: { id: 1, icon: "calendar-event", accent: "blue", links: true, question: "Tournament Schedules" } do %>
+          For any reason, if the PGA modifies any portion of their season schedule, <%= PTFG_ABBR %> reserves the
+          right to any league schedules impacted by the change. If a golf tournament is canceled, it will be removed
+          from the schedule, and any golfer picks will be rolled back.  If all four rounds of a golf tournament are
+          not completed, golfer winnings are assigned as per the tournament results. For leagues playing the
+          <i>Pick 3 Classic</i> format (weekend subs), those winnings will be assigned based on the active lineups
+          at the time the tournament was halted.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 2, icon: "pencil-square", accent: "blue", question: "Lineup Submissions" } do %>
+          Each week, participants must submit their lineup via the website prior to the posted deadline time for
+          each tournament. Upon submitting a lineup, participants will receive a confirmation e-mail. Participants
+          can also use the <b>Results</b> and <b>Lineup</b> pages to immediately confirm their lineup. With these
+          mechanisms in place, it is the participant’s responsibility to ensure their lineup was successfully
+          processed by the system.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 3, icon: "clock", accent: "blue", question: "Lineup Deadlines" } do %>
+          PTFG uses the Thursday tournament start time as the first round deadline. Participants should always
+          check the website for updates regarding lineup deadlines. Scheduled lineup reminders are sent via e-mail
+          each Wednesday morning with the lineup deadline included. For leagues playing the <i>Pick 3 Classic</i>
+          format (weekend subs), 3rd and 4th round lineup deadline extensions due to weather delays will be posted
+          on the website as needed. If a participant misses a deadline, league commissioners have the ability to
+          update anyone's lineup at anytime (at their discretion).
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 4, icon: "trophy", accent: "blue", links: true, question: "Scoring" } do %>
+          Weekly scores for each participant are computed based on their lineup submitted for the tournament. Each
+          league's website is updated with the tournament results every Sunday evening. The
+          <%= link_to "PGA Tour", "http://www.pgatour.com" %> tournament website is used for the official golfer
+          earnings in USD. Any fractional dollar amounts (pennies) are truncated.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 5, icon: "hammer", accent: "purple", links: true, question: "Rule Disputes" } do %>
+          Any disputes or discrepancies regarding rules will be resolved by <%= SITE_TITLE %> based on its
+          interpretation of the rules. <%= SITE_TITLE %> will consider the intent and spirit of the rules, the
+          integrity of the content, as well as the feasibility of accommodating any appeal. All disputes must be
+          submitted via email. The deadline for submitting a rule dispute is two days from the end date of the golf
+          tournament for which the dispute occurred. All decisions made by <%= SITE_TITLE %> are final and binding.
+          <%= SITE_TITLE %> reserves the right to modify any rules for clarification purposes without materially
+          affecting the terms and conditions of the contest.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 6, icon: "envelope", accent: "green", links: true, question: "Email Addresses" } do %>
+          All league communication is performed via e-mail.  Therfore, all participants must have a valid email
+          address. It is the sole responsibily of each articipant to notify their league commissioner if their
+          e-mail address should change during the PTFG contest.  Only league commissioners can update other's email
+          addresses.  As mentioned in the <i>Participant Privacy</i> section below, e-mail addresses are never
+          displayed on the league website or shared with others.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 7, icon: "key", accent: "green", links: true, question: "Password Privacy" } do %>
+          Passwords used by contest participants are encrypted and cannot be retrieved by <%= SITE_TITLE %>
+          employees. If a participant forgets or loses their password, they can request it be reset to a default
+          value via e-mail.  After the reset, participants can change their password to whatever they want.
+          Participants are responsible for the secrecy of their password. <%= SITE_TITLE %> is not responsible or
+          liable for any actions taken by someone else using a participant's password and account.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 8, icon: "shield-lock", accent: "green", links: true, question: "Participant Privacy" } do %>
+          <%= SITE_TITLE %> does not share the  e-mail addresses of its participants with anyone.  We fully respect
+          each participant’s privacy.  Only the league commissioner(s) can see another league member's email
+          addresses. E-mail addresses are never displayed on public facing pages.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 9, icon: "wifi-off", accent: "red", links: true, question: "Internet / Technology Issues" } do %>
+          If for any reason, the <%= SITE_TITLE %> system is not capable of functioning as planned, including
+          infection by computer virus, bugs, tampering, unauthorized intervention, fraud, technical failures or
+          any other causes beyond the control of  <%= PTFG_ABBR %> which corrupt or affect the administration,
+          security, fairness, integrity or proper conduct of the contest, <%= PTFG_ABBR %> reserves the right to
+          modify the rules or suspend the <%= PTFG_ABBR %> contest.  <%= PTFG_ABBR %> assumes no responsibility
+          for any error, omissions, interruption, deletion, defect or delay in operation with transmission,
+          communications, line failure, theft, destruction or unauthorized access to the website.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 10, icon: "people", accent: "red", links: true, question: "Personal Behavior" } do %>
+          Participants agree to behave in a lawful, respectful, and sportsmanlike manner while using of the
+          <%= SITE_TITLE %> website including, but not limited to, the clubhouse message board. Any conduct by a
+          participant which is deemed by <%= PTFG_ABBR %> to threaten, harass, intimidate, offend or harm any
+          participant or <%= PTFG_ABBR %> representative is strictly prohibited. <%= PTFG_ABBR %> reserves the
+          right, in its sole discretion, to ban any person from further participation if they engage in such
+          prohibited conduct.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 11, icon: "bug", accent: "red", links: true, question: "Website Tampering" } do %>
+          Any attempt by a participant or individual to deliberately damage the <%= SITE_TITLE %> website is a
+          violation of criminal and civil law.  If such an event occurs, <%= PTFG_ABBR %> reserves the right to
+          seek damages to the fullest extent of the law.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 12, icon: "info-circle", accent: "purple", links: true, question: "Disclaimer" } do %>
+          <%= SITE_TITLE %> is not responsible for any problem or technical malfunction which impedes or interferes
+          with a transaction including but not limited to starting / sub lineup submissions.  <%= PTFG_ABBR %>
+          is not responsible for the failure of any cable or DSL connectivity, computer servers, equipment,
+          software, or traffic congestion on the Internet or any damage to a participant's computer related to or
+          resulting from participation in <%= PTFG_ABBR %>.  <%= PTFG_ABBR %> is not responsible for any loss
+          or liability incurred by any participant or for any unlawful behavior by a participant. <%= PTFG_ABBR %>
+          is not associated with the Professional Golfers Association or any of its members, the PGA Tour, or any
+          golf tournaments making up this contest.  <%= PTFG_ABBR %> is void where prohibited by law.
+          All federal, state, local, and provincial laws and regulations apply. In the event that this contest is
+          challenged by any legal or regulatory authority, <%= PTFG_ABBR %> reserves the right to discontinue or
+          modify the contest, or to disqualify participants residing in the affected geographic areas. In such
+          event, <%= PTFG_ABBR %> shall have no liability to any participants who are disqualified due to such an
+          action.
+        <% end %>
+      </div>
+    </div>
+    <%= render "layouts/right_logo" %>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div><span id="NoShowRules" class="ptfgRulesHeader">Alternate Pick / No Shows</span></div>
+<div class="ptfgRulesParagraph">
+  Each week an alternate golfer can be picked in case a starting golfer is a <b>first round</b> NO SHOW:
+  <br>
+  <%= check_box_tag "DNS", "", true, disabled: true %>
+  Did Not Start (DNS)
+  <br>
+  <%= check_box_tag "DQ", "", true, disabled: true %>
+  Disqualified (DQ)
+  <br>
+  <%= check_box_tag "WD", "", true, disabled: true %>
+  Withdrawn (WD)
+  <br>
+  In the rare case a golfer is started and withdraws prior to teeing off or <i>NEVER</i> plays in the tournament, he
+  will not be charged a usage. This is known as a <i>Did Not Start</i> (DNS). Leagues can also choose to use an
+  alternate pick for golfers who <i>withdraw (WD)</i> or get <i>disqualified (DQ)</i> in the first round. If a golfer
+  completes the first round (i.e. posts a score for 18 holes) and then the WD/DQ occurs, the alternate pick does not
+  apply. If any of the NO SHOW situations above occur for a tournament and you have selected an alternate golfer, your
+  lineup will be automatically updated between the 1st and 2nd rounds. You will receive a system generated email
+  notifying you of the lineup change.
+</div>

@@ -1,0 +1,60 @@
+<% content_for :title, "Pricing" %>
+<% content_for :page_heading, "Pricing" %>
+
+<div class="row">
+  <div class="col-md-8 ptfgPageWidth" style="margin-bottom: 10px">
+    <div class="hmHero">
+      <span class="hmHero-eyebrow">Pricing Plans</span>
+      <h1 class="hmHero-title">Simple, Team-Based Pricing</h1>
+      <p class="hmHero-lead">
+        PTFG offers private leagues starting at just <b><%= MIN_LEAGUE_FEE %></b> for up to <b><%= MIN_TEAMS %></b>
+        teams — that&rsquo;s only $6 per team. Need more teams? Simply add them for $6 each, $1 per team after 100
+        teams.
+      </p>
+    </div>
+
+    <div class="prPriceCard">
+      <div class="prPriceCard-eyebrow">Starting At</div>
+      <div class="prPriceCard-amount"><%= MIN_LEAGUE_FEE %> <span>/ season</span></div>
+      <div class="prPriceCard-sub">for up to <%= MIN_TEAMS %> teams</div>
+      <div class="prPriceStats">
+        <div class="prPriceStat">
+          <div class="prPriceStat-value">$6</div>
+          <div class="prPriceStat-label">Per Team</div>
+        </div>
+        <div class="prPriceStat">
+          <div class="prPriceStat-value">$6</div>
+          <div class="prPriceStat-label">Each Additional Team</div>
+        </div>
+        <div class="prPriceStat">
+          <div class="prPriceStat-value">$1</div>
+          <div class="prPriceStat-label">Per Team After 100</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hmFeatureGroup hmFeatureGroup--blue">
+      <h4 class="hmFeatureGroup-title">How Billing Works</h4>
+      <div class="hmFeatureGrid">
+        <%= render "shared/feature_item" do %>The minimum fee is <%= MIN_LEAGUE_FEE %>, even if your league has fewer than <%= MIN_TEAMS %> teams. Many leagues begin smaller and grow over time, eventually surpassing that threshold.<% end %>
+        <%= render "shared/feature_item" do %>For first-year leagues, the <%= MIN_LEAGUE_FEE %> setup fee must be paid upfront before your league website is created.<% end %>
+        <%= render "shared/feature_item" do %>If your league exceeds <%= MIN_TEAMS %> teams, a second payment&mdash;based on the final team count&mdash;will be due 30 days after the season begins.<% end %>
+        <%= render "shared/feature_item" do %>Returning leagues may make a single payment up to 30 days after the season starts, once the final number of teams has been confirmed.<% end %>
+      </div>
+    </div>
+
+    <div class="prPayCard">
+      <h4 class="prPayCard-title">We Accept Payment Via</h4>
+      <div class="prPayMethods">
+        <span class="prPayMethod"><%= image_tag "PersonalCheck.png", alt: "Personal Check" %></span>
+        <span class="prPayMethod"><%= image_tag "Venmo.png", alt: "Venmo" %></span>
+        <span class="prPayMethod"><%= image_tag "PayPalRectangle.gif", alt: "PayPal" %></span>
+      </div>
+      <p class="prPayCard-note">
+        For PayPal, you can use your account balance or a credit card&mdash;Visa, MasterCard, American Express,
+        and Discover are all accepted.
+      </p>
+    </div>
+  </div>
+  <%= render "layouts/right_logo" %>
+</div>

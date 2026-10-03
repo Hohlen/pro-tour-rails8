@@ -1,0 +1,112 @@
+<% content_for :title, "Features" %>
+<% content_for :page_heading, "Features" %>
+
+<div class="row">
+  <div class="col-md-8 ptfgPageWidth">
+    <div class="hmHero">
+      <span class="hmHero-eyebrow">Private Leagues</span>
+      <h1 class="hmHero-title">Be the Commissioner of Your Own Private League</h1>
+      <p class="hmHero-lead">
+        A private league gives you the opportunity to be the commissioner of your own league, where you set the
+        entry fee, determine prizes, choose the tournament schedule, and more. Our leagues consistently earn
+        outstanding feedback.
+      </p>
+      <p class="hmHero-lead">
+        As commissioner, you're in charge of creating each team, collecting entry fees, and distributing prizes.
+        Beyond that, we handle the rest — including adjusting lineup deadlines due to weather and calculating
+        weekly results and standings.
+      </p>
+      <p class="hmHero-lead">
+        You can select from one to four <b><%= link_to "formats", game_formats_path %></b> and define
+        the start and end tournaments for your league season. While some leagues cover the entire PGA Tour, most
+        stick to 18–34 tournaments, including all four majors, offering flexibility to match your desired level of
+        commitment. Some leagues kick off in January, others with The Masters in April, and some fall somewhere in
+        between. You can also choose how many segments you'd like for your season.
+      </p>
+    </div>
+
+    <div class="hmFeatures">
+      <div class="hmFeatureGroup hmFeatureGroup--blue">
+        <h4 class="hmFeatureGroup-title">As Commissioner, You'll Have the Ability To</h4>
+        <div class="hmFeatureGrid">
+          <%= render "shared/feature_item" do %>Customize prize structures for the season, segments, weekly winners, skins games, majors, and one &amp; done streaks.<% end %>
+          <%= render "shared/feature_item" do %>Make lineup changes on behalf of participants at any time&mdash;perfect for those who miss the deadline or can&rsquo;t get online, especially if you're a generous Commish.<% end %>
+          <%= render "shared/feature_item" do %>Set up league teams each season (unless you opt for self sign-up). From season two onward, you can even pre-load teams from the previous year to streamline setup.<% end %>
+          <%= render "shared/feature_item" do %>Keep track of who has paid their league entry fee.<% end %>
+          <%= render "shared/feature_item" do %>Email all league participants directly from the league website.<% end %>
+          <%= render "shared/feature_item" do %>Post important announcements on the league website.<% end %>
+        </div>
+      </div>
+
+      <div class="hmFeatureGroup hmFeatureGroup--green">
+        <h4 class="hmFeatureGroup-title">All Participants Will Have Access To</h4>
+        <div class="hmFeatureGrid">
+          <%= render "shared/feature_item" do %>Selecting their time zone so lineup deadlines automatically display in their local time.<% end %>
+          <%= render "shared/feature_item" do %>Choosing whether to receive weekly lineup reminder emails and alerts for missed lineups.<% end %>
+          <%= render "shared/feature_item" do %>Receiving confirmation emails once a lineup is submitted.<% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="gfGrid" style="margin-top: 6px">
+      <div class="gfCard gfCard--blue">
+        <div class="gfCard-top"></div>
+        <div class="gfCard-header">
+          <h4 class="gfCard-title">Fast, Automated Scoring</h4>
+        </div>
+        <div class="gfCard-body">
+          <p class="gfCard-paragraph">
+            Projected earnings for each golfer, based on their current tournament position, are updated after each
+            round (Thursday through Saturday). Final results, including updated league standings, are posted every
+            Sunday night — typically within 3–4 hours of round completion.
+          </p>
+        </div>
+      </div>
+
+      <div class="gfCard gfCard--green">
+        <div class="gfCard-top"></div>
+        <div class="gfCard-header">
+          <h4 class="gfCard-title">Automated Reminders</h4>
+        </div>
+        <div class="gfCard-body">
+          <p class="gfCard-paragraph">
+            The system automatically sends weekly lineup reminder emails every Wednesday morning. If a participant
+            hasn&rsquo;t submitted a lineup, a follow-up reminder goes out early Thursday morning.
+          </p>
+        </div>
+      </div>
+
+      <div class="gfCard gfCard--purple">
+        <div class="gfCard-top"></div>
+        <div class="gfCard-header">
+          <h4 class="gfCard-title">History, Trophies &amp; Clubhouse</h4>
+        </div>
+        <div class="gfCard-body">
+          <p class="gfCard-paragraph">
+            To celebrate success, virtual trophies (icons) are displayed on the standings page for league winners.
+            Historical data is preserved for every season and includes a Hall of Fame and career prize earnings
+            page. There&rsquo;s even a Clubhouse page where league members can chat and talk a little friendly
+            smack.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hmCallout">
+      <h4 class="hmCallout-title">Ready to Get Started?</h4>
+      <p class="hmCallout-text">
+        We also include a 15–20 minute commissioner training call with your entry fee to help you get up to speed.
+        The league setup fee is <b><%= MIN_LEAGUE_FEE %></b>, due before we get things rolling. The remaining
+        balance is payable after the season begins and team totals are confirmed.
+      </p>
+      <p class="hmCallout-text">
+        If you've been managing your fantasy golf league through spreadsheets and email, just imagine how much
+        time this will save you. So&hellip; what are you waiting for? Have questions? Just send us an
+        <%= obfuscated_mail_to ADMIN_FULL_EMAIL_ADDRESS, "email", subject: "PTFG Private League Inquiry" %>.
+      </p>
+      <%= obfuscated_mail_to ADMIN_FULL_EMAIL_ADDRESS, "Contact Us About A League",
+                             subject: "PTFG Private League Inquiry", class: "hmBtn hmBtn--primary" %>
+    </div>
+  </div>
+  <%= render "layouts/right_logo" %>
+</div>

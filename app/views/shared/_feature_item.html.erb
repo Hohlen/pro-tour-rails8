@@ -1,0 +1,7 @@
+<%# One checkmark row in a .hmFeatureGrid (Home, Features and Pricing); callers pass the row's text as a block.
+    The check is a Bootstrap Icons glyph; legacy used the &#10003; character, which rendered differently from
+    font to font. %>
+<div class="hmFeatureItem">
+  <span class="hmFeatureItem-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></span>
+  <span><%= yield %></span>
+</div>

@@ -1,0 +1,98 @@
+<% content_for :title, "Let It Ride Rules" %>
+<% content_for :page_heading, "Let It Ride Rules" %>
+
+<div class="row">
+  <div class="col-md-8 ptfgPageWidth">
+    <div class="card ptfgPanel">
+      <div class="card-header ptfgRedPanelBackground">
+        <h4 class="card-title">Basic Rules</h4>
+      </div>
+      <div class="card-body">
+        <div><a href="#Objective">Objective</a></div>
+        <div class="ptfgRulesParagraph">
+          Pick 3 golfers for each week's professional golf tournament. A golfer can only be used <strong>2-10</strong>
+          times throughout the course of the season. This is configurable for each league.
+          <a href="#Objective"><small>More...</small></a>
+        </div>
+        <div><a href="#ScoringSystem">Scoring System</a></div>
+        <div class="ptfgRulesParagraph">
+          Points are awarded based on how much money each selected golfer wins in each tournament.
+          <a href="#ScoringSystem"><small>More...</small></a>
+        </div>
+        <div><a href="#NoShowRules">Alternate Picks / No Shows</a></div>
+        <div class="ptfgRulesParagraph">
+          Select an alternate golfer in case one of your picks is a NO SHOW.
+          <a href="#NoShowRules"><small>More...</small></a>
+        </div>
+        <div><a href="#SeasonDuration">Season Duration</a></div>
+        <div class="ptfgRulesParagraph">
+          Your league picks the desired tournaments for your season. Each season can be broken into multiple segments
+          to keep things interesting for everyone throughout the season.
+          <a href="#SeasonDuration"><small>More...</small></a>
+        </div>
+        <div><a href="#Prizes">Prizes</a></div>
+        <div class="ptfgRulesParagraph">
+          League commissioners can set up weekly, segment, and season prizes for top performers. See details below for
+          even more prize options.
+          <a href="#Prizes"><small>More...</small></a>
+        </div>
+        <div><a href="#TimeCommitment">Time Commitment</a></div>
+        <div class="ptfgRulesParagraph">
+          About 5-10 minutes every each week to pick your 3 starting golfers (and alternate).
+        </div>
+      </div>
+    </div>
+    <div class="card ptfgPanel">
+      <div class="card-header ptfgRedPanelBackground">
+        <h4 class="card-title">Detailed Rules</h4>
+      </div>
+      <div class="card-body">
+        <div><span id="Objective" class="ptfgRulesHeader">Objective</span></div>
+        <div class="ptfgRulesParagraph">
+          The goal of the challenge is to accrue the most earnings by selecting PGA golfers to compete for you over a
+          season of tournaments. Each week you will select 3 golfers who will compete as part of your team. The
+          total winnings accrued by the 3 golfers in your lineup at the END of each tournament will be added to your
+          total season winnings. Total season winnings are used to determine the season winners.
+          <br><br>
+          In addition to the season competition, there can be separate segment competitions. For example, a 24-week
+          season could be composed of four tournaments in each segment. Segment 1 is weeks 1-4, Segment 2 is weeks 5-8,
+          and so on. During each segment, each team will accrue winnings and the top teams in each segment can be
+          awarded prizes.
+        </div>
+
+        <div><span id="ScoringSystem" class="ptfgRulesHeader">Scoring System</span></div>
+        <div class="ptfgRulesParagraph">
+          You may only use a golfer <b>2-10 times*</b> during the season.
+          This is configurable for you league.  Once you have reach the golfer usage limit, you may not use him for
+          the rest of the season.
+          <br><br>
+          You must submit your 3 starting golfers through the website prior to first round play beginning each Thursday.
+          The weekly lineup page contains the lineup deadline which is usually the same as the first tee time.
+          Upon submitting your lineup, you will receive a confirmation e-mail with your starting lineup.
+        </div>
+
+        <%= render "no_show_rules" %>
+
+        <div><span id="SeasonDuration" class="ptfgRulesHeader">Season Duration</span></div>
+        <div class="ptfgRulesParagraph">
+          Let It Ride contests start at various times throughout the first 4 months of the calendar year.  Typical
+          leagues are 12-43 consecutive PGA tournaments with segments of 4-10 weeks (also configurable).
+        </div>
+
+        <div><span id="Prizes" class="ptfgRulesHeader">Prizes</span></div>
+        <div class="ptfgRulesParagraph">
+          League commissioners can set up weekly, segment, and season prizes for top performers. Optional prizes for
+          the following can also be configured:
+          <ul style="margin-left: 5px">
+            <li>Highest score in all 4 Majors tournaments (with option to include TPC as 5th major).</li>
+            <li>Start of season streak, anytime streak, cuts made made.</li>
+            <li>Highest score without picking a tournament winner for entire season (or fewest winners).</li>
+            <li>Skins prize for any team that gets the <b>solo</b> high score for a given week.</li>
+            <li>Best Ball contest for leagues wanting to pair up teams for additional side competition.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= render "layouts/right_logo" %>
+</div>

@@ -1,0 +1,31 @@
+<%# One collapsible card in the FAQs and Legal accordions; callers pass the answer as a block and these locals:
+      id:       unique within the page (builds the heading/collapse element ids)
+      question: the card's title
+      number:   optional -- shows a numbered badge before the title (FAQs are numbered, Legal sections aren't)
+      icon:     optional -- a Bootstrap Icons name ("clock") shown in a colored badge before the title, instead of
+                a number (Legal uses these)
+      accent:   optional -- blue, green, red or purple. Colors the card's left edge, icon badge and open-state
+                header; without it the card is plain, as on the FAQs page
+      links:    optional -- true underlines links inside the answer (legacy's .ptfgLink on some bodies)
+    The panels aren't tied together with data-bs-parent, so any number can be open at once, which is also what the
+    Expand All button needs. Bootstrap toggles each trigger's .collapsed class itself, and the chevron's rotation
+    follows that class (see faq.css). %>
+<div class="faqItem<%= " faqItem--accent faqItem--#{accent}" if local_assigns[:accent] %>">
+  <h4 class="faqItem-heading" id="heading<%= id %>">
+    <a class="faqItem-toggle collapsed" data-bs-toggle="collapse" href="#collapse<%= id %>"
+       aria-expanded="false" aria-controls="collapse<%= id %>">
+      <% if local_assigns[:number] %>
+        <span class="faqItem-number"><%= number %></span>
+      <% elsif local_assigns[:icon] %>
+        <span class="faqItem-icon"><i class="bi bi-<%= icon %>" aria-hidden="true"></i></span>
+      <% end %>
+      <span class="faqItem-question"><%= question %></span>
+      <i class="bi bi-chevron-down faqItem-chevron" aria-hidden="true"></i>
+    </a>
+  </h4>
+  <div id="collapse<%= id %>" class="collapse" aria-labelledby="heading<%= id %>">
+    <div class="faqItem-body<%= " ptfgLink" if local_assigns[:links] %>">
+      <%= yield %>
+    </div>
+  </div>
+</div>

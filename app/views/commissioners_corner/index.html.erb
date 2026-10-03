@@ -1,0 +1,204 @@
+<% season = CurrentSeason.year %>
+<% last_season = season.to_i - 1 %>
+<% content_for :title, "Commissioner's Corner" %>
+<% content_for :page_heading, "Commissioner's Corner #{season}" %>
+
+<%# Unlike most pages this one runs the full width, with no sidebar logo, and its text isn't the site's purple. %>
+<div class="ptfgPlainText">
+  <p style="margin-bottom: 10px; font-size: larger">
+    Welcome back, PTFG <b>Private League Commissioners</b>!
+  </p>
+  <div class="alert alert-danger" role="alert" style="clear: both; max-width: 1000px">
+    Please take a few minutes to read everything on the page below — there are several important updates for the
+    <%= season %> season including:<br><br>
+    <ol style="margin-left: 5px">
+      <li>
+        PTFG has integrated with a <b>3rd party email delivery service</b> to help ensure that messages from
+        our website reach participant's inboxes.
+      </li>
+      <li>
+        There is no <b>Tournament of Champions</b> tournament so the <%= season %> PGA Tour season starts a week
+        later than usual.
+      </li>
+      <li>
+        The <b>TOUR Championship</b> dropped the starting-strokes rule midway through last season.  For this tournament,
+        PTFG has always applied a <b>standard pro-rated earnings</b> instead of the oversized FedEx finale purse.
+      </li>
+      <li>
+        Removed all advertising from the PTFG league websites and made the previously optional $1 per team ad-free fee
+        mandatory for all leagues. As a result, the site fee is now $6 per team, with a league <b>minimum of $180</b>.
+      </li>
+    </ol>
+  </div>
+
+  <div class="card ptfgPanel">
+    <div class="card-header ptfgBluePanelBackground">
+      <h3 class="card-title"><b><%= season %> League Schedules</b></h3>
+    </div>
+    <div class="card-body">
+      <b>I can only set up your league for the upcoming season once you let me know your desired tournament schedule,
+      number of segments, etc.</b>
+      Click <a href="https://oneanddone1.protourfantasygolf.com/schedule" target="_od1">here</a> for the list of PGA
+      tournaments available to PTFG leagues in <%= season %>. Remember, PTFG features only one PGA TOUR event
+      each week — always the <b>most prestigious</b> one when multiple tournaments are held. LIV events are <b>not</b>
+      an option.
+      <br>
+      <br>
+      When replying with your desired tournament schedule, please double-check that it reflects exactly what you want.
+      If you’d like to keep the same setup as <%= last_season %>, simply reply with <b>same as last
+      year</b>. This means you want to use the same number of tournaments, segments, and the same starting and ending
+      tournaments as in <%= last_season %>. However, if your league played the <b>Tournament of Champions</b> t
+      ournament last year, please make any adjustments you'd like for that. You can review your 2025 schedule by
+      selecting <%= last_season %> on your league’s Schedule page. If you’d like to make any changes for
+      2026, please include the specific updates you want in your reply.
+      <br>
+      <br>
+      Be sure to also review your current <b>League Settings</b> on your league website which can be found
+      under the <b>Home</b> tab. If there are league setting you'd like change, please let me know prior to setting
+      up your <%= season %> season.
+      <br>
+      <br>
+      Like prior year's, your league payment is due one month after your league season starts. By then, you should have
+      your final team count. The cost per league is the same as last year. <b><%= MIN_LEAGUE_FEE %></b> is the minimum
+      league fee and includes your first 30 teams. It's <b>$6</b> per team after that. You can check league cost from:
+      <br><br>
+      <b>Commish</b> (tab) &#8594; <b>PTFG Payment</b>
+      <br>
+      <br>
+      Finally, if you’d like to see what’s new with the <%= season %> PGA TOUR schedule, be sure to check out
+      this <a href="https://golf.com/news/pga-tour-schedule-changes-2026/" target="tour_updates">article</a>.
+    </div>
+  </div>
+
+  <div class="card ptfgPanel">
+    <div class="card-header ptfgGreenPanelBackground">
+      <h3 class="card-title"><b>What's New For <%= season %></b></h3>
+    </div>
+    <div class="card-body">
+      <ol>
+        <li>
+          The biggest change this year is that <b>PTFG has integrated with a third-party email delivery service</b> to
+          help ensure that messages from our website reach participants’ inboxes. This is a <b>paid service</b> and not
+          an inexpensive one. I’ve chosen <b>not to increase the league entry fee</b> this year to cover the added cost,
+          though that may need to change next season. It really depends on whether leagues continue to grow — if
+          more participants join, the <b>additional $5 per player</b> could help offset the expense. No pressure, of
+          course — just putting it out there!
+          <br>
+          <br>
+          As a league commissioner, it’s important to understand that when you send emails through the PTFG website,
+          any replies from your league members will now go directly to the <b>personal email address</b> you use to
+          login to PTFG. The previously used <i>Commissioner@{YourLeague}.ProTourFantasyGolf.com</i> addresses are
+          <b>no longer supported</b> due to many email providers blocking messages sent from the PTFG domain.
+          Now that all emails are being sent through a <b>reputable third-party email delivery service</b>, this
+          issue should be resolved — as long as participants <b>don’t mark PTFG emails as spam</b>.
+          Please be sure you and your league participants review the additional details on your league website on
+          how this will work going forward:<br><br>
+          <b>Home</b> (tab) &#8594; <b>How Website Emails Work</b>
+        </li>
+        <br>
+        <li>
+          No <b>Tournament of Champions</b> tournament so the <%= season %> PGA Tour season starts a week later
+          than usual.
+          The Tournament of Champions will not be played this year due to drought conditions resulting in the
+          <%= season %>  PGA TOUR season starting <b>one week later than usual</b>.
+        </li>
+        <br>
+        <li>
+          The <b>TOUR Championship</b> removed the starting-strokes format halfway through the 2025 season and now
+          operates like a standard 30-player event. If your league previously skipped it because of the old scoring
+          system, it may be worth adding back—this event really is the Super Bowl of the fantasy golf year.
+          <span class="ptfgRed">
+            PTFG does not use the massive FedEx Cup bonus payout given to the tournament champion
+          </span>.
+          Instead, the prize pool matches the purse from the two prior FedEx events and is allocated on a pro-rated
+          basis. For <%= season.to_i %>, both preceding tournaments have a $20M purse, so the winner receives
+          the usual 18% share, or $3.6M.  The TOUR Championship uses the same pro-rated structure. Full earnings for
+          the 30-player field are available
+          <a href="https://oneanddone1.protourfantasygolf.com/schedule/purse_breakdown/507" target="_blank">here.</a>
+        </li>
+        <br>
+        <li>
+          For 2026, I've decided to remove all advertising from the PTFG site and make the previously
+          optional $1 per team ad-free fee mandatory for all leagues. As a result, the site fee is now <b>$6 per
+          team,</b>with a league minimum of <b>$180</b>. I made this change after noticing that Google ads have become
+          increasingly deceptive, with some misleading users into entering credit card information because they believe
+          they are paying a league sign-up fee, along with other confusing tactics. Removing ads entirely eliminates
+          this risk and provides a cleaner, safer experience for everyone. Many leagues were already paying the $1 fee
+          to disable ads, so this change will have no impact for them. For the remaining leagues, it represents a small
+          increase. This decision wasn’t made lightly. It is my first price increase in 19 seasons, and during that time
+          my costs for server hosting, monitoring, firewall protection, and software licensing have risen significantly.
+          I’ve been able to absorb those increases as leagues have grown, but this season I also added a dedicated
+          email delivery service to ensure site-generated emails reliably reach participants’ inboxes. Due to the
+          volume of emails sent over a typical 30+ week season, this will add several thousand dollars in annual costs.
+          In the past, running ads on league websites that were willing to have them helped offset my operating costs.
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card ptfgPanel">
+    <div class="card-header ptfgRedPanelBackground">
+      <h3 class="card-title"><b>Reminders &amp; Other Tips</b></h3>
+    </div>
+    <div class="card-body">
+      <ol>
+        <li>
+          <b>Pre-Loading With Last Year's Teams</b><br>
+          Don’t forget, you have the option to pre-load your league with the same teams from last year. When you click
+          the <b>Pre-Load Teams</b> button, each returning participant will receive a <b>Welcome Back</b> email
+          notifying them that a new <%= season %>  team has been created for them, using the same team name as
+          the previous season. If there are any participants from last year who should not receive a new team,
+          simply mark them as <b>Unsubscribed</b> under the User Settings tab before running the pre-load process.
+          <br><br>
+          This is the quickest way to get your league set up for the new season. It also ensures that league members
+          continue using the same email address as last year for their Login ID. If they register with a different email
+          address, they may accidentally create a new user account, which can cause confusion when they log in with
+          their old email and don’t see their <%= season %> team.
+          <br><br>
+          <div class="ptfgRed">
+            <b>IMPORTANT:</b><br>
+            You should use the Pre-Load Teams feature before creating any new teams, as it becomes <b>unavailable</b>
+            once the first <%= season %> team has been created. You can access this option from:
+            <br>
+            <b>Commish</b> (tab) &#8594; <b>Pre-Load Teams</b>
+          </div>
+          <br>
+        </li>
+        <li>
+          <b>Commissioner's Cup</b><br>
+          The <b>Commissioner's Cup</b>, introduced a few years ago, has remained one of our most popular optional
+          contests. In this side competition, the league commissioner selects a subset of tournaments (minimum of four)
+          to form a separate standings race. It’s similar to the Majors Contest, except the chosen tournaments don’t
+          have to be majors. For example, if your league begins in early January, you might select all eight signature
+          events with elevated purses for your Commissioner's Cup. Or, if you prefer to make the smaller events more
+          meaningful, you could choose tournaments with the lowest purses instead. The selection is entirely up to
+          you — hence the name Commissioner’s Cup. Up to five prizes can be awarded for this contest, and as with other
+          competitions, virtual trophies are given to both the first- and last-place finishers. If your league wants
+          to participate in the Commissioner’s Cup, just contact me to have the feature enabled. I’ll also need the
+          list of tournaments you’d like to include.
+          <br><br>
+        </li>
+        <li>
+          <b>Save Yourself Some Agony</b><br>
+          Don’t be one of those commissioners still chasing down league payments after the season ends. Throughout the
+          season, you can use the website’s email filter to message members who haven’t yet paid their league fee.
+          And if you really need to get their attention, remember the <b>lineup lockout</b> feature — it allows you to
+          prevent unpaid members from submitting their weekly lineups until their fees are paid. It’s an effective last
+          resort for dealing with any stragglers. You can find this option under:<br><br>
+          <b>Commish</b> (tab) &#8594; <b>Users</b> &#8594; <b>With <%= season %> Team</b> &#8594;
+          <b>Edit</b> &#8594; <b>Lineup Lockout</b> (checkbox)
+          <br><br>
+        </li>
+        <li>
+          <b>Looking for more participants?</b><br>
+          I have players in my $25 public leagues who are interested in joining leagues with higher entry fees and
+          payouts. If your league is looking to add teams, I’d be happy to post a notice in those leagues and direct
+          interested players to contact you through your league’s website (I won’t be sharing your email address). If
+          that sounds helpful, just let me know. <b>A couple of requirements are that you must be posting your league
+          prizes via the website each season and paying them out in a timely manner.</b>
+          <br><br>
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>

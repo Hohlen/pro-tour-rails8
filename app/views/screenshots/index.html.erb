@@ -1,0 +1,63 @@
+<% content_for :title, "Sample Screenshots" %>
+<% content_for :page_heading, "Screenshots" %>
+
+<%# Legacy also had a Prizes screenshot, deliberately left out so the site doesn't look like a gambling site. %>
+<% screenshots = [
+     { file: "WeeklyResults", label: "Weekly Results", title: "Weekly Results" },
+     { file: "WeeklyLineup", label: "Weekly Lineup", title: "Weekly Lineup" },
+     { file: "Standings", label: "Standings", title: "Season Standings" },
+     { file: "EarningsTrend", label: "Earnings Trend", title: "Earnings Trend Chart" },
+     { file: "GolfersUsed", label: "Golfers Used", title: "Golfers Used Table" },
+     { file: "Schedule", label: "Schedule", title: "Schedule" },
+     { file: "Stats", label: "Stats", title: "Statistics" },
+     { file: "Scorecard", label: "Scorecard", title: "Scorecard" },
+     { file: "ProjectedEarnings", label: "Projected Earnings", title: "Projected Earnings By Round" },
+     { file: "Clubhouse", label: "Clubhouse", title: "Talk Smack In The League Clubhouse" }
+   ] %>
+
+<div class="row"
+     data-controller="gallery-lightbox"
+     data-gallery-lightbox-images-value="<%= screenshots.map { |s| { src: asset_path("screenshots/#{s[:file]}.png"), caption: s[:title] } }.to_json %>">
+  <div class="col-md-8 ptfgPageWidth">
+    <div class="hmHero">
+      <span class="hmHero-eyebrow">Product Tour</span>
+      <h1 class="hmHero-title">See It In Action</h1>
+      <p class="hmHero-lead">
+        Click any screenshot below to view it full size. Use the arrows in the viewer to scroll through, and hit
+        the <b>X</b> in the corner or the <b>escape</b> key to close.
+      </p>
+    </div>
+
+    <div class="ssGrid">
+      <% screenshots.each_with_index do |screenshot, index| %>
+        <%# href is the full-size image itself, so the link still works (and opens in a new tab on middle-click)
+            if JavaScript hasn't run; the controller intercepts the click to open the lightbox instead. %>
+        <a class="ssCard" href="<%= asset_path("screenshots/#{screenshot[:file]}.png") %>"
+           title="<%= screenshot[:title] %>" data-index="<%= index %>" data-action="gallery-lightbox#open">
+          <span class="ssCard-thumb">
+            <%= image_tag "screenshots/#{screenshot[:file]}.png", alt: screenshot[:title], loading: "lazy" %>
+            <span class="ssCard-overlay">View Full Size</span>
+          </span>
+          <span class="ssCard-label"><%= screenshot[:label] %></span>
+        </a>
+      <% end %>
+    </div>
+
+    <dialog class="ssLightbox" data-gallery-lightbox-target="dialog"
+            data-action="click->gallery-lightbox#backdropClick keydown.left->gallery-lightbox#prev keydown.right->gallery-lightbox#next">
+      <button type="button" class="btn-close ssLightbox-close" aria-label="Close" data-action="gallery-lightbox#close"></button>
+      <img class="ssLightbox-img" data-gallery-lightbox-target="image" alt="">
+      <div class="ssLightbox-caption">
+        <span data-gallery-lightbox-target="caption"></span>
+        <span class="ssLightbox-counter" data-gallery-lightbox-target="counter"></span>
+      </div>
+      <button type="button" class="ssLightbox-nav ssLightbox-nav--prev" aria-label="Previous" data-action="gallery-lightbox#prev">
+        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="ssLightbox-nav ssLightbox-nav--next" aria-label="Next" data-action="gallery-lightbox#next">
+        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+      </button>
+    </dialog>
+  </div>
+  <%= render "layouts/right_logo" %>
+</div>

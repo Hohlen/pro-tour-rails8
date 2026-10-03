@@ -1,0 +1,58 @@
+/* The classic panel look legacy's Rules, Commissioner's Corner, Match Play and Version pages still use (they
+   weren't restyled with the modernized pages): a bordered box with a colored title bar. Bootstrap 3's
+   .panel/.panel-heading/.panel-title/.panel-body become .card/.card-header/.card-title/.card-body, wrapped in
+   .ptfgPanel so Bootstrap 5's own card spacing is adjusted only here. */
+.ptfgPanel {
+  margin-bottom: 20px;
+}
+
+.ptfgPanel .card-header {
+  padding: 10px 15px;
+}
+
+.ptfgPanel .card-title {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* Legacy's panel bodies offset their last paragraph's bottom margin with `margin-bottom: -15px` inline;
+   dropping that margin does the same without the hack. */
+.ptfgPanel .card-body > :last-child {
+  margin-bottom: 0;
+}
+
+.ptfgBluePanelBackground,
+.ptfgGreenPanelBackground,
+.ptfgRedPanelBackground {
+  color: #fff;
+}
+.ptfgBluePanelBackground {
+  background-color: var(--ptfg-navy) !important;
+}
+.ptfgGreenPanelBackground {
+  background-color: var(--ptfg-green) !important;
+}
+.ptfgRedPanelBackground {
+  background-color: var(--ptfg-red) !important;
+}
+
+/* Rules pages: section headings and the space under each paragraph. */
+.ptfgRulesHeader {
+  font-weight: bold;
+}
+
+.ptfgRulesParagraph {
+  margin-bottom: 15px;
+}
+
+/* Green table header row (Match Play payouts). Bootstrap 5 paints table cells from --bs-table-* custom
+   properties, not from the row's own background, so the row sets those instead of background-color. */
+.ptfgWhiteOnGreen {
+  --bs-table-bg: var(--ptfg-green);
+  --bs-table-color: #fff;
+}
+
+/* Commissioner's Corner isn't wrapped in the site's purple body text (legacy's page lacked .ptfgText). */
+.ptfgPlainText {
+  color: #333;
+}

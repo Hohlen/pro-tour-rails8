@@ -1,0 +1,137 @@
+<% content_for :title, "FAQs" %>
+<% content_for :page_heading, "FAQs" %>
+
+<div class="hmHero">
+  <span class="hmHero-eyebrow">Tell Me More</span>
+  <h1 class="hmHero-title">Frequently Asked Questions</h1>
+  <p class="hmHero-lead">Answers to the questions we hear most from leagues and participants.</p>
+</div>
+
+<%# The controller wraps the buttons and the accordion so Expand All/Collapse All can reach every panel. The
+    buttons are <button type="button">, not <a href="#">: Turbo Drive would treat a "#" link as a page visit. %>
+<div data-controller="accordion">
+  <div class="faqToolbar">
+    <button type="button" class="hmBtn hmBtn--outline" data-action="accordion#expandAll">Expand All</button>
+    <button type="button" class="hmBtn hmBtn--outline" data-action="accordion#collapseAll">Collapse All</button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 ptfgPageWidth">
+      <div class="faqAccordion">
+        <%= render layout: "shared/accordion_item", locals: { id: 1, number: 1, links: true,
+              question: "When are you able to see everyone's picks for the upcoming tournament?" } do %>
+          As soon as the lineup deadline passes which is typically the first tee time on Thursday.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 2, number: 2, links: true,
+              question: "When are the tournament results posted?" } do %>
+          The results are posted shortly after the golfer earnings are made available for each tournament. This is
+          usually 2-4 hours after the tournament has completed. Participants can elect to be notified by e-mail
+          once their league results have been posted.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 3, number: 3,
+              question: "What's the difference between a season and a segment?" } do %>
+          A season is typically composed of 10 to 34 weeks depending on what your league chooses. A segment usually
+          consists of 4 to 10 consecutive weeks within the season. A season consists of multiple segments. Think of
+          each segment as a mini-season in which prizes can also be awarded to top performers. Sessions add to the
+          overall strategy and provide additional opportunities to win prizes throughout the season; especially
+          for those who fall out of season prize contention early.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 4, number: 4,
+              question: "How do I know my lineup has been received by the system?" } do %>
+          There are 3 ways you can confirm your lineup was received by the system:<br><br>
+          <ol style="padding-left: 15px;">
+            <li>Check the Results page which you should be forwarded to upon submitting your lineup, or</li>
+            <li>Check for a confirmation e-mail, or</li>
+            <li>Return to the Lineup page and review your picks</li>
+          </ol>
+          On the Results page, you can always see your lineup but no one else's until the lineup deadline passes.
+          You can determine if someone else has submitted their starting lineup because you'll see
+          "--&nbsp;XXXXXXXX&nbsp;--" for each starting golfer. However, in the <i>Pick 3 Classic</i> format, you
+          don't get this indication for Sat / Sun subs as it is considered strategically revealing.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 5, number: 5, links: true,
+              question: "Does your website support playing two tournaments per week?" } do %>
+          No. Our leagues only play one tournament per week.  However, we always play the higher profile tournament.
+          For example, in July, when The Open (British) and the Barbasol Championship are on the same weekend,
+          we play the The Open.  In addition, in March, we always play the Match Play tournament instead of the
+          Puerto Rico Open which adds an interesting twist for one week.  You can learn more about that
+          <%= link_to "here", match_play_tournament_path %>.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 6, number: 6, links: true,
+              question: "Can I have more than one team in a league?" } do %>
+          Yes. For convenience, you can manage all your teams under a single user account (e-mail address). To set
+          your lineup for a particular team, simply select that team in the drop-down box on the Lineup page.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 7, number: 7, links: true,
+              question: "Can I have your league emails go to a second email address?" } do %>
+          Yes. You can enter a secondary email address for all communications from the league website including
+          weekly lineup reminders, weekly results, missing lineup reminders, and other emails sent by the league
+          commissioner. This setting is called the "CC Email" and is great option for participants who share a team
+          or simply want all website emails sent to a second email address (e.g. work and home). It is important to
+          note that only the primary email address can be used as the login Id and <b>users CANNOT login within
+          the secondary "CC Email" address.</b> You can add a "CC Email" address to your profile by clicking on
+          the <b>My Profile</b> link at the bottom of each page.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 8, number: 8,
+              question: "What happens if I can't login or access the site due a problem at my end?" } do %>
+          If you are unable to submit your lineup via the site for whatever reason (can't access site, forgot
+          password, etc.), you should submit your lineup via e-mail to your league commissioner. League
+          commissioners have the ability to update your lineup at any time.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 9, number: 9,
+              question: "Can I change my golfer selections after I submit them?" } do %>
+          Yes, you can change your pick(s) as many times as you'd like as long as it's before the lineup deadline
+          time. Each time you submit a lineup, you'll get an e-mail confirming your latest pick(s).
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 10, number: 10,
+              question: "Is there anything I can do to see the lineup deadline times in my own time zone?" } do %>
+          Yes, you can configure your preferred time zone by clicking on the "My Profile" link at the bottom of each
+          page (after you've login). Selecting your time zone will cause the lineup deadline times to be displayed
+          in your local time on the Lineup page as well as in the weekly lineup e-mail reminders.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 11, number: 11,
+              question: "How come the lineup drop-downs include all golfers instead of just those playing in the upcoming tournament?" } do %>
+          We don't have the ability to get real-time updates on who is and who isn't playing a tournament.  Plus,
+          golfers withdraw and get added to tournaments at the very last minute.  Therefore, we've put this onus on
+          each participant and suggest they always check various Internet sources to determine who's playing each
+          week (e.g. tournament website, golfer news, Vegas odds, etc). We've actually made this very easy by
+          providing you with links to many of the best sites on our "Resources" page. There is also a "Check Field"
+          button on the Lineup page which will take you straight to the player field listing for the upcoming
+          tournament. Usually you'll find this page to be the most current resource of any, so it's always worth
+          double-checking.  For some reason, if you don't see a golfer's name in the lineup drop-down, just send
+          us an e-mail and we'll get him added right away.
+        <% end %>
+
+        <%= render layout: "shared/accordion_item", locals: { id: 12, number: 12,
+              question: "How does the Country Club setting work?" } do %>
+          This is an optional setting for leagues.  If enabled, each participant can choose their own country club
+          value which appears next to their name in the standings. The country club value doesn't have to be real
+          country club. It can simply be any made up name.  By setting up a <b>Country Club</b> attribute which
+          matches your friends, you can easily filter the Standings, Weekly Results, and Statistics pages to see
+          how you're doing relative to just your friends and no one else.  This feature is ideal when competing
+          in side bets with your buddies which we highly encourage. This gives you the opportunity to compete
+          against the entire league as well as a select group of buddies!
+        <% end %>
+
+        <%# Legacy's "Features" link here pointed at Game Formats (a copy-paste slip); it points at Features now. %>
+        <%= render layout: "shared/accordion_item", locals: { id: 13, number: 13,
+              question: "Where can I find the answers to other questions?" } do %>
+          Be sure to check our <%= link_to "Game Formats", game_formats_path %>,
+          <%= link_to "Features", features_path %>, and
+          <%= link_to "Legal Terms & Conditions", legal_path %> pages for more information.
+        <% end %>
+      </div>
+    </div>
+    <%= render "layouts/right_logo" %>
+  </div>
+</div>

@@ -22,6 +22,10 @@
   padding-top: 15px;
   padding-bottom: 15px;
   line-height: 20px;
+  /* Legacy's brand had 15px of padding on each side. Bootstrap 5's container already pads 12px, so 3px more
+     on the left puts the text at 15px and trimming the right margin to 15px puts the first link where it was. */
+  padding-left: 3px;
+  margin-right: 15px;
 }
 .navbar-custom .navbar-brand:hover,
 .navbar-custom .navbar-brand:focus {
@@ -33,10 +37,17 @@
 .navbar-custom .navbar-nav {
   flex-wrap: wrap;
 }
+/* Bootstrap 5 sets a nav link's left/right padding from this variable, in a rule (.navbar-expand-md .navbar-nav
+   .nav-link) more specific than anything here, so a plain `padding: 8px 16px` on .nav-link loses on the sides --
+   links came out 16px narrower than legacy's. */
+.navbar-custom {
+  --bs-navbar-nav-link-padding-x: 16px;
+}
 .navbar-custom .nav-link {
   color: var(--ptfg-navy);
   border-radius: 20px;
-  padding: 8px 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   margin: 4px 3px;
   white-space: nowrap;
   transition: background-color 0.15s ease, color 0.15s ease;

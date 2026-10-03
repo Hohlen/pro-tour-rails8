@@ -1,4 +1,3 @@
-<%# Phase 0 placeholder -- the real Home page (hero, screenshot carousel, feature lists) lands in Phase 1. %>
 <% content_for :page_heading, "Home Page" %>
 
 <div class="row">
@@ -7,9 +6,75 @@
       <span class="hmHero-eyebrow">Since 2008</span>
       <h1 class="hmHero-title">Offering a Better Season Long Fantasy Golf League Experience</h1>
       <p class="hmHero-lead">
-        Rails 8 migration, Phase 0: the scaffold, layout, and navigation are in place. Page content is ported from
-        the legacy site in the phases that follow.
+        Tired of managing your fantasy golf league with spreadsheets and endless email threads? Say goodbye to
+        the hassle! Or maybe you're using one of the major platforms but getting radio silence after multiple
+        support emails? That won't be an issue here. Whatever the reason, you've found the perfect place to run
+        your season long fantasy golf league with ease and reliability.
       </p>
+      <div class="hmHero-ctaRow">
+        <%= link_to "Explore Game Formats", game_formats_path, class: "hmBtn hmBtn--primary" %>
+        <%= link_to "View Screenshots", screenshots_path, class: "hmBtn hmBtn--outline" %>
+      </div>
+    </div>
+
+    <%# Bootstrap 5's own carousel (data-bs-ride starts the auto-advance, as legacy's data-ride="carousel" did).
+        Prizes.png/SkinsPrizes.png slides stay out, as in legacy. %>
+    <% slides = [
+         [ "Standings", "Standings" ],
+         [ "Scorecard", "Scorecard" ],
+         [ "GolfersUsed", "Golfers Used" ],
+         [ "EarningsChart", "Earnings Chart" ],
+         [ "Lineup", "Lineup" ],
+         [ "LineupAllTournaments", "Lineup - All Tournaments" ],
+         [ "TournamentSchedule", "Tournament Schedule" ],
+         [ "Statistics", "Statistics" ],
+         [ "ProjectedEarningsByRound", "Projected Earnings By Round" ],
+         [ "DumpTheSpreadsheet", "Dump The Spreadsheet" ]
+       ] %>
+    <div class="hmShowcase">
+      <div id="homeCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <% slides.each_with_index do |(file, alt), index| %>
+            <div class="carousel-item<%= " active" if index.zero? %>">
+              <%= image_tag "carousel/#{file}.png", alt: alt, class: "d-block w-100" %>
+            </div>
+          <% end %>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
+          <span class="hmShowcase-arrow"><i class="bi bi-chevron-left" aria-hidden="true"></i></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
+          <span class="hmShowcase-arrow"><i class="bi bi-chevron-right" aria-hidden="true"></i></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    <div class="hmShowcase-hint">Use arrows on edges to scroll through images</div>
+
+    <div class="hmFeatures">
+      <div class="hmFeatureGroup hmFeatureGroup--blue">
+        <h4 class="hmFeatureGroup-title">Designed For Both the Casual and Hard Core Golf Fan</h4>
+        <div class="hmFeatureGrid">
+          <%= render "shared/feature_item" do %>Season long format that is quick and easy to play each week.<% end %>
+          <%= render "shared/feature_item" do %>Our website tracks prizes for season, segment, and weekly winners.<% end %>
+          <%= render "shared/feature_item" do %>League commissioners have full control over schedule, prizes, and lineups.<% end %>
+          <%= render "shared/feature_item" do %>Choose from four unique <%= link_to "game formats", game_formats_path %> to fit your league&rsquo;s style.<% end %>
+        </div>
+      </div>
+
+      <div class="hmFeatureGroup hmFeatureGroup--green">
+        <h4 class="hmFeatureGroup-title">State-Of-The-Art Website</h4>
+        <div class="hmFeatureGrid">
+          <%= render "shared/feature_item" do %>Easily view everyone&rsquo;s fantasy golf picks once play begins.<% end %>
+          <%= render "shared/feature_item" do %>Access built-in charts, stats, and a clubhouse message board for league interaction.<% end %>
+          <%= render "shared/feature_item" do %>See projected earnings after each round based on your golfers&rsquo; current positions.<% end %>
+          <%= render "shared/feature_item" do %>Keep track of prior seasons with full historical data for each league.<% end %>
+          <%= render "shared/feature_item" do %>Find weekly golfer pick recommendations on the Resources page.<% end %>
+          <%= render "shared/feature_item" do %>Receive automated, configurable lineup reminder emails each week.<% end %>
+          <%= render "shared/feature_item" do %>Fully mobile-friendly&mdash;works great on iPhone, iPad, and all major devices.<% end %>
+        </div>
+      </div>
     </div>
   </div>
   <%= render "layouts/right_logo" %>

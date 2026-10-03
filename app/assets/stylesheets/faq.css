@@ -1,0 +1,110 @@
+/* FAQs and Legal accordions (views/shared/_accordion_item). Ported from legacy's "FAQs page (modernized
+   accordion)" block; the markup is Bootstrap 5's collapse instead of Bootstrap 3's panel-group. */
+.faqToolbar {
+  display: flex;
+  gap: 10px;
+  margin: 4px 0 22px 0;
+}
+
+.faqAccordion .faqItem {
+  background: #fff;
+  border: 1px solid var(--ptfg-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(20, 20, 40, 0.06);
+  margin-bottom: 12px;
+}
+
+/* An <h4> in Bootstrap 5 is much larger than Bootstrap 3's .panel-title it replaces; the question text sets
+   its own size. */
+.faqItem-heading {
+  margin: 0;
+  font-size: 16px;
+}
+
+.faqItem-toggle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  cursor: pointer;
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.faqItem-toggle:hover,
+.faqItem-toggle:focus {
+  background: #f7f7fb;
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.faqItem {
+  --faq-accent: var(--ptfg-navy);
+}
+
+.faqItem-number,
+.faqItem-icon {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--faq-accent);
+  color: #fff;
+  font-weight: bold;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faqItem-icon {
+  font-size: 14px;
+}
+
+/* ---- Color-coded cards (Legal): a colored left edge, a colored icon badge, and a tinted header while open ---- */
+.faqItem--blue   { --faq-accent: var(--ptfg-navy); }
+.faqItem--green  { --faq-accent: var(--ptfg-green); }
+.faqItem--red    { --faq-accent: var(--ptfg-red); }
+.faqItem--purple { --faq-accent: var(--ptfg-purple); }
+
+.faqAccordion .faqItem--accent {
+  border-left: 5px solid var(--faq-accent);
+}
+
+.faqItem--accent .faqItem-toggle:not(.collapsed) {
+  background: color-mix(in srgb, var(--faq-accent) 8%, #fff);
+}
+
+.faqItem--accent .faqItem-toggle:not(.collapsed) .faqItem-question,
+.faqItem--accent .faqItem-toggle:not(.collapsed) .faqItem-chevron {
+  color: var(--faq-accent);
+}
+
+.faqItem-question {
+  flex: 1;
+  font-weight: bold;
+  font-size: 15px;
+  color: var(--ptfg-heading);
+}
+
+/* Points up while the answer is open, down while it's collapsed. Bootstrap (and accordion_controller.js for
+   Expand All) toggles .collapsed on the trigger, so this needs no JavaScript of its own. */
+.faqItem-chevron {
+  flex: 0 0 auto;
+  color: var(--ptfg-muted);
+  font-size: 12px;
+  transition: transform 0.15s ease;
+  transform: rotate(180deg);
+}
+
+.faqItem-toggle.collapsed .faqItem-chevron {
+  transform: rotate(0deg);
+}
+
+.faqItem-body {
+  padding: 0 20px 18px 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ptfg-body-gray);
+}

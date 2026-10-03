@@ -28,9 +28,39 @@ Bootstrap Icons served from `public/vendor/bootstrap-icons/`; shared layout, nav
 (`/game_formats`, `/rules/one_and_done`, `/leagues/by_league_name`, ...) so bookmarks, `public/sitemap.xml` and
 `public/robots.txt` (copied verbatim) stay valid.
 
-Planned phases: 1 static pages (Home with a Bootstrap 5 carousel, Game Formats, Features, Pricing, FAQs/Legal
-accordions, Screenshots lightbox, the three Rules pages, Commissioner's Corner, Match Play, Announcement,
-Version), 2 Leagues (flat-file listing -- legacy reads `league_listings.txt` from outside the repo, `../my-docs`
+Phase 1 (static pages) complete: Home (Bootstrap 5's native carousel), Game Formats, Features, Pricing, FAQs, Legal,
+Screenshots, the three Rules pages, Commissioner's Corner, Match Play, Announcement and Version are all ported, with
+the rendered text of each diffed against legacy's (the only differences are the ones listed below). Notes:
+- FAQs and Legal share `shared/_accordion_item` and `accordion_controller.js` (Expand All/Collapse All; the buttons
+  are `<button type="button">`, not `<a href="#">`, so Turbo Drive doesn't treat them as page visits). Panels are
+  deliberately *not* tied together with `data-bs-parent`: legacy let several stay open, and Expand All needs that.
+  Legal sections take an `icon:` and an `accent:` (blue = how the game works, green = privacy and accounts, red =
+  conduct and technical liability, purple = disputes and the disclaimer); FAQs stay plain and numbered.
+- Screenshots' lightbox is a native `<dialog>` (`gallery_lightbox_controller.js`, adapted from storks-now-rails8) with
+  Colorbox's caption, "image X of N" counter and click-the-backdrop-to-close.
+- `base.css` restores legacy's Bootstrap 3 base look on top of Bootstrap 5 (14px Helvetica, blue links that only
+  underline on hover, 10px paragraph/list spacing, cards inheriting the page's purple). Without it every untouched
+  line of text is bigger and looser than legacy's. `navbar.css` sets Bootstrap's `--bs-navbar-nav-link-padding-x`
+  rather than padding on `.nav-link`, which Bootstrap's own more specific rule would override; the nav links now
+  match legacy's positions and widths to the pixel. `html { scroll-padding-top }` keeps in-page links (the Rules
+  pages' "More...") from landing behind the sticky navbar.
+- `obfuscated_mail_to` reproduces Rails 2's `mail_to(..., encode: "hex")` (dropped in Rails 4).
+- `AppVersion` replaces legacy's `config/initializers/app_version.rb`: reads the `REVISION`/`REVISION_TIME` files
+  Capistrano writes, falling back to "Unknown". Phase 5 may change the source if deployment moves to Kamal.
+- Error pages: `config.exceptions_app = routes`; `ErrorsController` renders 404 inside the site layout (replacing
+  legacy's catch-all route and `home#unknown_request`) and serves `public/422.html`/`500.html` for the others.
+  In development Rails still shows its own debug page, so the 404 page only appears in production-like runs.
+  Its tests turn `show_detailed_exceptions` off; the 500/422 ones are controller tests because an integration GET
+  of `/500` is answered by the static-file middleware before routing.
+- `config.time_zone` is Central, as legacy's server was.
+- Deliberate differences from legacy's content: FAQ #13's "Features" link now points at Features (legacy's pointed at
+  Game Formats); Commissioner's Corner's stray empty `<b></b>` before "don't mark PTFG emails as spam" is fixed so
+  the phrase is bold; Screenshots' hint says the viewer's X is "in the corner" (it's top-right here, bottom-right in
+  Colorbox); legacy's commented-out blocks (old Commissioner's Corner items, the Prizes screenshot, Commish
+  Home/League Settings entries) weren't ported -- they remain in `pro-tour-v2.0`. Legal's copy is verbatim,
+  including its typos ("Therfore", "responsibily", "articipant").
+
+Planned phases: 2 Leagues (flat-file listing -- legacy reads `league_listings.txt` from outside the repo, `../my-docs`
 in dev), 3 Contact Us, 4 Order Now, 5 deployment (Kamal vs Capistrano + Passenger, still undecided; it decides
 where the leagues file lives in production).
 
@@ -48,6 +78,11 @@ Conventions worth knowing before porting a page:
 - `CurrentSeason.year` replaces legacy's boot-time `CURRENT_SEASON` constant (which went stale in a long-running
   server after the Nov 1 rollover).
 - `ApplicationController` deliberately has no `allow_browser` check, same as storks-now-rails8.
+- `page_title_tag` builds the title with `safe_join`: `content_for` returns an already-escaped SafeBuffer, and plain
+  string interpolation made the layout escape it twice ("Commissioner&#39;s Corner" in the browser tab).
+- To compare a page against legacy, run `pro-tour-v2.0` on a spare port (`ruby script/server -p 3055`) next to this
+  app on 3002; `preview_start` looks up launch configs from the session's original directory, so start both from
+  the shell instead.
 
 ## Local setup
 

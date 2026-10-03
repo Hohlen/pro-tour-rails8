@@ -1,0 +1,88 @@
+<% content_for :title, "Game Formats" %>
+<% content_for :page_heading, "Game Formats" %>
+
+<div class="gfIntro">
+  <p class="gfIntroLead">There are 4 different game formats to choose from. All formats allow the option to:</p>
+  <ul class="gfIntroList">
+    <li>Select one alternate golfer in case a starting golfer does not play.</li>
+    <li>Break season into multiple segments for additional competition and prizes.</li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-md-8 ptfgPageWidth">
+    <div class="gfGrid">
+      <div class="gfCard gfCard--blue">
+        <div class="gfCard-top"></div>
+        <div class="gfCard-header">
+          <span class="gfCard-number">1</span>
+          <h4 class="gfCard-title">One &amp; Done Format</h4>
+        </div>
+        <div class="gfCard-body">
+          <ul class="gfCard-list">
+            <li>Pick one golfer each week - cannot use that golfer again.</li>
+            <li>Points based on golfer tournament earnings each week.</li>
+            <li>Optional side contests such as cuts made, start of season streak, and more.</li>
+          </ul>
+          <%= link_to "View Full Rules →", rules_one_and_done_path, class: "gfCard-link" %>
+        </div>
+      </div>
+
+      <div class="gfCard gfCard--green">
+        <div class="gfCard-top"></div>
+        <div class="gfCard-header">
+          <span class="gfCard-number">2</span>
+          <h4 class="gfCard-title">Two &amp; Thru Format</h4>
+        </div>
+        <div class="gfCard-body">
+          <p class="gfCard-paragraph">
+            Same rules as the
+            <b><%= link_to "One & Done", rules_one_and_done_path %></b> format
+            where you start 1 golfer each week. However, with this format, you're <b>not done</b> using that golfer
+            as you can start him a second time. Let's be honest, it's fun to pick your favorite golfers more than
+            once per year. So this format still offers the simplicity of <b>One &amp; Done</b> while giving you that
+            option. In fact, this format is configurable from 2-10 usages per year. In other words, you could play
+            <b>Ten &amp; Done</b> if you really wanted to, but most leagues playing this format choose 2-4 usages
+            per season.
+          </p>
+        </div>
+      </div>
+
+      <div class="gfCard gfCard--red">
+        <div class="gfCard-top"></div>
+        <div class="gfCard-header">
+          <span class="gfCard-number">3</span>
+          <h4 class="gfCard-title">Let It Ride Format</h4>
+        </div>
+        <div class="gfCard-body">
+          <ul class="gfCard-list">
+            <li>Pick 3 starting golfers each week.</li>
+            <li>Points based on golfer tournament earnings for all 3 golfers.</li>
+            <li>Can only use each golfer 1-10 times each season (configurable).</li>
+          </ul>
+          <%= link_to "View Full Rules →", rules_let_it_ride_path, class: "gfCard-link" %>
+        </div>
+      </div>
+
+      <div class="gfCard gfCard--purple">
+        <div class="gfCard-top"></div>
+        <div class="gfCard-header">
+          <span class="gfCard-number">4</span>
+          <h4 class="gfCard-title">Pick 3 Classic Format</h4>
+          <span class="gfCard-flagship">Flagship</span>
+        </div>
+        <div class="gfCard-body">
+          <ul class="gfCard-list">
+            <li>Pick 3 starting golfers with option to substitute one golfer after the 2nd round.</li>
+            <li>Double points for starting golfers on Thursday / single points for weekend sub.</li>
+            <li>Can only use each golfer 2-10 times each season (configurable).</li>
+            <li>Mulligans add to strategy - use golfer one additional time or for Sunday sub.</li>
+            <li>Can't be found anywhere else on the Internet!</li>
+          </ul>
+          <%= link_to "View Full Rules →", rules_pick_3_classic_path, class: "gfCard-link" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= render "layouts/right_logo" %>
+</div>

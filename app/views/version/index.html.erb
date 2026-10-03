@@ -1,0 +1,27 @@
+<% content_for :title, "Version Info" %>
+<% content_for :page_heading, "Version Info" %>
+
+<% version = AppVersion.current %>
+<div class="row">
+  <div class="col-md-8 ptfgPageWidth">
+    <div class="card ptfgPanel">
+      <div class="card-header">
+        <h4 class="card-title">Details</h4>
+      </div>
+      <div class="card-body ptfgLink">
+        <ol>
+          <% if Rails.env.development? %>
+            <li><%= link_to "Rails Props", "/rails/info/properties" %>
+              <span style="font-size: smaller">(Dev Env Only)</span></li>
+          <% end %>
+          <li>Ruby Version: <%= RUBY_VERSION %></li>
+          <li>Rails Version: <%= Rails.version %></li>
+          <li>App Version: <%= version.revision %></li>
+          <li>Code Revision: <%= version.revision_time %></li>
+          <li>Deployed At: <%= version.deployed_at %></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <%= render "layouts/right_logo" %>
+</div>

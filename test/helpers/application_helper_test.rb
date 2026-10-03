@@ -33,6 +33,23 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "nav-link", nav_link_class("/legal")
   end
 
+  test "obfuscated_mail_to hex-escapes letters and digits so the address isn't in the page as plain text" do
+    link = obfuscated_mail_to("Jo Smith <jo1@example.com>", "email", subject: "A question")
+
+    assert_no_match(/jo1@example\.com/, link)
+    assert_no_match(/example/, link)
+    # "Jo Smith <jo1@example.com>": letters/digits become %xx; the space, <, @, . and > pass through untouched.
+    assert_includes link, 'href="mailto:%4a%6f %53%6d%69%74%68 &lt;%6a%6f%31@%65%78%61%6d%70%6c%65.%63%6f%6d&gt;?subject=A%20question"'
+    assert_includes link, ">email</a>"
+  end
+
+  test "obfuscated_mail_to passes html options through and omits the subject when none is given" do
+    link = obfuscated_mail_to("a@b.co", "Write us", class: "hmBtn")
+
+    assert_includes link, 'class="hmBtn"'
+    assert_includes link, 'href="mailto:%61@%62.%63%6f"'
+  end
+
   test "Home is only active on the exact root path, not on every page" do
     request.path = "/"
     assert_equal "nav-link active", nav_link_class("/")

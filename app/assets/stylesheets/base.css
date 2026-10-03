@@ -1,0 +1,43 @@
+/* Bootstrap 5 with legacy's Bootstrap 3 base look. Legacy's pages (and the modernized styles ported from them)
+   assume Bootstrap 3's defaults -- 14px Helvetica text, blue links that only underline on hover, 10px paragraph
+   and list spacing -- whereas Bootstrap 5 ships 16px system-font text, always-underlined links, and 1rem
+   spacing. Without this, every page's untouched text, lists and links come out bigger and looser than legacy's,
+   even where the component styles themselves match. Values below are Bootstrap 3's. */
+
+:root {
+  --bs-body-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --bs-body-font-size: 14px;
+  --bs-body-line-height: 1.42857143;
+
+  --bs-link-color: #337ab7;
+  --bs-link-color-rgb: 51, 122, 183;
+  --bs-link-hover-color: #23527c;
+  --bs-link-hover-color-rgb: 35, 82, 124;
+}
+
+/* Bootstrap 5 underlines every link; Bootstrap 3 only did on hover. Limited to class-less links (those in page
+   copy) so components that style their own links -- nav, buttons, cards -- aren't underlined by this rule. */
+a {
+  text-decoration: none;
+}
+a:not([class]):hover,
+a:not([class]):focus {
+  text-decoration: underline;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+/* Legacy's global list indent (Bootstrap 5's default is 2rem); the Rules pages' lists and the FAQ answers rely
+   on it. Component lists (nav, feature grids, game-format cards) set their own padding and margins. */
+ul,
+ol {
+  padding-left: 10px;
+  margin: 0 0 10px;
+}
+
+/* Bootstrap 5 resets a card's text to the body color; legacy's Bootstrap 3 panels inherited the page's purple. */
+.card {
+  color: inherit;
+}

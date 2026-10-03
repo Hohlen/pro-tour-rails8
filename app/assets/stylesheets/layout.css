@@ -1,6 +1,13 @@
 /* Shared page chrome: body text color, page-width cap, link underlining, page title, footer and the sidebar
    brand card. Ported from legacy's application.css; Bootstrap 3's .panel/.panel-default become .card. */
 
+/* The navbar is sticky (50px), so an in-page link (the Rules pages' "More..." links) would otherwise scroll its
+   target to the very top of the window, hidden behind the bar -- it looked like the page scrolled too far. This
+   keeps the target just below the bar. */
+html {
+  scroll-padding-top: 66px;
+}
+
 .ptfgBlue {
   color: var(--ptfg-navy) !important;
 }

@@ -1,0 +1,97 @@
+<% content_for :title, "Match Play Tournament Details" %>
+<% content_for :page_heading, "#{CurrentSeason.year} Match Play Championship Details" %>
+
+<div class="row">
+  <div class="col-md-8 ptfgPageWidth">
+    <div class="card ptfgPanel">
+      <div class="card-header ptfgBluePanelBackground">
+        <h4 class="card-title">Overview</h4>
+      </div>
+      <div class="card-body">
+        <p>
+          The <i>WGC Match Play Championship</i> is a 5-day tournament with a format unlike any other. The 64-player
+          field is divided into sixteen 4-player groups. Each group will play round-robin matches within their group
+          on Wednesday, Thursday and Friday. The player with the best record in each of the four groups advances to
+          the round of 16 for single-elimination match play (in the event of a two-way tie in a group, head-to-head
+          results will be used as the tiebreaker. A three-way tie will require a sudden-death playoff. The round of
+          16 is played Saturday morning, followed by the quarterfinals with 8 players remaining on Saturday afternoon.
+          By Sunday, there are only 4 players left with the semi-finals in the morning, followed by the championship
+          and 3rd place consolation matches in the afternoon. This year's bracket can be found
+          <%= link_to "here", "https://fantasybracket.pgatour.com", target: "_blank", rel: "noopener" %>.
+        </p>
+        <p style="font-style: italic">
+          To be clear, you are not filling out a bracket for this week's tournament. You are simply picking
+          golfers like you do every week in your PTFG league. Just understand that this week's PGA tournament is run
+          differently than the other weeks.
+        </p>
+        <p>
+          The total purse for <%= CurrentSeason.year %> is $20 million with the winner taking home
+          <b>3.5 million</b> and the <i>Walter Hagen Cup</i>:
+        </p>
+        <table class="table table-striped table-sm" style="margin-bottom: 0; max-width: 175px;">
+          <thead>
+            <tr class="ptfgWhiteOnGreen">
+              <td class="text-center">Place</td>
+              <td class="text-center">Earnings</td>
+            </tr>
+          </thead>
+          <tbody>
+            <% [ [ "1st", "$3,500,000" ], [ "2nd", "$2,220,000" ], [ "3rd", "$1,420,000" ], [ "4th", "$1,141,000" ],
+                 [ "5-8", "$643,000" ], [ "9-16", "$366,000" ], [ "17-27", "~$225,000" ], [ "28-37", "~$150,000" ],
+                 [ "38-50", "~$100,000" ], [ "51-64", "~$70,000" ] ].each do |place, earnings| %>
+              <tr>
+                <td class="text-center"><%= place %></td>
+                <td class="text-end"><%= earnings %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <br>
+        <b style="color: var(--ptfg-red)">PTFG Strategy &amp; Tips:</b>
+        <div style="margin-left: 5px">
+          <ol>
+            <li>
+              If you're playing the
+              <%= link_to "One & Done", rules_one_and_done_path, target: "_blank" %>
+              format that also does the <i>Start Of Season Streak</i> or the <i>Anytime Streak</i>, you get a free
+              pass this week as every golfer competing in this tournament earns at least $50,000.
+            </li>
+            <li>
+              If you're playing one of the two <b>PTFG Pick 3</b> formats, it's ill-advised to start two golfers in
+              the same bracket of four as one is sure to get knocked out. Instead, make sure each golfer is in a
+              different bracket. Choose a golfer from the 4th bracket as your alternate pick in case of a NO SHOW.
+            </li>
+            <li>
+              If you're playing in the
+              <%= link_to "Pick 3 Classic", rules_pick_3_classic_path, target: "_blank" %>
+              format (weekend sub), you may want to consider using a Sunday
+              mulligan as you have a 1 in 4 chance of picking the winner.
+            </li>
+          </ol>
+        </div>
+        <p>
+          <b>WGC Match Play Basics</b>
+          <br>
+          In Match Play, players aren’t competing for the lowest total score amongst a field of 140+ golfers.
+          Instead, the field is broken down into head-to-head pairings where each golfer simply competes
+          for a better score on each individual hole. Every hole is its own contest, and it can either be won,
+          lost or halved (when both players shoot the same  score). The player who wins the most individual
+          holes wins the match.
+        </p>
+        <p>
+          The scoreboard looks a little different for match-play events. Rather than the traditional
+          score-to-par notation (-4, for example), matches are tracked only by the relative score of two players.
+          You may see a player listed as <b>3 Up</b> meaning they’ve won three more holes than their opponent.
+          How many strokes that player has actually taken is irrelevant.
+        </p>
+        <p>
+          The Match Play format also means that some pairings won’t need to play the full 18 holes. If the same
+          player wins each of the first 10, the match is already decided. That’s a rare extreme, but it would result
+          in a winning score of <b>10 &amp; 8</b>, meaning the player is <b>ten holes ahead with only eight to play</b>.
+          Ties, called <b>halves</b> are possible if both players win the same number of holes.
+        </p>
+      </div>
+    </div>
+  </div>
+  <%= render "layouts/right_logo" %>
+</div>

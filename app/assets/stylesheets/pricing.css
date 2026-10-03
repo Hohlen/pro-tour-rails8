@@ -1,0 +1,99 @@
+/* Pricing page: the price card and the payment-methods card. Ported from legacy's "Pricing page (modernized price
+   card + payment methods)" block. */
+.prPriceCard {
+  background: #fff;
+  border: 1px solid var(--ptfg-border);
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(20, 20, 40, 0.08);
+  padding: 30px 28px;
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.prPriceCard-eyebrow {
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ptfg-muted);
+  margin-bottom: 6px;
+}
+
+.prPriceCard-amount {
+  font-size: 52px;
+  font-weight: bold;
+  color: var(--ptfg-navy);
+  line-height: 1.1;
+}
+
+.prPriceCard-amount span {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--ptfg-muted);
+}
+
+.prPriceCard-sub {
+  font-size: 14px;
+  color: var(--ptfg-body-gray);
+  margin-top: 6px;
+}
+
+.prPriceStats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--ptfg-border);
+}
+
+.prPriceStat-value {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--ptfg-heading);
+}
+
+.prPriceStat-label {
+  font-size: 12px;
+  color: var(--ptfg-muted);
+  margin-top: 2px;
+}
+
+.prPayCard {
+  background: #fff;
+  border: 1px solid var(--ptfg-border);
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin-top: 8px;
+}
+
+.prPayCard-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--ptfg-heading);
+  margin: 0 0 14px 0;
+}
+
+.prPayMethods {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 26px;
+}
+
+.prPayMethod {
+  display: flex;
+  align-items: center;
+}
+
+.prPayMethod img {
+  max-height: 34px;
+  width: auto;
+}
+
+.prPayCard-note {
+  font-size: 13px;
+  color: var(--ptfg-muted);
+  margin: 16px 0 0 0;
+}

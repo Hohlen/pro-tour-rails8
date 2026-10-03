@@ -1,6 +1,7 @@
 <footer style="margin-bottom: 15px; margin-top: 30px">
   <hr>
-  <div id="copyright">
+  <%# The tooltip (hover the copyright line) shows which revision is deployed -- handy for confirming a deploy. %>
+  <div id="copyright" title="Revision <%= AppVersion.current.revision %>&#013;Deployed @ <%= AppVersion.current.deployed_at %>">
     <span class="copyrightText">&copy; <%= CurrentSeason.year %> <%= PTFG_LLC_NAME %>. All rights reserved.</span>
   </div>
 </footer>

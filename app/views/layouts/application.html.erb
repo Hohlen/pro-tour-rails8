@@ -42,7 +42,7 @@
           <h2 id="pageTitle">, so it renders here, above the flash -- legacy puts its page_title heading before
           its errors partial too. %>
       <% if content_for?(:page_heading) %>
-        <h2 id="pageTitle"><%= yield :page_heading %></h2>
+        <h2 id="pageTitle" class="<%= yield :page_heading_class %>"><%= yield :page_heading %></h2>
       <% end %>
 
       <%# Ported from legacy's layouts/_errors.rhtml (flash[:error]/flash[:info] there); flash[:alert]/

@@ -1,0 +1,118 @@
+/* Home page and the pieces Features and Pricing share with it: the screenshot carousel, checkmark feature groups
+   and the closing callout. Ported from legacy's "Home page (modernized hero + feature sections)" block (the
+   hero and pill buttons live in hero.css/buttons.css). */
+
+/* ---- Screenshot carousel ---- */
+.hmShowcase {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(20, 20, 40, 0.14);
+  border: 1px solid var(--ptfg-border);
+  margin-bottom: 10px;
+}
+
+/* Bootstrap 5's prev/next controls are 15% wide at half opacity; legacy's were 8% at full. */
+.hmShowcase .carousel-control-prev,
+.hmShowcase .carousel-control-next {
+  width: 8%;
+  opacity: 1;
+}
+
+/* A white disc with a black chevron, as in legacy (Bootstrap 5's own icons are bare white SVG arrows). */
+.hmShowcase-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: #000;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hmShowcase-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--ptfg-muted);
+  margin: 0 0 24px 0;
+}
+
+/* ---- Checkmark feature groups ---- */
+.hmFeatures {
+  margin-top: 8px;
+}
+
+.hmFeatureGroup {
+  --hm-accent: var(--ptfg-navy);
+  margin-bottom: 26px;
+}
+
+.hmFeatureGroup--blue { --hm-accent: var(--ptfg-navy); }
+.hmFeatureGroup--green { --hm-accent: var(--ptfg-green); }
+
+.hmFeatureGroup-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--ptfg-heading);
+  margin: 0 0 14px 0;
+  padding-left: 14px;
+  border-left: 4px solid var(--hm-accent);
+}
+
+.hmFeatureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px 20px;
+}
+
+.hmFeatureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ptfg-body-gray);
+}
+
+.hmFeatureItem-icon {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--hm-accent);
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+/* ---- Closing call-to-action panel (Features) ---- */
+.hmCallout {
+  background: var(--ptfg-navy-hover);
+  border: 1px solid var(--ptfg-navy-light);
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-top: 30px;
+}
+
+.hmCallout-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--ptfg-heading);
+  margin: 0 0 10px 0;
+}
+
+.hmCallout-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ptfg-body-gray);
+  margin: 0 0 16px 0;
+}
+
+.hmCallout-text:last-child {
+  margin-bottom: 0;
+}
