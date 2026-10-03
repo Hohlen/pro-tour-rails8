@@ -1,0 +1,63 @@
+/* Flash messages (layouts/application.html.erb): rounded card, tinted background, icon badge, dismiss button.
+   Ported from legacy's .ctAlerts block; the markup is now Bootstrap 5's alert-dismissible/btn-close, and
+   Bootstrap Icons replace Glyphicons. */
+.ptfgAlert {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 675px;
+  margin-bottom: 22px;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 44px 16px 18px;
+  font-size: 14px;
+  box-shadow: 0 4px 14px rgba(20, 20, 40, 0.1);
+  animation: ptfgAlertIn 0.25s ease;
+}
+
+@keyframes ptfgAlertIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ptfgAlert.alert-danger {
+  background: #fdeceb;
+  color: #7a1410;
+}
+.ptfgAlert.alert-success {
+  background: #eaf7ee;
+  color: #0b4a1c;
+}
+
+.ptfgAlertIcon {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #fff;
+}
+.alert-danger .ptfgAlertIcon {
+  background: var(--ptfg-red);
+}
+.alert-success .ptfgAlertIcon {
+  background: var(--ptfg-green);
+}
+
+/* Bootstrap 5 pins .btn-close to the top-right with a large padding; center it vertically instead. */
+.ptfgAlert .btn-close {
+  top: 50%;
+  right: 12px;
+  padding: 8px;
+  transform: translateY(-50%);
+}

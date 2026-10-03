@@ -1,0 +1,65 @@
+/* Pro Tour Fantasy Golf navbar -- flat bar in a light navy pastel, navy text, dark navy selected pill.
+   Ported from legacy's bootstrap-custom-navbar.css and bootstrap-custom-icon-bar.css, rewritten for Bootstrap
+   5's nav-item/nav-link markup (legacy used Bootstrap 3's `.navbar-nav > li > a`) and .navbar-toggler (was
+   .navbar-toggle). No dropdown-menu rules ported -- this nav has none. */
+
+.navbar-custom {
+  background-color: var(--ptfg-navy-light);
+  box-shadow: 0 2px 10px rgba(11, 26, 103, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  /* Bootstrap 5's .navbar adds its own 0.5rem top/bottom padding on top of .navbar-brand's; legacy's Bootstrap
+     3 navbar had none, getting its 50px height solely from the brand's padding and line-height. */
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.navbar-custom .navbar-brand {
+  color: var(--ptfg-navy);
+  font-size: 18px;
+  /* 15px padding + 20px line-height = legacy's 50px navbar. Bootstrap 3 hardcoded that 20px line-height on
+     .navbar-brand; Bootstrap 5 inherits the body's 1.5 instead (27px at this size). */
+  padding-top: 15px;
+  padding-bottom: 15px;
+  line-height: 20px;
+}
+.navbar-custom .navbar-brand:hover,
+.navbar-custom .navbar-brand:focus {
+  color: var(--ptfg-navy);
+  opacity: 0.8;
+}
+/* Keep each label on one line ("Game Formats", "Contact Us"). If the links don't fit across the bar (just above
+   the 768px collapse breakpoint), whole links wrap onto a second row instead of breaking mid-label. */
+.navbar-custom .navbar-nav {
+  flex-wrap: wrap;
+}
+.navbar-custom .nav-link {
+  color: var(--ptfg-navy);
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin: 4px 3px;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link:focus {
+  color: var(--ptfg-navy);
+  background-color: rgba(11, 26, 103, 0.12);
+}
+.navbar-custom .nav-link.active {
+  color: #ffffff;
+  background-color: var(--ptfg-navy);
+  font-weight: bold;
+}
+.navbar-custom .navbar-toggler {
+  border-color: rgba(11, 26, 103, 0.4);
+}
+.navbar-custom .navbar-toggler:hover,
+.navbar-custom .navbar-toggler:focus {
+  background-color: rgba(11, 26, 103, 0.12);
+}
+/* Bootstrap's default toggler icon is a baked-in dark SVG background-image with no currentColor support, so
+   recoloring it navy means replacing it with an equivalent inline SVG. */
+.navbar-custom .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(11, 26, 103, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}

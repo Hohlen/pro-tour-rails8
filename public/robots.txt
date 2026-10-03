@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /leagues/by_format
+Disallow: /leagues/by_league_name
+Disallow: /leagues/by_start_date

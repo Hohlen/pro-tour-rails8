@@ -1,0 +1,41 @@
+/* Page hero: eyebrow pill + headline + lead paragraph, at the top of nearly every page. Ported from legacy's
+   "Home page (modernized hero + feature sections)" block; class names kept so views port mechanically. */
+.hmHero {
+  margin: 4px 0 22px 0;
+}
+
+.hmHero-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ptfg-navy);
+  background: var(--ptfg-navy-light);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 10px;
+}
+
+.hmHero-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--ptfg-heading);
+  margin: 0 0 10px 0;
+  line-height: 1.25;
+}
+
+.hmHero-lead {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ptfg-body-gray);
+  max-width: 700px;
+  margin: 0 0 18px 0;
+}
+
+.hmHero-ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 4px;
+}

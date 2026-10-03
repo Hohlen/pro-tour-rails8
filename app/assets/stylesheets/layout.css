@@ -1,0 +1,55 @@
+/* Shared page chrome: body text color, page-width cap, link underlining, page title, footer and the sidebar
+   brand card. Ported from legacy's application.css; Bootstrap 3's .panel/.panel-default become .card. */
+
+.ptfgBlue {
+  color: var(--ptfg-navy) !important;
+}
+
+.ptfgRed {
+  color: var(--ptfg-red) !important;
+}
+
+.ptfgGreen {
+  color: var(--ptfg-green) !important;
+}
+
+.ptfgText {
+  color: var(--ptfg-text);
+}
+
+.ptfgPageWidth {
+  max-width: 700px;
+}
+
+/* Bootstrap does not underline links by default. */
+.ptfgLink a:link,
+.ptfgLink a:visited {
+  text-decoration: underline !important;
+}
+.ptfgLink a:active,
+.ptfgLink a:hover {
+  text-decoration: underline;
+}
+
+#pageTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  color: var(--ptfg-navy);
+}
+
+#copyright {
+  text-align: center;
+  margin-top: 5px;
+}
+.copyrightText {
+  color: gray;
+}
+
+/* ---- Sidebar brand card (layouts/_right_logo) ---- */
+.ptfgTagline {
+  margin-left: 15px;
+  font-size: 20px;
+  text-align: left;
+}

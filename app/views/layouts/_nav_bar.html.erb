@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-md navbar-custom">
+  <div class="container-fluid">
+    <%= link_to root_path, class: "navbar-brand" do %>
+      <span class="ptfgRed" style="font-style: italic; font-weight: bold">Pro Tour</span>
+      <span class="ptfgBlue" style="font-weight: bold">Fantasy Golf</span>
+    <% end %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><%= link_to "Home", root_path, class: nav_link_class(root_path) %></li>
+        <li class="nav-item"><%= link_to "Game Formats", game_formats_path, class: nav_link_class(game_formats_path) %></li>
+        <li class="nav-item"><%= link_to "Features", features_path, class: nav_link_class(features_path) %></li>
+        <li class="nav-item"><%= link_to "Screenshots", screenshots_path, class: nav_link_class(screenshots_path) %></li>
+        <li class="nav-item"><%= link_to "Pricing", pricing_path, class: nav_link_class(pricing_path) %></li>
+        <li class="nav-item"><%= link_to "Leagues", leagues_path, class: nav_link_class(leagues_path) %></li>
+        <%# "New League Request" (order_now_path) is deliberately out of the nav, as in legacy: comment it back in
+            only while there's room -- total leagues must stay at 120 or less. %>
+        <li class="nav-item"><%= link_to "FAQs", faqs_path, class: nav_link_class(faqs_path) %></li>
+        <li class="nav-item"><%= link_to "Legal", legal_path, class: nav_link_class(legal_path) %></li>
+        <li class="nav-item"><%= link_to "Contact Us", contact_us_path, class: nav_link_class(contact_us_path) %></li>
+      </ul>
+    </div>
+  </div>
+</nav>

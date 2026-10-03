@@ -1,0 +1,17 @@
+/* Pro Tour Fantasy Golf palette -- navy values sampled from the logo (public/images/ProTourText.jpg in legacy).
+   Legacy repeated the grays below as hex literals across its page styles; they're named here so the per-page
+   stylesheets ported in later phases can share them. */
+:root {
+  --ptfg-navy: #0b1a67;
+  --ptfg-navy-light: #dadce8;
+  --ptfg-navy-hover: #e6e8ef;
+  --ptfg-red: #c30900;
+  --ptfg-green: #0b6726;
+  --ptfg-purple: #5b2a86;
+
+  --ptfg-text: #380b61;        /* page body copy (legacy .ptfgText) */
+  --ptfg-heading: #1c1c30;     /* headings inside cards/heroes */
+  --ptfg-body-gray: #3a3a4a;   /* running text inside cards/heroes */
+  --ptfg-muted: #6b6b7d;       /* captions, labels */
+  --ptfg-border: #e7e8ee;      /* card and divider borders */
+}

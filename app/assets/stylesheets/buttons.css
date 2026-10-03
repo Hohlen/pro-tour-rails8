@@ -1,0 +1,52 @@
+/* Bootstrap's own buttons, restyled white-with-navy-text like legacy's bootstrap-custom-button.css. Bootstrap 5
+   builds buttons from --bs-btn-* custom properties (not the plain color/background rules Bootstrap 3 used), so
+   the legacy overrides are expressed as variable overrides here. */
+.btn,
+.btn-primary {
+  --bs-btn-color: var(--ptfg-navy);
+  --bs-btn-bg: #ffffff;
+  --bs-btn-border-color: var(--ptfg-navy);
+  --bs-btn-border-radius: 6px;
+  --bs-btn-hover-color: var(--ptfg-navy);
+  --bs-btn-hover-bg: var(--ptfg-navy-hover);
+  --bs-btn-hover-border-color: var(--ptfg-navy);
+  --bs-btn-active-color: var(--ptfg-navy);
+  --bs-btn-active-bg: var(--ptfg-navy-hover);
+  --bs-btn-active-border-color: var(--ptfg-navy);
+  font-weight: 500;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-primary {
+  font-weight: bold;
+}
+
+/* ---- Pill buttons used across the modernized pages (hero CTAs, Expand/Collapse All, form submit) ---- */
+.hmBtn {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 999px;
+  padding: 10px 22px;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.hmBtn--primary {
+  background: var(--ptfg-navy);
+  color: #fff !important;
+  box-shadow: 0 4px 10px rgba(11, 26, 103, 0.25);
+}
+.hmBtn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(11, 26, 103, 0.32);
+}
+
+.hmBtn--outline {
+  background: #fff;
+  color: var(--ptfg-navy) !important;
+  border: 1px solid var(--ptfg-navy-light);
+}
+.hmBtn--outline:hover {
+  background: var(--ptfg-navy-hover);
+  transform: translateY(-2px);
+}

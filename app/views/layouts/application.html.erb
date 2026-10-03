@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= page_title_tag %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <%# Used by Google Webmaster Tools for site-ownership verification (carried over from legacy). %>
+    <meta name="google-site-verification" content="6n6H0F6RednJQN0y7Bj0uLbE622JyY0cuyMGvYT3jmQ">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%# Pages that need extra tags in <head> (e.g. the reCAPTCHA script on Contact Us/Order Now, rather than
+        legacy's loading it on every page) use content_for(:head, ...). %>
+    <%= yield :head %>
+
+    <link rel="icon" href="<%= asset_path('favicon.ico') %>">
+
+    <%# Lives at vendor/assets/stylesheets/bootstrap.min.css (config/initializers/assets.rb), not under
+        app/assets/stylesheets -- Propshaft's :app bundle below concatenates every CSS file found there, so
+        keeping Bootstrap out of that tree stops a second copy loading after (and overriding) our own CSS. %>
+    <%= stylesheet_link_tag "bootstrap.min", "data-turbo-track": "reload" %>
+    <%# Icon set replacing Bootstrap 3's Glyphicons, which Bootstrap 5 dropped. Served from public/ (not
+        Propshaft) so the stylesheet's own relative url("./fonts/...") references resolve to undigested names. %>
+    <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.css" data-turbo-track="reload">
+    <%# Includes every file in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%# Bootstrap's UMD bundle (Popper included), loaded as a plain script rather than through the importmap --
+        its multi-file ESM build doesn't vendor its internal Popper submodules cleanly. %>
+    <%= javascript_include_tag "vendor/bootstrap.bundle.min", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= render "layouts/google_analytics" %>
+  </head>
+
+  <body>
+    <noscript>JavaScript is disabled in your browser. It must be enabled for this site to function properly</noscript>
+    <%= render "layouts/nav_bar" %>
+
+    <div class="container-fluid ptfgText">
+      <%# Each view sets this via content_for(:page_heading, "...") instead of hardcoding its own
+          <h2 id="pageTitle">, so it renders here, above the flash -- legacy puts its page_title heading before
+          its errors partial too. %>
+      <% if content_for?(:page_heading) %>
+        <h2 id="pageTitle"><%= yield :page_heading %></h2>
+      <% end %>
+
+      <%# Ported from legacy's layouts/_errors.rhtml (flash[:error]/flash[:info] there); flash[:alert]/
+          flash[:notice] are Rails' own idiomatic keys, used the same way. %>
+      <% if flash[:alert] %>
+        <div class="alert alert-danger alert-dismissible ptfgAlert" role="alert">
+          <span class="ptfgAlertIcon"><i class="bi bi-exclamation-lg" aria-hidden="true"></i></span>
+          <div class="ptfgAlertText"><%= flash[:alert] %></div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+      <% if flash[:notice] %>
+        <div class="alert alert-success alert-dismissible ptfgAlert" role="alert">
+          <span class="ptfgAlertIcon"><i class="bi bi-check-lg" aria-hidden="true"></i></span>
+          <div class="ptfgAlertText"><%= flash[:notice] %></div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+
+      <%= yield %>
+
+      <%= render "layouts/footer" %>
+    </div>
+  </body>
+</html>

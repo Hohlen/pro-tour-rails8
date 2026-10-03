@@ -1,0 +1,23 @@
+<%# Sidebar brand card, ported from legacy's layouts/_rightLogo.rhtml. Pass hide_on_mobile: true where stacking it
+    under the page's content would push something important (Contact Us's submit button) off-screen on a phone.
+    col-md-4 here is col-sm-4 in legacy: Bootstrap 5's sm breakpoint is 576px, so its md (768px) is what matches
+    Bootstrap 3's sm. %>
+<% hide_on_mobile = local_assigns.fetch(:hide_on_mobile, false) %>
+<div class="col-md-4 <%= "d-none d-md-block" if hide_on_mobile %>">
+  <div class="card">
+    <div class="card-body">
+      <%# d-block + mx-auto centers the logo over the text. Legacy's `padding-right: 10px` here shifted it
+          left of center, so it's gone. %>
+      <%= image_tag "ProTourText.jpg", class: "img-fluid d-block mx-auto", alt: "Pro Tour Fantasy Golf Logo",
+                    id: "ptfglLogo" %>
+      <% if controller_name == "home" %>
+        <p>
+          Dump the spreadsheet and let us host your season long fantasy golf league online. Four different game
+          formats available including One &amp; Done, Two &amp; Thru, Pick 3 Classic, and Let It Ride.
+        </p>
+      <% else %>
+        <div class="ptfgTagline">Where a bad round never spoils the fun!</div>
+      <% end %>
+    </div>
+  </div>
+</div>
