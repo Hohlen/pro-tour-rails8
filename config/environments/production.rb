@@ -80,4 +80,12 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # Where the league listings file lives. The default is legacy's: Capistrano's deploy directory has
+  # releases/<timestamp>/ as Rails.root, so legacy's '../../..' reached the admin user's home directory. TODO:
+  # Phase 5 (deployment) decides the real location -- under Docker/Kamal this needs a mounted volume and the
+  # LEAGUE_LISTINGS_PATH environment variable pointing at it.
+  config.x.league_listings_path = ENV.fetch("LEAGUE_LISTINGS_PATH") do
+    Rails.root.join("../../../league_listings.txt").expand_path.to_s
+  end
 end

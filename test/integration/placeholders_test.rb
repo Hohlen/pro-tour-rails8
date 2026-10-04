@@ -1,20 +1,15 @@
 require "test_helper"
 
-# Still-unported pages (Phase 2: Leagues, Phase 3: Contact Us). Delete this file along with
-# PlaceholdersController once neither is left.
+# The one still-unported page (Phase 3: Contact Us). Delete this file along with PlaceholdersController once it's
+# ported.
 class PlaceholdersTest < ActionDispatch::IntegrationTest
-  {
-    "/leagues" => "Leagues",
-    "/contact_us" => "Contact Us"
-  }.each do |path, title|
-    test "#{path} renders a placeholder titled #{title} and lights its own nav link" do
-      get path
+  test "/contact_us renders a placeholder and lights its own nav link" do
+    get "/contact_us"
 
-      assert_response :success
-      assert_select "title", /\A#{Regexp.escape(title)} \| Pro Tour Fantasy Golf \d{4}\z/
-      assert_select "h2#pageTitle", title
-      assert_select "nav a.nav-link.active[href='#{path}']", count: 1
-      assert_select ".ptfgTagline", "Where a bad round never spoils the fun!"
-    end
+    assert_response :success
+    assert_select "title", /\AContact Us \| Pro Tour Fantasy Golf \d{4}\z/
+    assert_select "h2#pageTitle", "Contact Us"
+    assert_select ".hmHero-eyebrow", "Coming Soon"
+    assert_select "nav a.nav-link.active[href='/contact_us']", count: 1
   end
 end

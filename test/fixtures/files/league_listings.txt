@@ -1,0 +1,8 @@
+public|FALL SERIES 1|FALL SERIES 1|2018|2025-10-04|2025-11-30|Pick 3 Classic|$25|http://www.FallSeries1.ProTourFantasyGolf.com
+public|LEAGUE 1|LEAGUE 1|2018|2025-01-04|2025-06-17|Pick 3 Classic|$25|http://www.League1.ProTourFantasyGolf.com
+private|ALPHA|Zulu Gridiron|2024|2026-01-11|2026-09-20|One And Done|$100|http://www.Alpha.ProTourFantasyGolf.com
+private|BETA|amen corner|2020|2026-01-11|2026-09-20|Pick 3 Classic|$50|http://www.Beta.ProTourFantasyGolf.com
+private|GAMMA|AMEN CORNER|2019|2026-04-09|2026-09-20|Let It Ride|$0|http://www.Gamma.ProTourFantasyGolf.com
+private|DELTA|19th Hole Duffers|2018|2025-01-04|2025-09-21|One And Done|$75|http://www.Delta.ProTourFantasyGolf.com
+private|EPSILON|Bottom Feeders|2018|2025-02-01|2025-09-21|Pick 3 Classic|$110|http://www.Epsilon.ProTourFantasyGolf.com
+private|Summer|Summer Golf Pool|2018|2026-04-05|2026-08-30|One And Done|$0|http://www.Summer.ProTourFantasyGolf.com

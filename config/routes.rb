@@ -19,16 +19,24 @@ Rails.application.routes.draw do
   get "rules/let_it_ride" => "rules#let_it_ride", as: :rules_let_it_ride
   get "rules/pick_3_classic" => "rules#pick_3_classic", as: :rules_pick_3_classic
 
+  # One URL per sort order, as in legacy. /leagues/index is what legacy's dropdown sent for "Default", so
+  # bookmarks of it keep working.
+  get "leagues" => "leagues#index", as: :leagues
+  get "leagues/index" => redirect("/leagues")
+  get "leagues/by_league_name" => "leagues#by_league_name", as: :leagues_by_league_name
+  get "leagues/by_league_id" => "leagues#by_league_id", as: :leagues_by_league_id
+  get "leagues/by_start_date" => "leagues#by_start_date", as: :leagues_by_start_date
+  get "leagues/by_format" => "leagues#by_format", as: :leagues_by_format
+
   # Not in the nav: reached from emails to commissioners, from FAQs, or by announcement links.
   get "announcement" => "announcement#index", as: :announcement
   get "commissioners_corner" => "commissioners_corner#index", as: :commissioners_corner
   get "match_play_tournament" => "match_play_tournament#index", as: :match_play_tournament
   get "version" => "version#index", as: :version
 
-  # Still Phase 0 placeholders until their phases land (Phase 2: Leagues, Phase 3: Contact Us). Replace each
-  # route's `to:`/`defaults:` when its phase ports the page; delete PlaceholdersController once none are left.
+  # Still a Phase 0 placeholder until its phase lands (Phase 3: Contact Us). Replace the route's `to:`/`defaults:`
+  # when it's ported; delete PlaceholdersController once none are left.
   {
-    leagues: "Leagues",
     contact_us: "Contact Us"
   }.each do |path, title|
     get path.to_s => "placeholders#show", as: path, defaults: { title: title }

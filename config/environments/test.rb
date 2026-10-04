@@ -47,4 +47,8 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # A small fixed file, so Leagues tests don't depend on whatever the real listings contain today (legacy's tests
+  # pointed at ../my-docs, and so only passed in any useful sense when that file happened not to exist).
+  config.x.league_listings_path = Rails.root.join("test/fixtures/files/league_listings.txt").to_s
 end

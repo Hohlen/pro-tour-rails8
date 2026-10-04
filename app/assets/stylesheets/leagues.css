@@ -1,0 +1,96 @@
+/* Leagues page: the sort dropdown and the league table. Ported from legacy's "Leagues page (modernized sort bar
+   + table cards)" block; legacy had a blue Public and a green Private table, this has the one blue table. */
+.lgSortBar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 22px 0;
+}
+
+.lgSortBar-label {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ptfg-heading);
+  margin: 0;
+}
+
+.lgSortSelect {
+  border: 1px solid #d7d8e2;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 14px;
+  color: var(--ptfg-heading);
+  background: #fff;
+}
+
+.lgSortSelect:focus {
+  outline: none;
+  border-color: var(--ptfg-navy);
+  box-shadow: 0 0 0 3px rgba(11, 26, 103, 0.14);
+}
+
+.lgTableCard {
+  background: #fff;
+  border: 1px solid var(--ptfg-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(20, 20, 40, 0.06);
+  margin-bottom: 22px;
+}
+
+.lgTableCard-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--ptfg-navy);
+  color: #fff;
+}
+
+.lgTableCard-title {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.lgTableCard-count {
+  font-size: 12px;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 3px 12px;
+}
+
+/* Bootstrap 5 paints table cells from --bs-table-* custom properties rather than from the row's background, so
+   the stripe and hover colors are set as variables, not as `tr` backgrounds (which the cells would cover). */
+.lgTable {
+  margin-bottom: 0;
+  --bs-table-striped-bg: #f9f9f9;
+  --bs-table-hover-bg: #f4f5fb;
+}
+
+.lgTable thead th {
+  background: #f7f7fb;
+  color: var(--ptfg-muted);
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lgTable a {
+  color: var(--ptfg-navy);
+}
+
+.lgTable a:hover {
+  text-decoration: underline;
+}
+
+.lgTable-empty {
+  text-align: center;
+  color: #8a8a9a;
+  font-style: italic;
+  padding: 26px;
+}

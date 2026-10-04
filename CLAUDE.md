@@ -60,8 +60,30 @@ the rendered text of each diffed against legacy's (the only differences are the 
   Home/League Settings entries) weren't ported -- they remain in `pro-tour-v2.0`. Legal's copy is verbatim,
   including its typos ("Therfore", "responsibily", "articipant").
 
-Planned phases: 2 Leagues (flat-file listing -- legacy reads `league_listings.txt` from outside the repo, `../my-docs`
-in dev), 3 Contact Us, 4 Order Now, 5 deployment (Kamal vs Capistrano + Passenger, still undecided; it decides
+Phase 2 (Leagues) complete: `LeagueListing` (one parsed line of `league_listings.txt`) and `LeagueDirectory` (loads the
+file, picks which listings are shown, and sorts them five ways) in `app/models`, a one-action-per-ordering
+`LeaguesController` (`/leagues`, `/leagues/by_league_name|by_league_id|by_start_date|by_format`, same URLs as legacy,
+plus a redirect from `/leagues/index`, which legacy's dropdown sent for "Default"), and `sort_select_controller.js`
+for the dropdown (legacy's inline `onchange`). The page is one blue table headed "<season> Leagues" with a league
+count -- legacy had separate Public and Private tables; public leagues (the old $25 "FALL SERIES 1" one) are no longer
+listed and the page no longer distinguishes public from private. The listed leagues are every listing flagged private
+plus the "Summer" pool, whatever its flag (legacy's rule for its Private table). With the real 69-league file all five
+orderings produced the same rows, order, links and tooltips as legacy's Private table.
+- The header's season is `CurrentSeason.year`, which rolls over on Nov 1; the table isn't filtered by season, so a
+  file that still lists earlier seasons' leagues shows them under that heading.
+- The file's location is `config.x.league_listings_path`: `../my-docs/league_listings.txt` in development (the
+  checkout next to this one), `test/fixtures/files/league_listings.txt` in test, and in production the
+  `LEAGUE_LISTINGS_PATH` env var, defaulting to legacy's Capistrano-relative `../../../league_listings.txt`. **Phase 5
+  must settle this**: under Docker/Kamal the file needs a mounted volume and the env var.
+- Names sort as plain case-sensitive strings, as legacy's did ("BIG BOYS LEAGUE" before "Bottom Feeders").
+- No fragment caching, unlike legacy's `cache(controller, action)`: the page is ~70 parsed lines, and a cache keyed
+  only on the action served stale rows until someone cleared it whenever the file was edited.
+- Differences from legacy: the summer pool appears once. Legacy added it to the private list even when the file
+  already flagged it private (as the dev copy does), so it listed it twice (70 rows vs 69). A missing or unreadable
+  file shows an empty table and logs a warning; legacy printed to stdout, and on a read error called `exit`, killing
+  the server. A line that doesn't parse (wrong field count, bad date) is skipped and logged instead of raising.
+
+Planned phases: 3 Contact Us, 4 Order Now, 5 deployment (Kamal vs Capistrano + Passenger, still undecided; it decides
 where the leagues file lives in production).
 
 Conventions worth knowing before porting a page:
