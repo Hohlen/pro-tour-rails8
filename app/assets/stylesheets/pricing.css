@@ -92,6 +92,12 @@
   width: auto;
 }
 
+/* The PayPal artwork is a 210x80 badge with small card logos inside it, which were hard to read squeezed down to
+   the same 34px as the other two; this keeps it closer to its natural size (it's a GIF, so not beyond 80px). */
+.prPayMethod--paypal img {
+  max-height: 56px;
+}
+
 .prPayCard-note {
   font-size: 13px;
   color: var(--ptfg-muted);
