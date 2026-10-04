@@ -88,4 +88,11 @@ Rails.application.configure do
   config.x.league_listings_path = ENV.fetch("LEAGUE_LISTINGS_PATH") do
     Rails.root.join("../../../league_listings.txt").expand_path.to_s
   end
+
+  # reCAPTCHA for the Contact Us form (and, in Phase 4, Order Now). The site key is public -- it's in the page's HTML
+  # and is the same one legacy uses -- so it lives here; the secret key goes in encrypted credentials as
+  # recaptcha.secret_key (`bin/rails credentials:edit`), never in this file. Until it's added, every verification
+  # fails and the form shows its "Unexpected error" message.
+  config.x.recaptcha.site_key = "6LeuajUUAAAAALodqyoZmwOGfa_k-OBiLEYgtLMp"
+  config.x.recaptcha.secret_key = Rails.application.credentials.dig(:recaptcha, :secret_key)
 end

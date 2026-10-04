@@ -1,0 +1,61 @@
+<% content_for :title, "Contact Us" %>
+<% content_for :page_heading, "Contact Us" %>
+<%# Turbo would cache a snapshot of this page with the reCAPTCHA widget already rendered into it, and render it
+    again into that same element on a back/forward visit (an error from Google). Never snapshotting the page avoids that. %>
+<% content_for :head do %>
+  <meta name="turbo-cache-control" content="no-cache">
+<% end %>
+
+<%# Show a field's error state only after a submission, not on the blank form. %>
+<% show_errors = action_name == "create" %>
+
+<div class="hmHero">
+  <span class="hmHero-eyebrow">Email</span>
+  <p class="hmHero-lead">We can be reached via e-mail using the form below:</p>
+</div>
+
+<div class="row">
+  <div class="col-md-8 ptfgPageWidth">
+    <div class="ctCard">
+      <%= form_with url: contact_us_path, scope: :contact_us_form, class: "ctForm" do |form| %>
+        <% from_error = show_errors && @contact_us_form.from_email_address_has_error? %>
+        <div class="form-group <%= "has-error" if from_error %>">
+          <%= form.label :from_email_address, "Your Email Address", class: "control-label" %>
+          <%= form.email_field :from_email_address, value: @contact_us_form.from_email_address,
+                               class: [ "form-control", ("is-invalid" if from_error) ],
+                               placeholder: "Username@domain.com" %>
+        </div>
+
+        <% subject_error = show_errors && @contact_us_form.subject_has_error? %>
+        <div class="form-group <%= "has-error" if subject_error %>">
+          <%= form.label :subject, "Subject", class: "control-label" %>
+          <%= form.text_field :subject, value: @contact_us_form.subject,
+                              class: [ "form-control", ("is-invalid" if subject_error) ], placeholder: "Subject" %>
+        </div>
+
+        <% body_error = show_errors && @contact_us_form.body_has_error? %>
+        <div class="form-group <%= "has-error" if body_error %>">
+          <%= form.label :body, "Body", class: "control-label" %>
+          <%= form.text_area :body, value: @contact_us_form.body, rows: 5,
+                             class: [ "form-control", ("is-invalid" if body_error) ],
+                             placeholder: "Your question or comment..." %>
+        </div>
+
+        <%# The honeypot: hidden from people (and from screen readers and the tab order), so only a bot fills it in. %>
+        <%= form.text_field :token, value: "", class: "ctHoneypot", tabindex: -1, autocomplete: "off",
+                            aria: { hidden: true } %>
+
+        <div class="ctForm-secLabel">Security Challenge</div>
+        <%# recaptcha_controller.js loads Google's script and renders the widget into this element. %>
+        <div data-controller="recaptcha" data-recaptcha-sitekey-value="<%= Rails.configuration.x.recaptcha.site_key %>"></div>
+
+        <div class="ctForm-actions">
+          <%# Turbo disables the button and swaps its label while the form is on its way, which stops a double submit. %>
+          <button type="submit" class="hmBtn hmBtn--primary" data-turbo-submits-with="Sending&hellip;">Submit</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <%# Hidden on a phone: stacked under the form it pushes the Submit button off-screen. %>
+  <%= render "layouts/right_logo", hide_on_mobile: true %>
+</div>

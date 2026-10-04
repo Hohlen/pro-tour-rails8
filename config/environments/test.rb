@@ -51,4 +51,10 @@ Rails.application.configure do
   # A small fixed file, so Leagues tests don't depend on whatever the real listings contain today (legacy's tests
   # pointed at ../my-docs, and so only passed in any useful sense when that file happened not to exist).
   config.x.league_listings_path = Rails.root.join("test/fixtures/files/league_listings.txt").to_s
+
+  # reCAPTCHA for the Contact Us form. These are Google's published *test* keys (documented in the reCAPTCHA FAQ
+  # under "I'd like to run automated tests"): the widget shows a "for testing purposes only" banner and every
+  # response verifies, so tests could run the whole flow (they stub GoogleRecaptchaVerifier instead and never reach Google).
+  config.x.recaptcha.site_key = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+  config.x.recaptcha.secret_key = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 end

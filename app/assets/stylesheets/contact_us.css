@@ -1,0 +1,117 @@
+/* Contact Us: the form card, its fields, and the thank-you card. Ported from legacy's "Contact Us page (modernized
+   form + thank you)" block. Legacy styled Bootstrap 3's .form-control and .has-error; Bootstrap 5 has its own
+   .is-invalid (a red border plus an icon) and no .form-group at all, so this restyles those to match legacy's look. */
+.ctCard {
+  background: #fff;
+  border: 1px solid var(--ptfg-border);
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(20, 20, 40, 0.06);
+  padding: 26px 28px;
+  max-width: 560px;
+}
+
+/* reCAPTCHA's widget is 304px wide; on a ~375px phone the card's padding would leave it 295px and the widget
+   would poke out of the card. */
+@media (max-width: 420px) {
+  .ctCard {
+    padding: 20px 16px;
+  }
+}
+
+.ctForm .form-group {
+  margin-bottom: 18px;
+}
+
+.ctForm label.control-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ptfg-heading);
+}
+
+.ctForm .form-control {
+  border: 1px solid #d7d8e2;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.ctForm .form-control::placeholder {
+  color: #999;
+}
+
+.ctForm .form-control:focus {
+  border-color: var(--ptfg-navy);
+  box-shadow: 0 0 0 3px rgba(11, 26, 103, 0.14);
+}
+
+.ctForm .form-control.is-invalid {
+  border-color: var(--ptfg-red);
+  background-image: none;
+  padding-right: 14px;
+}
+
+.ctForm .form-control.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(195, 9, 0, 0.15);
+}
+
+.ctForm .has-error label.control-label {
+  color: var(--ptfg-red);
+}
+
+.ctForm-secLabel {
+  margin: 4px 0 10px 0;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ptfg-heading);
+}
+
+.ctForm-actions {
+  margin-top: 16px;
+}
+
+/* The honeypot field: invisible, and out of the layout, so a person never sees or tabs into it. */
+.ctHoneypot {
+  display: none !important;
+}
+
+.ctRecaptcha-error {
+  font-size: 13px;
+  color: var(--ptfg-red);
+}
+
+/* ---- Thank-you card ---- */
+.ctThankYou {
+  text-align: center;
+  padding: 30px 24px;
+}
+
+.ctThankYou-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--ptfg-green);
+  color: #fff;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+}
+
+.ctThankYou-text {
+  font-size: 15px;
+  color: var(--ptfg-body-gray);
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.ctThankYou-actions {
+  margin-top: 20px;
+}

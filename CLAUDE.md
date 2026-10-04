@@ -23,8 +23,8 @@ Solid Cache/Queue/Cable are skipped entirely rather than ported.
 Phase 0 (scaffold) complete: Rails 8.1 on Ruby 3.3.5 with Propshaft, importmap, Turbo and Stimulus (no jQuery);
 Bootstrap 5.3 vendored (`vendor/assets/stylesheets/bootstrap.min.css`, `app/assets/javascripts/vendor/`) with
 Bootstrap Icons served from `public/vendor/bootstrap-icons/`; shared layout, nav bar, footer, sidebar logo card
-(`layouts/_right_logo`), flash alerts, hero and button styles. Every nav page except Home renders
-`PlaceholdersController#show` until its phase ports it (see `config/routes.rb`). Paths match legacy's exactly
+(`layouts/_right_logo`), flash alerts, hero and button styles. (Pages not yet ported rendered a placeholder
+until their phase; none are left.) Paths match legacy's exactly
 (`/game_formats`, `/rules/one_and_done`, `/leagues/by_league_name`, ...) so bookmarks, `public/sitemap.xml` and
 `public/robots.txt` (copied verbatim) stay valid.
 
@@ -91,8 +91,34 @@ orderings produced the same rows, order, links and tooltips as legacy's Private 
   file shows an empty table and logs a warning; legacy printed to stdout, and on a read error called `exit`, killing
   the server. A line that doesn't parse (wrong field count, bad date) is skipped and logged instead of raising.
 
-Planned phases: 3 Contact Us, 4 Order Now, 5 deployment (Kamal vs Capistrano + Passenger, still undecided; it decides
-where the leagues file lives in production).
+Phase 3 (Contact Us) complete: `ContactUsForm` (plain-Ruby form object, legacy's `EmailMsg` with the same method
+names), `GoogleRecaptchaVerifier` (service object around the siteverify call; its HTTP is an injectable "poster" so
+tests never reach Google, and it fails closed -- a missing token or secret, network error, non-200 or bad JSON all log
+and return false), `ContactUsMailer#contact_message` (named that, not legacy's `message`, which collides with
+`ActionMailer::Base#message`), `ContactUsController` (`new`/`create`/`thank_you`), and `recaptcha_controller.js`.
+`test_helper.rb` gained `stub_class_method` (Minitest 6 has no `stub`) and `capture_log`. Notes:
+- **Needs a secret before the live send works in production**: `recaptcha.secret_key` in encrypted credentials
+  (`bin/rails credentials:edit`; the value is in legacy's `ApplicationController#verify_google_recaptcha`). Until
+  then every verification fails and the form says "Unexpected error". The site key is public and sits in
+  `config/environments/production.rb`; development and test use **Google's published always-pass test keys**
+  (the widget says "for testing purposes only"), so the whole flow -- real widget, real siteverify call, real mailer --
+  runs locally without the real secret. Production's `ActionMailer` also needs `postmark.server_token`.
+- The reCAPTCHA widget is rendered explicitly by the Stimulus controller, not by Google's auto-render, which only
+  fires when its script first executes -- under Turbo Drive that wouldn't be on this page. The page sets
+  `turbo-cache-control: no-cache` so a snapshot with a rendered widget is never replayed into itself. The form is a
+  normal Turbo form (the 422 re-render works; `data-turbo-submits-with` stops a double submit), unlike storks-now-
+  rails8's, which forces a full page reload and a native submit instead. Verified in a browser, including arriving by
+  Turbo visit from another page.
+- The mail is plain text (legacy sent HTML, which collapsed the visitor's line breaks), To the commissioner, From the
+  system address, Reply-To the visitor, with Postmark's stream/tag headers.
+- Hardening beyond legacy: the honeypot field is checked first, so a bot learns nothing from validation messages;
+  a subject is squished to one line, so a hand-crafted POST can't inject headers; the from address is matched with
+  `\A...\z` (legacy's `^...$` accepted "valid@x.com\nBcc: ..."); a POST with no form fields gets the normal "enter all
+  fields" message, not a 400; Google being unreachable shows the "Unexpected error" message, not a 500. The error text
+  fixes legacy's "via by sending".
+
+Planned phases: 4 Order Now, 5 deployment (Kamal vs Capistrano + Passenger, still undecided; it decides where the
+leagues file lives in production).
 
 Conventions worth knowing before porting a page:
 - Legacy's Bootstrap 3 markup converts mechanically: `col-sm-*` -> `col-md-*` (Bootstrap 5's `sm` is 576px, its
@@ -116,10 +142,10 @@ Conventions worth knowing before porting a page:
 
 ## Local setup
 
-No database, no setup beyond `bundle install`. Secrets (the Postmark server token and, from Phase 3, the
-reCAPTCHA secret key) go in encrypted credentials (`bin/rails credentials:edit`), not plaintext config -- unlike
-legacy, which has them as plain constants. The values are in legacy's `config/environments/production.rb` and
-`ApplicationController#verify_google_recaptcha`.
+No database, no setup beyond `bundle install`. Secrets (the Postmark server token and the reCAPTCHA secret key) go in
+encrypted credentials (`bin/rails credentials:edit`), not plaintext config -- unlike legacy, which has them as plain
+constants. The values are in legacy's `config/environments/production.rb` and
+`ApplicationController#verify_google_recaptcha`. Neither is needed in development or test (see Phase 3 above).
 
 ## Commands
 

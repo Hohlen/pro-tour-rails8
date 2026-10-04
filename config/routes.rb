@@ -34,13 +34,11 @@ Rails.application.routes.draw do
   get "match_play_tournament" => "match_play_tournament#index", as: :match_play_tournament
   get "version" => "version#index", as: :version
 
-  # Still a Phase 0 placeholder until its phase lands (Phase 3: Contact Us). Replace the route's `to:`/`defaults:`
-  # when it's ported; delete PlaceholdersController once none are left.
-  {
-    contact_us: "Contact Us"
-  }.each do |path, title|
-    get path.to_s => "placeholders#show", as: path, defaults: { title: title }
-  end
+  get "contact_us" => "contact_us#new", as: :contact_us
+  post "contact_us" => "contact_us#create"
+  get "contact_us/thank_you" => "contact_us#thank_you", as: :contact_us_thank_you
+  # Legacy's form posted to /contact_us/send_email, and a GET there redirected to the form; old links keep working.
+  get "contact_us/send_email" => redirect("/contact_us")
 
   # Error pages, rendered via config.exceptions_app (see config/application.rb). `match ... via: :all` because
   # Rails replays the original request, whatever its HTTP method was, against these paths.

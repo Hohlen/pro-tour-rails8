@@ -68,4 +68,10 @@ Rails.application.configure do
   # The leagues listed on the Leagues page come from a pipe-delimited text file kept outside the app, as in legacy
   # (where this was the `../my-docs` relative path). The ../my-docs checkout next to this one has the real data.
   config.x.league_listings_path = Rails.root.join("../my-docs/league_listings.txt").expand_path.to_s
+
+  # reCAPTCHA for the Contact Us form. These are Google's published *test* keys (documented in the reCAPTCHA FAQ
+  # under "I'd like to run automated tests"): the widget shows a "for testing purposes only" banner and every
+  # response verifies, so the whole send-an-email flow can be tried locally without the real secret key.
+  config.x.recaptcha.site_key = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+  config.x.recaptcha.secret_key = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 end
