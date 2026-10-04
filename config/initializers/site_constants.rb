@@ -5,6 +5,8 @@ SITE_TITLE = "Pro Tour Fantasy Golf"
 PTFG_LLC_NAME = "KJ Businesses, LLC"
 PTFG_URL = "https://www.ProTourFantasyGolf.com"
 PTFG_ABBR = "PTFG"
+# The year PTFG started hosting leagues; Home and Leagues both say "since" it.
+SITE_FOUNDED_YEAR = 2008
 
 ADMIN_EMAIL = "FantasyGolfCommissioner@gmail.com"
 ADMIN_FULL_EMAIL_ADDRESS = "Fantasy Golf Commissioner <#{ADMIN_EMAIL}>"

@@ -35,6 +35,12 @@ class HomeTest < ActionDispatch::IntegrationTest
     assert_select ".ptfgTagline", count: 0
   end
 
+  test "the hero's eyebrow says how long PTFG has been hosting leagues" do
+    get root_path
+
+    assert_select ".hmHero-eyebrow", "Since #{SITE_FOUNDED_YEAR}"
+  end
+
   test "hero links to Game Formats and Screenshots" do
     get root_path
 

@@ -1,11 +1,84 @@
 /* Leagues page: the sort dropdown and the league table. Ported from legacy's "Leagues page (modernized sort bar
    + table cards)" block; legacy had a blue Public and a green Private table, this has the one blue table. */
+/* ---- Stat line under the intro: how many leagues, and how long we've been at it ---- */
+.lgStats {
+  display: flex;
+  gap: 28px;
+  margin-top: 4px;
+}
+
+.lgStat {
+  display: flex;
+  flex-direction: column;
+}
+
+.lgStat + .lgStat {
+  border-left: 1px solid var(--ptfg-border);
+  padding-left: 28px;
+}
+
+.lgStat-value {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.1;
+  color: var(--ptfg-navy);
+}
+
+.lgStat-label {
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ptfg-muted);
+}
+
+/* ---- Search box and sort dropdown, above the table ---- */
+.lgToolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  /* Lines the toolbar's right edge up with the table's (.ptfgPageWidth). */
+  max-width: 700px;
+  margin: 4px 0 22px 0;
+}
+
+.lgSearch {
+  position: relative;
+  flex: 1 1 240px;
+}
+
+.lgSearch-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ptfg-muted);
+  pointer-events: none;
+}
+
+.lgSearch-input {
+  width: 100%;
+  border: 1px solid #d7d8e2;
+  border-radius: 8px;
+  padding: 8px 12px 8px 36px;
+  font-size: 14px;
+  color: var(--ptfg-heading);
+  background: #fff;
+}
+
+.lgSearch-input:focus {
+  outline: none;
+  border-color: var(--ptfg-navy);
+  box-shadow: 0 0 0 3px rgba(11, 26, 103, 0.14);
+}
+
 .lgSortBar {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 4px 0 22px 0;
 }
 
 .lgSortBar-label {
@@ -69,6 +142,12 @@
   margin-bottom: 0;
   --bs-table-striped-bg: #f9f9f9;
   --bs-table-hover-bg: #f4f5fb;
+}
+
+/* The zebra stripe: Bootstrap's .table-striped does this with :nth-child, which counts rows the live filter has
+   hidden, so the stripes would go uneven as you type. The filter controller keeps this class on the visible odd rows. */
+.lgTable > tbody > tr.lgRowAlt > * {
+  --bs-table-bg-type: var(--bs-table-striped-bg);
 }
 
 .lgTable thead th {

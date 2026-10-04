@@ -4,65 +4,98 @@
 <div class="hmHero">
   <span class="hmHero-eyebrow">Browse Leagues</span>
   <h1 class="hmHero-title">Pro Tour Fantasy Golf Leagues</h1>
-  <p class="hmHero-lead">
+  <p class="hmHero-lead hmHero-lead--wide">
     Each league is run by its own commissioner and is by invitation only. Find yours below to visit its website.
   </p>
-</div>
-
-<%# Each option's value is the URL for that ordering; the controller navigates to it on change. %>
-<div class="lgSortBar">
-  <label for="sort_by" class="lgSortBar-label">Sort By</label>
-  <%= select_tag "sort_by", options_for_select(league_sort_options, league_sort_path(@order)),
-                 class: "lgSortSelect", data: { controller: "sort-select", action: "change->sort-select#go" } %>
-</div>
-
-<div class="row">
-  <div class="col-md-8 ptfgPageWidth">
-    <%# Under the League ID ordering the name column shows each league's id instead, and the link's tooltip is the
-        league's name rather than its id. %>
-    <div class="lgTableCard">
-      <div class="lgTableCard-head">
-        <%# The season rolls over on Nov 1 (CurrentSeason), whatever years the listed leagues actually start in. %>
-        <span class="lgTableCard-title"><%= CurrentSeason.year %> Leagues</span>
-        <span class="lgTableCard-count"><%= pluralize(@leagues.length, "league") %></span>
-      </div>
-      <table class="table table-striped table-hover table-sm lgTable">
-        <thead>
-          <tr>
-            <th class="text-end">#</th>
-            <th class="text-nowrap"><%= league_sort_by_id? ? "League Id" : "League Name" %></th>
-            <th class="text-nowrap">Start Date</th>
-            <th class="text-nowrap">Format</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if @leagues.empty? %>
-            <tr><td colspan="4" class="lgTable-empty">No leagues to display right now.</td></tr>
-          <% else %>
-            <% @leagues.each_with_index do |league, index| %>
-              <tr>
-                <td class="text-end"><%= index + 1 %></td>
-                <td>
-                  <% if league_sort_by_id? %>
-                    <%= link_to league.league_id, league.url, title: league.name, target: "_blank", rel: "noopener" %>
-                  <% else %>
-                    <%= link_to league.name, league.url, title: league.league_id, target: "_blank", rel: "noopener" %>
-                  <% end %>
-                </td>
-                <td>
-                  <%= link_to league.start_date_formatted, league.schedule_url,
-                              title: "League Ends #{league.end_date_formatted}", target: "_blank", rel: "noopener" %>
-                </td>
-                <td>
-                  <%= link_to league.league_format, league.rules_url,
-                              title: "Since #{league.since}", target: "_blank", rel: "noopener" %>
-                </td>
-              </tr>
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
+  <div class="lgStats">
+    <div class="lgStat">
+      <span class="lgStat-value"><%= @leagues.length %></span>
+      <span class="lgStat-label"><%= "League".pluralize(@leagues.length) %></span>
+    </div>
+    <div class="lgStat">
+      <span class="lgStat-value"><%= SITE_FOUNDED_YEAR %></span>
+      <span class="lgStat-label">Hosting Since</span>
     </div>
   </div>
-  <%= render "layouts/right_logo" %>
+</div>
+
+<%# league-filter wraps the search box and the table. Its box starts hidden (see the controller); the page works
+    the same without it, just without the live filtering. %>
+<div data-controller="league-filter">
+  <div class="lgToolbar">
+    <% if @leagues.any? %>
+      <div class="lgSearch" data-league-filter-target="search" hidden>
+        <i class="bi bi-search lgSearch-icon" aria-hidden="true"></i>
+        <input type="search" class="lgSearch-input" placeholder="Search by league name…" aria-label="Search leagues"
+               autocomplete="off" data-league-filter-target="input"
+               data-action="input->league-filter#filter keydown.esc->league-filter#clear">
+      </div>
+    <% end %>
+
+    <%# Each option's value is the URL for that ordering; the controller navigates to it on change. %>
+    <div class="lgSortBar">
+      <label for="sort_by" class="lgSortBar-label">Sort By</label>
+      <%= select_tag "sort_by", options_for_select(league_sort_options, league_sort_path(@order)),
+                     class: "lgSortSelect", data: { controller: "sort-select", action: "change->sort-select#go" } %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 ptfgPageWidth">
+      <%# Under the League ID ordering the name column shows each league's id instead, and the link's tooltip is the
+          league's name rather than its id. %>
+      <div class="lgTableCard">
+        <div class="lgTableCard-head">
+          <%# The season rolls over on Nov 1 (CurrentSeason), whatever years the listed leagues actually start in. %>
+          <span class="lgTableCard-title"><%= CurrentSeason.year %> Leagues</span>
+          <span class="lgTableCard-count" data-league-filter-target="count" aria-live="polite">
+            <%= pluralize(@leagues.length, "league") %>
+          </span>
+        </div>
+        <table class="table table-hover table-sm lgTable">
+          <thead>
+            <tr>
+              <th class="text-end">#</th>
+              <th class="text-nowrap"><%= league_sort_by_id? ? "League Id" : "League Name" %></th>
+              <th class="text-nowrap">Start Date</th>
+              <th class="text-nowrap">Format</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @leagues.empty? %>
+              <tr><td colspan="4" class="lgTable-empty">No leagues to display right now.</td></tr>
+            <% else %>
+              <% @leagues.each_with_index do |league, index| %>
+                <%# data-search is what the live filter matches against. lgRowAlt is the zebra stripe (the table's own
+                    :nth-child striping can't skip rows the filter hides), on odd-numbered rows. %>
+                <tr class="<%= "lgRowAlt" if index.even? %>" data-league-filter-target="row"
+                    data-search="<%= [ league.name, league.league_id, league.league_format ].join(" ").downcase %>">
+                  <td class="text-end"><%= index + 1 %></td>
+                  <td>
+                    <% if league_sort_by_id? %>
+                      <%= link_to league.league_id, league.url, title: league.name, target: "_blank", rel: "noopener" %>
+                    <% else %>
+                      <%= link_to league.name, league.url, title: league.league_id, target: "_blank", rel: "noopener" %>
+                    <% end %>
+                  </td>
+                  <td>
+                    <%= link_to league.start_date_formatted, league.schedule_url,
+                                title: "League Ends #{league.end_date_formatted}", target: "_blank", rel: "noopener" %>
+                  </td>
+                  <td>
+                    <%= link_to league.league_format, league.rules_url,
+                                title: "Since #{league.since}", target: "_blank", rel: "noopener" %>
+                  </td>
+                </tr>
+              <% end %>
+              <tr hidden data-league-filter-target="noMatch">
+                <td colspan="4" class="lgTable-empty">No leagues match &ldquo;<span data-league-filter-target="query"></span>&rdquo;.</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <%= render "layouts/right_logo" %>
+  </div>
 </div>

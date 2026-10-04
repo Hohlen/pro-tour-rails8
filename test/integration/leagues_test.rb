@@ -139,7 +139,8 @@ class LeaguesTest < ActionDispatch::IntegrationTest
   test "rows are numbered from 1" do
     get leagues_path
 
-    assert_equal %w[1 2 3 4 5 6], css_select(".lgTable tbody tr td:first-child").map(&:text)
+    assert_equal %w[1 2 3 4 5 6],
+                 css_select(".lgTable tbody tr[data-league-filter-target='row'] td:first-child").map(&:text)
   end
 
   test "each row links the league, its schedule by start date, and its rules by format, opening in new tabs" do
@@ -159,6 +160,80 @@ class LeaguesTest < ActionDispatch::IntegrationTest
     assert_select "a[href='http://www.Alpha.ProTourFantasyGolf.com/rules'][title='Since 2024']"
   end
 
+  # --- stat line ---
+
+  test "the intro uses the wide lead so its one sentence doesn't strand a word on a second line" do
+    get leagues_path
+
+    assert_select ".hmHero-lead.hmHero-lead--wide", /Each league is run by its own commissioner/
+  end
+
+  test "the stat line gives the league count and the year hosting began" do
+    get leagues_path
+
+    assert_select ".lgStats .lgStat", 2
+    assert_select ".lgStat:nth-child(1) .lgStat-value", "6"
+    assert_select ".lgStat:nth-child(1) .lgStat-label", "Leagues"
+    assert_select ".lgStat:nth-child(2) .lgStat-value", SITE_FOUNDED_YEAR.to_s
+    assert_select ".lgStat:nth-child(2) .lgStat-label", "Hosting Since"
+  end
+
+  test "the stat line's count matches the table's rows and header" do
+    get leagues_path
+
+    assert_equal css_select(".lgTable tbody tr[data-league-filter-target=row]").length.to_s,
+                 css_select(".lgStat-value").first.text
+    assert_select ".lgTableCard-count", "6 leagues"
+  end
+
+  # --- live search ---
+
+  test "the search box is in the page but hidden until JavaScript shows it" do
+    get leagues_path
+
+    assert_select "[data-controller='league-filter']" do
+      assert_select ".lgSearch[hidden][data-league-filter-target='search']" do
+        assert_select "input[type='search'][data-league-filter-target='input'][aria-label='Search leagues']"
+      end
+    end
+  end
+
+  test "typing and Escape are wired to the filter and clear actions" do
+    get leagues_path
+
+    assert_select "input[data-action~='input->league-filter#filter'][data-action~='keydown.esc->league-filter#clear']"
+  end
+
+  test "each row carries its searchable text -- name, id and format, lowercased" do
+    get leagues_path
+
+    assert_select "tr[data-league-filter-target='row']", 6
+    assert_select "tr[data-search='zulu gridiron alpha one and done']"
+    assert_select "tr[data-search='amen corner gamma let it ride']"
+  end
+
+  test "the count and a hidden no-match row are there for the filter to update" do
+    get leagues_path
+
+    assert_select ".lgTableCard-count[data-league-filter-target='count'][aria-live='polite']", "6 leagues"
+    assert_select "tr[hidden][data-league-filter-target='noMatch'] [data-league-filter-target='query']"
+  end
+
+  test "zebra stripes go on the odd-numbered rows" do
+    get leagues_path
+
+    assert_equal [ true, false, true, false, true, false ],
+                 css_select("tr[data-league-filter-target=row]").map { |row| row["class"].to_s.include?("lgRowAlt") }
+    assert_select ".lgTable.table-striped", count: 0
+  end
+
+  test "the sort dropdown is still there beside the search box" do
+    get leagues_path
+
+    assert_select ".lgToolbar .lgSearch"
+    assert_select ".lgToolbar .lgSortBar select#sort_by"
+  end
+
   # --- when there's nothing to show ---
 
   test "with no listings file the table says so, and the page still renders" do
@@ -169,6 +244,10 @@ class LeaguesTest < ActionDispatch::IntegrationTest
       assert_select ".lgTable-empty", text: "No leagues to display right now.", count: 1
       assert_select ".lgTableCard-count", "0 leagues"
       assert_select ".lgTableCard-title", "2026 Leagues"
+      assert_select ".lgStat:nth-child(1) .lgStat-value", "0"
+      assert_select ".lgStat:nth-child(1) .lgStat-label", "Leagues"
+      assert_select ".lgSearch", count: 0
+      assert_select "tr[data-league-filter-target='noMatch']", count: 0
     end
   end
 

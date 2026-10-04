@@ -69,6 +69,14 @@ count -- legacy had separate Public and Private tables; public leagues (the old 
 listed and the page no longer distinguishes public from private. The listed leagues are every listing flagged private
 plus the "Summer" pool, whatever its flag (legacy's rule for its Private table). With the real 69-league file all five
 orderings produced the same rows, order, links and tooltips as legacy's Private table.
+- The page serves two audiences, people finding their league and people seeing how big PTFG is, so it has a live
+  search box (`league_filter_controller.js`) and a stat line under the intro (league count, and `SITE_FOUNDED_YEAR`).
+  The search filters the rows the server already rendered: every word typed must appear in a row's `data-search`
+  (name, id, format, lowercased), the header count becomes "12 of 69 leagues", and the # column and zebra stripes are
+  renumbered/re-striped over the visible rows (the table's `:nth-child` stripes would count hidden ones, so the
+  stripe is a `lgRowAlt` class, not `.table-striped`). The box is rendered `hidden` and shown by the controller, so
+  the page is complete without JavaScript. No game-formats stat: the site advertises four formats but listings use
+  three.
 - The header's season is `CurrentSeason.year`, which rolls over on Nov 1; the table isn't filtered by season, so a
   file that still lists earlier seasons' leagues shows them under that heading.
 - The file's location is `config.x.league_listings_path`: `../my-docs/league_listings.txt` in development (the

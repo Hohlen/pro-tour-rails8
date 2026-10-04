@@ -33,6 +33,12 @@
   margin: 0 0 18px 0;
 }
 
+/* For a one-sentence lead that should stay on one or two even lines (Leagues): the default 700px wrapped it with
+   a single word ("website.") stranded on the second line. */
+.hmHero-lead--wide {
+  max-width: 880px;
+}
+
 .hmHero-ctaRow {
   display: flex;
   flex-wrap: wrap;
