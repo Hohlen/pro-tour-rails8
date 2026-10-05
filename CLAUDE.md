@@ -147,6 +147,31 @@ encrypted credentials (`bin/rails credentials:edit`), not plaintext config -- un
 constants. The values are in legacy's `config/environments/production.rb` and
 `ApplicationController#verify_google_recaptcha`. Neither is needed in development or test (see Phase 3 above).
 
+## Before the first production deploy
+
+Things that work locally but won't in production until someone does them (development and test use Google's always-pass
+reCAPTCHA test keys and a captured-mail delivery method, so none of this shows up as a failure on a dev machine):
+
+- [ ] **`recaptcha.secret_key`** in encrypted credentials (`bin/rails credentials:edit`). The value is in legacy's
+  `ApplicationController#verify_google_recaptcha`. Until it's there every Contact Us submission ends in "Unexpected
+  error". (Order Now will use it too.)
+- [ ] **`postmark.server_token`** in encrypted credentials. The value is `POSTMARK_SERVER_TOKEN` in legacy's
+  `config/environments/production.rb`. Until it's there production can't send mail.
+- [ ] **`config/master.key`** is gitignored and was generated on this machine. Back it up somewhere safe -- without it
+  the encrypted credentials are unreadable -- and get it onto the server (Kamal: `RAILS_MASTER_KEY` in `.kamal/secrets`;
+  Capistrano: a linked file).
+- [ ] **The league listings file**: set `LEAGUE_LISTINGS_PATH` to wherever `league_listings.txt` lives on the server
+  (under Docker/Kamal that needs a mounted volume), or confirm legacy's relative default still points at it.
+- [ ] **`config.action_mailer.default_url_options`** host in `config/environments/production.rb` (currently
+  `protourfantasygolf.com`), plus `force_ssl`/`assume_ssl` and `config.hosts` for the real domain.
+- [ ] Legacy `pro-tour-v2.0` stays live and untouched until cutover.
+
+To see which credentials are set (prints only true/false, never a value):
+
+```bash
+RAILS_ENV=production bin/rails runner 'puts({ recaptcha_secret_key: Rails.application.credentials.dig(:recaptcha, :secret_key).present?, postmark_server_token: Rails.application.credentials.dig(:postmark, :server_token).present? }.inspect)'
+```
+
 ## Commands
 
 ```bash
