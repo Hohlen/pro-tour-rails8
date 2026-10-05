@@ -1,0 +1,122 @@
+<% content_for :title, "Order Now" %>
+<% content_for :page_heading, "Order Now" %>
+<%# Turbo would cache a snapshot of this page with the reCAPTCHA widget already rendered into it, and render it
+    again into that same element on a back/forward visit (an error from Google). Never snapshotting the page avoids that. %>
+<% content_for :head do %>
+  <meta name="turbo-cache-control" content="no-cache">
+<% end %>
+
+<%# Show a field's error state only after a submission, not on the blank form. %>
+<% show_errors = action_name == "create" %>
+
+<div class="row">
+  <div class="col-md-8 ptfgPageWidth">
+    <div class="onNotice onNotice--red onNew" role="note">
+      <span class="onNotice-icon"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i></span>
+      <div>
+        <div class="onNotice-title">New leagues only</div>
+        <div class="onNotice-text">
+          This form is for new leagues only. If you&rsquo;re renewing an existing league, there&rsquo;s no need to fill it out.
+        </div>
+      </div>
+    </div>
+    <div class="onNotice" role="note">
+      <span class="onNotice-icon"><i class="bi bi-megaphone-fill" aria-hidden="true"></i></span>
+      <div>
+        <div class="onNotice-title">Notice</div>
+        <div class="onNotice-text">
+          For 2026, we will only be offering our services for larger leagues with <%= MIN_TEAMS %> or more expected teams.
+        </div>
+      </div>
+    </div>
+    <p>
+      This form is simply to gather preliminary information for your new league. We understand you may still have
+      questions &mdash; don&rsquo;t worry! Your selections can be updated before the final setup. Just fill in whatever
+      you&rsquo;re sure about for now.
+    </p>
+    <p>
+      Once submitted, you&rsquo;ll receive a confirmation email, and we&rsquo;ll follow up if any additional details are
+      needed. No payment is required at this stage. Fields marked with red asterisk (<span class="ptfgRed">*</span>)
+      are required.
+    </p>
+
+    <%= form_with url: order_now_path, scope: :order, class: "ctForm" do |form| %>
+      <div class="card ptfgPanel">
+        <div class="card-header ptfgBluePanelBackground">
+          <h4 class="card-title"><i class="bi bi-flag-fill onPanelIcon" aria-hidden="true"></i>League Details</h4>
+        </div>
+        <div class="card-body">
+          <%= render "field", form: form, field: :heard_about_us, label: "How did you hear about us?", kind: :select,
+                              choices: Order::HEARD_ABOUT_US_CHOICES, required: true,
+                              error: show_errors && @order.heard_about_us_blank? %>
+
+          <% hint = capture do %>
+            Need ideas? Try something with words / phrases from this
+            <%= link_to "site", "https://www.golfonline.co.uk/golf-glossary", target: "_blank", rel: "noopener" %>.
+          <% end %>
+          <%= render "field", form: form, field: :desired_league_name, label: "Desired League Name",
+                              placeholder: "Something fun or memorable", hint: hint %>
+
+          <% hint = capture do %>
+            Click <%= link_to "here", game_formats_path, target: "_blank" %> for game format explanations.
+          <% end %>
+          <%= render "field", form: form, field: :game_format, label: "Game Format", kind: :select,
+                              choices: Order::GAME_FORMATS, hint: hint %>
+
+          <% hint = capture do %>
+            Click <%= link_to "here", "https://www.pgatour.com/tournaments/schedule.html", target: "_blank", rel: "noopener" %>
+            for PGA Tournament schedule.
+          <% end %>
+          <%= render "field", form: form, field: :start_tournament, label: "Start Tournament",
+                              placeholder: "e.g. The Masters", hint: hint %>
+
+          <%= render "field", form: form, field: :end_tournament, label: "End Tournament",
+                              placeholder: "e.g. The TOUR Championship" %>
+
+          <%= render "field", form: form, field: :number_of_segments, label: "Number Of Segments",
+                              placeholder: "Enter Number 0-10", hint: "Enter 0 for no segments" %>
+
+          <%= render "field", form: form, field: :league_time_zone, label: "Default League Time Zone", kind: :select,
+                              choices: Order::TIME_ZONES,
+                              hint: "Should be the time zone where the majority of league members live." %>
+
+          <%= render "field", form: form, field: :projected_league_size, label: "Projected League Size",
+                              placeholder: "Number Of Teams", hint: "Can be a very rough guess." %>
+
+          <%= render "field", form: form, field: :league_password, label: "League Password",
+                              placeholder: "Something easy to remember",
+                              hint: "Required for leagues using user self sign-up." %>
+
+          <%= render "field", form: form, field: :additional_comments, label: "Additional Comments", kind: :textarea,
+                              placeholder: "Any additional comments or questions you have at this time." %>
+        </div>
+      </div>
+
+      <div class="card ptfgPanel">
+        <div class="card-header ptfgBluePanelBackground">
+          <h4 class="card-title"><i class="bi bi-person-lines-fill onPanelIcon" aria-hidden="true"></i>Contact Information</h4>
+        </div>
+        <div class="card-body">
+          <%= render "field", form: form, field: :your_name, label: "Your Name", placeholder: "John Doe",
+                              required: true, error: show_errors && @order.your_name_blank? %>
+          <%= render "field", form: form, field: :your_email, label: "Your Email", kind: :email,
+                              placeholder: "Username@domain.com", required: true,
+                              error: show_errors && @order.your_email_has_error? %>
+          <%= render "field", form: form, field: :your_phone, label: "Your Phone", placeholder: "636-123-4567",
+                              hint: "Phone is optional. We'll also share our phone number with you after sign-up." %>
+        </div>
+      </div>
+
+      <div class="ctForm-secLabel">Security Challenge</div>
+      <%# recaptcha_controller.js loads Google's script and renders the widget into this element. %>
+      <div data-controller="recaptcha" data-recaptcha-sitekey-value="<%= Rails.configuration.x.recaptcha.site_key %>"></div>
+
+      <div class="ctForm-actions">
+        <%# Turbo disables the button and swaps its label while the form is on its way, which stops a double submit. %>
+        <button type="submit" class="hmBtn hmBtn--primary" data-turbo-submits-with="Submitting&hellip;">Submit</button>
+      </div>
+    <% end %>
+  </div>
+  <%# Hidden on a phone: stacked under the form it pushes the Submit button off-screen. %>
+  <%= render "layouts/right_logo", hide_on_mobile: true %>
+</div>

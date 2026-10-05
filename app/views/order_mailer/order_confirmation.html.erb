@@ -1,0 +1,74 @@
+<p>
+  Dear <%= @order.your_name %>,
+</p>
+<p>
+  Thank you for your interest in hosting your own <b><%= SITE_TITLE %> (<%= PTFG_ABBR %>)</b> golf league. Below is
+  the information we have received thus far:
+</p>
+<p>
+  <b>Your Contact Info</b><br>
+  Email: <%= @order.your_email %><br>
+  Phone: <%= @order.your_phone %>
+</p>
+<p>
+  <b>League Info</b><br>
+  Desired League Name: <%= @order.desired_league_name %><br>
+  Game Format: <%= @order.game_format %><br>
+  Start Tournament: <%= @order.start_tournament %><br>
+  End Tournament: <%= @order.end_tournament %><br>
+  Number of Segments: <%= @order.number_of_segments %><br>
+  League Time Zone: <%= @order.league_time_zone %><br>
+  Projected League Size: <%= @order.projected_league_size %><br>
+  League Password: <%= @order.league_password %>
+</p>
+<p>
+  <b>Additional Comments</b><br>
+  <%# Escaped first, then simple_format turns the line breaks they typed into <br>/<p>. %>
+  <% if @order.additional_comments.blank? %>
+    None.
+  <% else %>
+    <%= simple_format(h(@order.additional_comments), {}, wrapper_tag: "span", sanitize: false) %>
+  <% end %>
+</p>
+<p>
+  The next steps are to have a brief <b>phone</b> conversation (evenings and weekends preferred) to:
+</p>
+<ol>
+  <li>Review/complete the information above.</li>
+  <li>Answer any other questions that you may have.</li>
+</ol>
+<p>
+  Once all the information above is complete and you're sure you're ready to use the <%= PTFG_ABBR %> platform to
+  host your league, you can submit your league down payment of <%= MIN_LEAGUE_FEE %> via the following options:
+</p>
+<p>
+  <b>PayPal</b><br>
+  Send to: <%= PAYPAL_ACCOUNT %>
+</p>
+<p>
+  <b>Venmo</b><br>
+  Send to: <%= VENMO_ACCOUNT %><br>
+  <i>(search under Business accounts)</i>
+</p>
+<p>
+  <b>Personal Check</b><br>
+  Make payable to: <i><%= PTFG_LLC_NAME %></i><br><br>
+  Mail To:<br>
+  John Hohlen<br>
+  16621 Chesterfield Manor Drive<br>
+  Chesterfield, MO 63005
+</p>
+<p>
+  Thank you again for your interest. I have no doubt you and your friends will absolutely love the
+  <%= PTFG_ABBR %> online experience.
+</p>
+<p>
+  Sincerely,
+</p>
+<p>
+  John Hohlen<br>
+  <%= link_to SITE_TITLE, PTFG_URL %> Founder
+</p>
+<p>
+  P.S. We appreciate knowing that you heard about us via <%= @order.heard_about_us %>.
+</p>

@@ -16,8 +16,9 @@
         <li class="nav-item"><%= link_to "Screenshots", screenshots_path, class: nav_link_class(screenshots_path) %></li>
         <li class="nav-item"><%= link_to "Pricing", pricing_path, class: nav_link_class(pricing_path) %></li>
         <li class="nav-item"><%= link_to "Leagues", leagues_path, class: nav_link_class(leagues_path) %></li>
-        <%# "New League Request" (order_now_path) is deliberately out of the nav, as in legacy: comment it back in
-            only while there's room -- total leagues must stay at 120 or less. %>
+        <%# Legacy commented this link out whenever there was no room for more leagues (total leagues must stay at
+            120 or less); delete this line to take it back out of the nav. %>
+        <li class="nav-item"><%= link_to "New League Request", order_now_path, class: nav_link_class(order_now_path) %></li>
         <li class="nav-item"><%= link_to "FAQs", faqs_path, class: nav_link_class(faqs_path) %></li>
         <li class="nav-item"><%= link_to "Legal", legal_path, class: nav_link_class(legal_path) %></li>
         <li class="nav-item"><%= link_to "Contact Us", contact_us_path, class: nav_link_class(contact_us_path) %></li>

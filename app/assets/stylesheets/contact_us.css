@@ -32,7 +32,8 @@
   color: var(--ptfg-heading);
 }
 
-.ctForm .form-control {
+.ctForm .form-control,
+.ctForm .form-select {
   border: 1px solid #d7d8e2;
   border-radius: 8px;
   padding: 10px 14px;
@@ -40,11 +41,17 @@
   box-shadow: none;
 }
 
+/* Bootstrap's select arrow lives in the right padding, which the shorthand above just shrank. */
+.ctForm .form-select {
+  padding-right: 2.25rem;
+}
+
 .ctForm .form-control::placeholder {
   color: #999;
 }
 
-.ctForm .form-control:focus {
+.ctForm .form-control:focus,
+.ctForm .form-select:focus {
   border-color: var(--ptfg-navy);
   box-shadow: 0 0 0 3px rgba(11, 26, 103, 0.14);
 }
@@ -55,7 +62,16 @@
   padding-right: 14px;
 }
 
-.ctForm .form-control.is-invalid:focus {
+/* A select's invalid icon would sit on top of its arrow, so it goes too, and the arrow gets its own spot back. */
+.ctForm .form-select.is-invalid:not([multiple]):not([size]) {
+  --bs-form-select-bg-icon: none;
+  border-color: var(--ptfg-red);
+  padding-right: 2.25rem;
+  background-position: right 0.75rem center;
+}
+
+.ctForm .form-control.is-invalid:focus,
+.ctForm .form-select.is-invalid:focus {
   box-shadow: 0 0 0 3px rgba(195, 9, 0, 0.15);
 }
 

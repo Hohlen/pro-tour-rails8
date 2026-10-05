@@ -16,16 +16,10 @@ class HomeTest < ActionDispatch::IntegrationTest
 
     { "Home" => "/", "Game Formats" => "/game_formats", "Features" => "/features",
       "Screenshots" => "/screenshots", "Pricing" => "/pricing", "Leagues" => "/leagues",
-      "FAQs" => "/faqs", "Legal" => "/legal", "Contact Us" => "/contact_us" }.each do |label, path|
+      "New League Request" => "/order_now", "FAQs" => "/faqs", "Legal" => "/legal", "Contact Us" => "/contact_us" }.each do |label, path|
       assert_select "nav a.nav-link[href='#{path}']", label
     end
     assert_select "nav a.nav-link.active", count: 1, text: "Home"
-  end
-
-  test "Order Now stays out of the nav, as in legacy" do
-    get root_path
-
-    assert_select "nav a[href*='order_now']", count: 0
   end
 
   test "home shows the sales blurb in the sidebar card, not the tagline" do

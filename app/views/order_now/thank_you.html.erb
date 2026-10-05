@@ -1,0 +1,19 @@
+<% content_for :title, "Thank You" %>
+<% content_for :page_heading, "Thank You" %>
+
+<div class="ctCard ctThankYou">
+  <div class="ctThankYou-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
+  <h1 class="hmHero-title">Thank You</h1>
+  <p class="ctThankYou-text">
+    A confirmation email with additional details and next steps is on its way. You should receive it within one
+    minute. If it doesn&rsquo;t arrive, please check your spam folder. If it&rsquo;s still not there, please
+    <%= link_to "contact us", contact_us_path %> via the website.
+  </p>
+  <p class="ctThankYou-text">
+    Sincerely,<br>
+    <b><%= PTFG_ABBR %> Admin</b>
+  </p>
+  <div class="ctThankYou-actions">
+    <%= link_to "Back to Home", root_path, class: "hmBtn hmBtn--outline" %>
+  </div>
+</div>

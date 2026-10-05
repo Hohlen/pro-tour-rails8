@@ -1,0 +1,25 @@
+<%# One labelled input in a .form-group that reddens on error. Locals: form, field, label, and optionally
+    kind (:text -- the default --, :email, :select, :textarea), choices (for :select), placeholder, required,
+    error, and hint (small muted text under the input; an html-safe string when it holds a link). %>
+<% kind = local_assigns.fetch(:kind, :text) %>
+<% error = local_assigns.fetch(:error, false) %>
+<% control_class = [ (kind == :select ? "form-select" : "form-control"), ("is-invalid" if error) ] %>
+<div class="form-group <%= "has-error" if error %>">
+  <label class="control-label" for="order_<%= field %>">
+    <%= label %><% if local_assigns[:required] %> <span class="ptfgRed">*</span><% end %>
+  </label>
+  <% value = @order.public_send(field) %>
+  <% case kind %>
+  <% when :select %>
+    <%= form.select field, options_for_select(choices, value), { include_blank: true }, class: control_class %>
+  <% when :textarea %>
+    <%= form.text_area field, value: value, rows: 5, class: control_class, placeholder: local_assigns[:placeholder] %>
+  <% when :email %>
+    <%= form.email_field field, value: value, class: control_class, placeholder: local_assigns[:placeholder] %>
+  <% else %>
+    <%= form.text_field field, value: value, class: control_class, placeholder: local_assigns[:placeholder] %>
+  <% end %>
+  <% if local_assigns[:hint] %>
+    <small class="onHint"><%= hint %></small>
+  <% end %>
+</div>

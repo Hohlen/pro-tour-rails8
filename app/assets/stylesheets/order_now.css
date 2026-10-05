@@ -1,0 +1,82 @@
+/* Order Now: the intro blocks above the form and the small hints under its fields. The form's own fields, and the
+   thank-you card, reuse the Contact Us styles (contact_us.css). */
+/* The two notices above the form: a callout with an icon badge, in the family of the flash alerts (alerts.css).
+   Green by default; --red for the one that must not be missed. The variant sets the colors, the rest is shared. */
+.onNotice {
+  --on-accent: var(--ptfg-green);
+  --on-accent-rgb: 11, 103, 38;
+  --on-bg-from: #eaf7ee;
+  --on-bg-to: #f6fbf7;
+  --on-border: #cfe9d6;
+  --on-text: #0b4a1c;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 1000px;
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, var(--on-bg-from) 0%, var(--on-bg-to) 100%);
+  border: 1px solid var(--on-border);
+  border-left: 5px solid var(--on-accent);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(20, 20, 40, 0.08);
+  color: var(--on-text);
+}
+
+.onNotice--red {
+  --on-accent: var(--ptfg-red);
+  --on-accent-rgb: 195, 9, 0;
+  --on-bg-from: #fdeceb;
+  --on-bg-to: #fff7f6;
+  --on-border: #f4c9c6;
+  --on-text: #7a1410;
+}
+
+.onNotice-icon {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--on-accent);
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 5px rgba(var(--on-accent-rgb), 0.15);
+}
+
+.onNotice-title {
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--on-accent);
+  margin-bottom: 2px;
+}
+
+.onNotice-text {
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.onHint {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--ptfg-muted);
+}
+
+/* The icon before each panel title, in a translucent white chip on the navy header. */
+.onPanelIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 15px;
+  vertical-align: middle;
+}

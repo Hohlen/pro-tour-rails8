@@ -40,6 +40,14 @@ Rails.application.routes.draw do
   # Legacy's form posted to /contact_us/send_email, and a GET there redirected to the form; old links keep working.
   get "contact_us/send_email" => redirect("/contact_us")
 
+  # In the nav as "New League Request" (see layouts/_nav_bar). Legacy posted to /order_now/place_order, and its
+  # /order_now/new was the same page as /order_now.
+  get "order_now" => "order_now#new", as: :order_now
+  post "order_now" => "order_now#create"
+  get "order_now/new" => redirect("/order_now")
+  get "order_now/place_order" => redirect("/order_now")
+  get "order_now/thank_you" => "order_now#thank_you", as: :order_now_thank_you
+
   # Error pages, rendered via config.exceptions_app (see config/application.rb). `match ... via: :all` because
   # Rails replays the original request, whatever its HTTP method was, against these paths.
   match "/404", to: "errors#not_found", via: :all

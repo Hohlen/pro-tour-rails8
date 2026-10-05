@@ -117,8 +117,28 @@ and return false), `ContactUsMailer#contact_message` (named that, not legacy's `
   fields" message, not a 400; Google being unreachable shows the "Unexpected error" message, not a 500. The error text
   fixes legacy's "via by sending".
 
-Planned phases: 4 Order Now, 5 deployment (Kamal vs Capistrano + Passenger, still undecided; it decides where the
-leagues file lives in production).
+Phase 4 (Order Now) complete, at legacy's paths (`/order_now`, `POST /order_now`, `/order_now/thank_you`; legacy's
+`/order_now/new` and a GET of `/order_now/place_order` redirect to the form). Linked from the nav as "New League
+Request" (legacy had that link commented out whenever it didn't want more leagues, since total leagues must stay at
+120 or less; to hide it again, delete the one line in `layouts/_nav_bar.html.erb`). `Order` (plain-Ruby form object, legacy's
+`OrderNowController::Order` with the same method names but keyword arguments), `OrderNowController`
+(`new`/`create`/`thank_you`), `OrderMailer#order_confirmation` (legacy's `order`), views under `order_now/` with a
+`_field` partial, `order_now.css`. It reuses Phase 3's `GoogleRecaptchaVerifier`, `recaptcha_controller.js` and the
+`ct*` form/thank-you styles (`.ctForm` now styles `.form-select` too). Notes:
+- Same validation order and wording as legacy: required fields, email, password with a space, missing reCAPTCHA
+  token, failed verification. Only heard_about_us, your_name and your_email are required.
+- The mail is the same HTML as legacy (To the requester, BCC and Reply-To the commissioner, Postmark tag
+  "New League Request", PayPal/Venmo/check instructions). Additional comments keep their line breaks (escaped first,
+  then `simple_format`); legacy's HTML collapsed them.
+- Differences from legacy: no `SanitizeHelper` (ERB escapes everything on output, and the one-line fields are
+  squished so a hand-crafted POST can't put extra lines in the mail); the email is matched with `\A...\z`; the
+  thank-you page redirects home when reloaded or visited directly (legacy rendered the home page at that URL); the
+  flash says "has been submitted" (legacy: "been submitted"); the failed-reCAPTCHA message links to Contact Us; the
+  intro's "For 2026, ..." notice is still hard-coded text, as in legacy, so update it each season.
+- Needs the same production secrets as Contact Us (`recaptcha.secret_key`, `postmark.server_token`).
+
+Planned phases: 5 deployment (Kamal vs Capistrano + Passenger, still undecided; it decides where the leagues file
+lives in production).
 
 Conventions worth knowing before porting a page:
 - Legacy's Bootstrap 3 markup converts mechanically: `col-sm-*` -> `col-md-*` (Bootstrap 5's `sm` is 576px, its
@@ -153,8 +173,8 @@ Things that work locally but won't in production until someone does them (develo
 reCAPTCHA test keys and a captured-mail delivery method, so none of this shows up as a failure on a dev machine):
 
 - [ ] **`recaptcha.secret_key`** in encrypted credentials (`bin/rails credentials:edit`). The value is in legacy's
-  `ApplicationController#verify_google_recaptcha`. Until it's there every Contact Us submission ends in "Unexpected
-  error". (Order Now will use it too.)
+  `ApplicationController#verify_google_recaptcha`. Until it's there every Contact Us and Order Now submission ends in
+  "Unexpected error".
 - [ ] **`postmark.server_token`** in encrypted credentials. The value is `POSTMARK_SERVER_TOKEN` in legacy's
   `config/environments/production.rb`. Until it's there production can't send mail.
 - [ ] **`config/master.key`** is gitignored and was generated on this machine. Back it up somewhere safe -- without it
