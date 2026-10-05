@@ -197,7 +197,7 @@ RAILS_ENV=production bin/rails runner 'puts({ recaptcha_secret_key: Rails.applic
 ```bash
 # This machine's default Ruby (via rbenv) predates Rails 8 -- everything in this repo needs 3.3.5, which
 # .ruby-version already pins; RBENV_VERSION= only matters if running commands from outside the repo dir.
-bin/rails server -p 3002   # dev server (3002 -- legacy owns 3000, fantasy-golf-rails8 3001, storks-now-rails8 3003)
+bin/rails server          # dev server on 3002, Puma's default (legacy owns 3000, fantasy-golf-rails8 3001, storks-now-rails8 3003)
 bin/rails test
 bin/rails console
 ```
