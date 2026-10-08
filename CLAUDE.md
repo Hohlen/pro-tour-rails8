@@ -20,7 +20,7 @@ Solid Cache/Queue/Cable are skipped entirely rather than ported.
 
 ## Current status
 
-Phase 0 (scaffold) complete: Rails 8.1 on Ruby 3.3.5 with Propshaft, importmap, Turbo and Stimulus (no jQuery);
+Phase 0 (scaffold) complete: Rails 8.1 on Ruby 3.4.11 with Propshaft, importmap, Turbo and Stimulus (no jQuery);
 Bootstrap 5.3 vendored (`vendor/assets/stylesheets/bootstrap.min.css`, `app/assets/javascripts/vendor/`) with
 Bootstrap Icons served from `public/vendor/bootstrap-icons/`; shared layout, nav bar, footer, sidebar logo card
 (`layouts/_right_logo`), flash alerts, hero and button styles. (Pages not yet ported rendered a placeholder
@@ -195,7 +195,7 @@ RAILS_ENV=production bin/rails runner 'puts({ recaptcha_secret_key: Rails.applic
 ## Commands
 
 ```bash
-# This machine's default Ruby (via rbenv) predates Rails 8 -- everything in this repo needs 3.3.5, which
+# This machine's default Ruby (via rbenv) predates Rails 8 -- everything in this repo needs 3.4.11, which
 # .ruby-version already pins; RBENV_VERSION= only matters if running commands from outside the repo dir.
 bin/rails server          # dev server on 3002, Puma's default (legacy owns 3000, fantasy-golf-rails8 3001, storks-now-rails8 3003)
 bin/rails test
