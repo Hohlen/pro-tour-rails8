@@ -23,10 +23,11 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem "kamal", require: false
+# (Not used: deployment is Capistrano + Passenger, see config/deploy.rb.)
+# gem "kamal", require: false
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
-gem "thruster", require: false
+# gem "thruster", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -45,6 +46,12 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  # Deployment runs from the development workstation (see config/deploy.rb).
+  gem "capistrano", "3.20.1" # when changing, update the `lock` version in config/deploy.rb to match
+  gem "capistrano-bundler", "~> 2.0"
+  gem "capistrano-rvm"
+  gem "capistrano-rails" # for the assets:precompile deploy step
 end
 
 group :test do

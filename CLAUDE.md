@@ -46,7 +46,8 @@ the rendered text of each diffed against legacy's (the only differences are the 
   pages' "More...") from landing behind the sticky navbar.
 - `obfuscated_mail_to` reproduces Rails 2's `mail_to(..., encode: "hex")` (dropped in Rails 4).
 - `AppVersion` replaces legacy's `config/initializers/app_version.rb`: reads the `REVISION`/`REVISION_TIME` files
-  Capistrano writes, falling back to "Unknown". Phase 5 may change the source if deployment moves to Kamal.
+  Capistrano writes, falling back to "Unknown" (and treating an empty or non-numeric `REVISION_TIME` as unknown rather
+  than 1970); times are shown in the app's time zone. The files are gitignored.
 - Error pages: `config.exceptions_app = routes`; `ErrorsController` renders 404 inside the site layout (replacing
   legacy's catch-all route and `home#unknown_request`) and serves `public/422.html`/`500.html` for the others.
   In development Rails still shows its own debug page, so the 404 page only appears in production-like runs.
@@ -81,8 +82,9 @@ orderings produced the same rows, order, links and tooltips as legacy's Private 
   file that still lists earlier seasons' leagues shows them under that heading.
 - The file's location is `config.x.league_listings_path`: `../my-docs/league_listings.txt` in development (the
   checkout next to this one), `test/fixtures/files/league_listings.txt` in test, and in production the
-  `LEAGUE_LISTINGS_PATH` env var, defaulting to legacy's Capistrano-relative `../../../league_listings.txt`. **Phase 5
-  must settle this**: under Docker/Kamal the file needs a mounted volume and the env var.
+  `LEAGUE_LISTINGS_PATH` env var, defaulting to legacy's Capistrano-relative `../../../league_listings.txt`, which
+  from `releases/<timestamp>/` is `/home/admin/league_listings.txt` on the server (under Passenger an env var has to be
+  set with `passenger_env_var` in the site config).
 - Names sort as plain case-sensitive strings, as legacy's did ("BIG BOYS LEAGUE" before "Bottom Feeders").
 - No fragment caching, unlike legacy's `cache(controller, action)`: the page is ~70 parsed lines, and a cache keyed
   only on the action served stale rows until someone cleared it whenever the file was edited.
@@ -137,8 +139,17 @@ Request" (legacy had that link commented out whenever it didn't want more league
   intro's "For 2026, ..." notice is still hard-coded text, as in legacy, so update it each season.
 - Needs the same production secrets as Contact Us (`recaptcha.secret_key`, `postmark.server_token`).
 
-Planned phases: 5 deployment (Kamal vs Capistrano + Passenger, still undecided; it decides where the leagues file
-lives in production).
+Phase 5 (deployment): **Capistrano + Passenger**, set up but not yet used (`Capfile`, `config/deploy.rb`,
+`config/deploy/production.rb`; Capistrano 3.20.1, whose version is pinned in the Gemfile and must match the `lock`
+line in `deploy.rb`). The Kamal/Docker scaffold (Dockerfile, `.kamal/`, `bin/kamal`, `bin/thrust`, ...) was removed, and
+the `kamal`/`thruster` Gemfile entries are commented out. It deploys to `/home/admin/protourfantasygolf.com` (the same
+directory name legacy uses) on a **new server for the Rails 8 apps, not legacy's VPS**; its address in
+`config/deploy/production.rb` is still the placeholder `w.x.y.z` (replace it with the new server's IP -- DNS still
+points at the old server at first), so a deploy can't land on legacy's machine by accident. Rails 8 specifics:
+`capistrano/rails/assets` precompiles Propshaft's assets, there is no `capistrano/rails/migrations` since there is no
+database, and `config/master.key` is a linked file the deploy requires to already exist in `shared/config/` on the
+server. Still to do on the server (one time): Ruby 3.4.11 under RVM, `master.key`, the league listings file, and a
+Passenger site for `current/public`.
 
 Conventions worth knowing before porting a page:
 - Legacy's Bootstrap 3 markup converts mechanically: `col-sm-*` -> `col-md-*` (Bootstrap 5's `sm` is 576px, its
@@ -172,16 +183,17 @@ constants. The values are in legacy's `config/environments/production.rb` and
 Things that work locally but won't in production until someone does them (development and test use Google's always-pass
 reCAPTCHA test keys and a captured-mail delivery method, so none of this shows up as a failure on a dev machine):
 
-- [ ] **`recaptcha.secret_key`** in encrypted credentials (`bin/rails credentials:edit`). The value is in legacy's
-  `ApplicationController#verify_google_recaptcha`. Until it's there every Contact Us and Order Now submission ends in
+- [x] **`recaptcha.secret_key`** in encrypted credentials (`bin/rails credentials:edit`). Done: set to legacy's value
+  and accepted by Google (checked 2026-10-09). Without it every Contact Us and Order Now submission ends in
   "Unexpected error".
-- [ ] **`postmark.server_token`** in encrypted credentials. The value is `POSTMARK_SERVER_TOKEN` in legacy's
-  `config/environments/production.rb`. Until it's there production can't send mail.
+- [x] **`postmark.server_token`** in encrypted credentials. Done: set to legacy's `POSTMARK_SERVER_TOKEN` (checked
+  2026-10-09). Without it production can't send mail.
 - [ ] **`config/master.key`** is gitignored and was generated on this machine. Back it up somewhere safe -- without it
-  the encrypted credentials are unreadable -- and get it onto the server (Kamal: `RAILS_MASTER_KEY` in `.kamal/secrets`;
-  Capistrano: a linked file).
-- [ ] **The league listings file**: set `LEAGUE_LISTINGS_PATH` to wherever `league_listings.txt` lives on the server
-  (under Docker/Kamal that needs a mounted volume), or confirm legacy's relative default still points at it.
+  the encrypted credentials are unreadable -- and put a copy at `/home/admin/protourfantasygolf.com/shared/config/master.key`
+  on the server (Capistrano links it into every release and stops the deploy if it's missing).
+- [ ] **The league listings file**: put `league_listings.txt` at `/home/admin/league_listings.txt` on the server (what
+  legacy's relative default resolves to under Capistrano), or set `LEAGUE_LISTINGS_PATH` with `passenger_env_var`.
+- [ ] **The server address** in `config/deploy/production.rb` (placeholder `w.x.y.z`), once the new server exists.
 - [ ] **`config.action_mailer.default_url_options`** host in `config/environments/production.rb` (currently
   `protourfantasygolf.com`), plus `force_ssl`/`assume_ssl` and `config.hosts` for the real domain.
 - [ ] Legacy `pro-tour-v2.0` stays live and untouched until cutover.

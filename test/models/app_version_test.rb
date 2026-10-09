@@ -26,6 +26,30 @@ class AppVersionTest < ActiveSupport::TestCase
     end
   end
 
+  test "an empty or non-numeric REVISION_TIME is Unknown, not 1970" do
+    Dir.mktmpdir do |root|
+      File.write(File.join(root, "REVISION"), "4e894c0\n")
+
+      [ "", "\n", "not a number", "0" ].each do |contents|
+        File.write(File.join(root, "REVISION_TIME"), contents)
+
+        assert_equal "Unknown", AppVersion.new(root).revision_time, "for #{contents.inspect}"
+      end
+    end
+  end
+
+  test "times are in the app's time zone" do
+    Dir.mktmpdir do |root|
+      File.write(File.join(root, "REVISION"), "4e894c0\n")
+      File.write(File.join(root, "REVISION_TIME"), "1759363200\n")
+
+      version = AppVersion.new(root)
+
+      assert_equal Time.zone, version.revision_time.time_zone
+      assert_equal Time.zone, version.deployed_at.time_zone
+    end
+  end
+
   test "current is built from the Rails root and memoized" do
     assert_same AppVersion.current, AppVersion.current
   end

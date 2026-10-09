@@ -82,14 +82,14 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   # Where the league listings file lives. The default is legacy's: Capistrano's deploy directory has
-  # releases/<timestamp>/ as Rails.root, so legacy's '../../..' reached the admin user's home directory. TODO:
-  # Phase 5 (deployment) decides the real location -- under Docker/Kamal this needs a mounted volume and the
-  # LEAGUE_LISTINGS_PATH environment variable pointing at it.
+  # releases/<timestamp>/ as Rails.root, so legacy's '../../..' reaches the admin user's home directory, i.e.
+  # /home/admin/league_listings.txt on the server. LEAGUE_LISTINGS_PATH overrides it (under Passenger it has to be set
+  # with passenger_env_var in the web server's site config).
   config.x.league_listings_path = ENV.fetch("LEAGUE_LISTINGS_PATH") do
     Rails.root.join("../../../league_listings.txt").expand_path.to_s
   end
 
-  # reCAPTCHA for the Contact Us form (and, in Phase 4, Order Now). The site key is public -- it's in the page's HTML
+  # reCAPTCHA for the Contact Us and Order Now forms. The site key is public -- it's in the page's HTML
   # and is the same one legacy uses -- so it lives here; the secret key goes in encrypted credentials as
   # recaptcha.secret_key (`bin/rails credentials:edit`), never in this file. Until it's added, every verification
   # fails and the form shows its "Unexpected error" message.

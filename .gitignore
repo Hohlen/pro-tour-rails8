@@ -26,3 +26,7 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+
+# Written into each release by Capistrano (see app/models/app_version.rb); never committed.
+/REVISION
+/REVISION_TIME

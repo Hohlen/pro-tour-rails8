@@ -24,11 +24,19 @@ Port 3002 is Puma's default here, since the other apps on this machine use 3000,
 In development and test the forms work end to end without any secrets: they use Google's always-pass reCAPTCHA test
 keys, and sent mail is written to `log/development.log` instead of being delivered.
 
-## Production
+## Deploying
 
-Production needs two secrets in the encrypted credentials (`bin/rails credentials:edit`): `recaptcha.secret_key` and
-`postmark.server_token`. It also needs `config/master.key` on the server and a path to the league listings file
-(`LEAGUE_LISTINGS_PATH`). The full checklist is in `CLAUDE.md`, under "Before the first production deploy".
+Capistrano deploys from your workstation to Passenger on the new server for the Rails 8 apps:
+`bundle exec cap production deploy`. See `config/deploy.rb` and `config/deploy/production.rb`. The server's address
+isn't set yet (`w.x.y.z` is a placeholder, to be replaced with the new server's IP; DNS still points at the old
+server, so the first deploys go by IP), and it deploys to `/home/admin/protourfantasygolf.com`, the same directory
+name legacy uses on its own VPS.
+
+The server needs, once: Ruby 3.4.11 under RVM, a copy of `config/master.key` at
+`/home/admin/protourfantasygolf.com/shared/config/master.key` (the deploy stops early if it isn't there), the league
+listings file at `/home/admin/league_listings.txt` (or `LEAGUE_LISTINGS_PATH`), and a Passenger site pointing at
+`current/public`. The secrets (`recaptcha.secret_key` and `postmark.server_token`) live in the encrypted credentials.
+The full checklist is in `CLAUDE.md`, under "Before the first production deploy".
 
 ## More
 
