@@ -2,13 +2,9 @@
 # Ported from legacy's LeaguesController (its common_setup and per-action sorts), pulled out of the controller so
 # the rules are testable without a request.
 #
-# Legacy showed two tables, Public and Private; the page now lists a single set of leagues and the public listings
-# in the file (the old $25 leagues) are no longer shown at all. What is listed is every listing flagged private,
-# plus the summer golf pool whatever its flag says -- legacy's comment: "it's no longer considered private since
-# I'm now the only commissioner."
+# Legacy showed two tables, Public and Private, from a flag on each line of the file. Every league is private now,
+# the flag is gone, and the page lists every line in the file as one set of leagues.
 class LeagueDirectory
-  SUMMER_POOL_ID = "Summer"
-
   ORDERS = %i[default league_name league_id start_date league_format].freeze
 
   # Reads +path+ and returns the directory for it. A missing or unreadable file gives an empty directory (and a
@@ -45,8 +41,7 @@ class LeagueDirectory
 
   # The listed leagues in the given order (one of ORDERS); the default is by name.
   def leagues(order = :default)
-    listed = @listings.select { |listing| listing.public_or_private == "private" || listing.league_id == SUMMER_POOL_ID }
-    sorted(listed, order)
+    sorted(@listings, order)
   end
 
   private

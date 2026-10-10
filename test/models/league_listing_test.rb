@@ -1,12 +1,11 @@
 require "test_helper"
 
 class LeagueListingTest < ActiveSupport::TestCase
-  LINE = "private|LEAGUE 7|Amen Corner|2018|2018-01-04|2018-06-17|Pick 3 Classic|$100|http://www.League7.ProTourFantasyGolf.com"
+  LINE = "LEAGUE 7|Amen Corner|2018|2018-01-04|2018-06-17|Pick 3 Classic|$100|http://www.League7.ProTourFantasyGolf.com"
 
-  test "parses a line into its nine fields, with dates as Dates" do
+  test "parses a line into its eight fields, with dates as Dates" do
     listing = LeagueListing.parse(LINE)
 
-    assert_equal "private", listing.public_or_private
     assert_equal "LEAGUE 7", listing.league_id
     assert_equal "Amen Corner", listing.name
     assert_equal "2018", listing.since
@@ -40,7 +39,7 @@ class LeagueListingTest < ActiveSupport::TestCase
   end
 
   test "strips whitespace around fields and the line ending" do
-    listing = LeagueListing.parse("  private | ID | Name |2018| 2018-01-04 |2018-06-17| Let It Ride | $5 | http://x.test \r\n")
+    listing = LeagueListing.parse("  ID | Name |2018| 2018-01-04 |2018-06-17| Let It Ride | $5 | http://x.test \r\n")
 
     assert_equal "ID", listing.league_id
     assert_equal "Name", listing.name
@@ -53,9 +52,14 @@ class LeagueListingTest < ActiveSupport::TestCase
     assert_nil LeagueListing.parse("")
     assert_nil LeagueListing.parse("   \n")
     assert_nil LeagueListing.parse(nil)
-    assert_nil LeagueListing.parse("private|ONLY|THREE|FIELDS")
+    assert_nil LeagueListing.parse("ONLY|THREE|FIELDS")
     assert_nil LeagueListing.parse(LINE.sub("|http", "|extra|http")), "too many fields"
     assert_nil LeagueListing.parse(LINE.sub("|http://www.League7.ProTourFantasyGolf.com", "")), "missing the url field"
+  end
+
+  test "returns nil for a line in the old nine-field format, with its leading public/private flag" do
+    assert_nil LeagueListing.parse("private|#{LINE}")
+    assert_nil LeagueListing.parse("public|#{LINE}")
   end
 
   test "returns nil for a malformed or non-ISO date" do
@@ -65,6 +69,6 @@ class LeagueListingTest < ActiveSupport::TestCase
   end
 
   test "returns nil rather than raising on bytes that aren't valid UTF-8" do
-    assert_nil LeagueListing.parse("private|ID|Bad \xFF name|2018|2018-01-04|2018-06-17|Let It Ride|$5|http://x.test")
+    assert_nil LeagueListing.parse("ID|Bad \xFF name|2018|2018-01-04|2018-06-17|Let It Ride|$5|http://x.test")
   end
 end

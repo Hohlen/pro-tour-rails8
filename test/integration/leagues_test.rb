@@ -74,17 +74,10 @@ class LeaguesTest < ActionDispatch::IntegrationTest
     assert_select ".hmHero", text: /public|private/i, count: 0
   end
 
-  test "public leagues, including the old FALL SERIES 1, aren't listed" do
+  test "every league in the file is listed, the summer pool once like the rest" do
     get leagues_path
 
-    assert_not_includes league_names, "FALL SERIES 1"
-    assert_select "a[href*='FallSeries1']", count: 0
-    assert_select "a[href*='League1.']", count: 0
-  end
-
-  test "the summer pool is listed, once" do
-    get leagues_path
-
+    assert_equal 6, league_names.length
     assert_equal 1, league_names.count("Summer Golf Pool")
   end
 

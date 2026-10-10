@@ -3,8 +3,8 @@ require "test_helper"
 class LeagueDirectoryTest < ActiveSupport::TestCase
   FIXTURE = Rails.root.join("test/fixtures/files/league_listings.txt").to_s
 
-  def listing(id:, name: id, flag: "private", start: "2026-01-01", format: "One And Done")
-    LeagueListing.new(public_or_private: flag, league_id: id, name: name, since: "2018", start_date: Date.parse(start),
+  def listing(id:, name: id, start: "2026-01-01", format: "One And Done")
+    LeagueListing.new(league_id: id, name: name, since: "2018", start_date: Date.parse(start),
                       end_date: Date.parse(start) + 200, league_format: format, entry_fee: "$0",
                       url: "http://#{id.delete(' ')}.test")
   end
@@ -19,34 +19,14 @@ class LeagueDirectoryTest < ActiveSupport::TestCase
 
   # --- which listings are shown ---
 
-  test "lists every listing flagged private" do
+  test "lists every listing" do
     directory = LeagueDirectory.new([ listing(id: "A"), listing(id: "B"), listing(id: "C") ], season: "2026")
 
     assert_equal %w[A B C], ids(directory.leagues)
   end
 
-  test "public listings are not shown, including the old FALL SERIES 1 league legacy's Public table used to list" do
-    directory = LeagueDirectory.new([
-      listing(id: "FALL SERIES 1", flag: "public"),
-      listing(id: "LEAGUE 1", flag: "public"),
-      listing(id: "PRIV", flag: "private")
-    ], season: "2026")
-
-    assert_equal [ "PRIV" ], ids(directory.leagues)
-  end
-
-  test "the summer pool is listed whatever its flag" do
-    directory = LeagueDirectory.new([
-      listing(id: "A", flag: "private"),
-      listing(id: "Summer", flag: "public"),
-      listing(id: "LEAGUE 1", flag: "public")
-    ], season: "2026")
-
-    assert_equal %w[A Summer], ids(directory.leagues)
-  end
-
-  test "a summer pool already flagged private appears once, not twice" do
-    directory = LeagueDirectory.new([ listing(id: "Summer", flag: "private"), listing(id: "A") ], season: "2026")
+  test "the summer pool is listed like any other league, once" do
+    directory = LeagueDirectory.new([ listing(id: "Summer"), listing(id: "A") ], season: "2026")
 
     assert_equal %w[A Summer], ids(directory.leagues)
   end
@@ -55,7 +35,7 @@ class LeagueDirectoryTest < ActiveSupport::TestCase
     assert_empty LeagueDirectory.new([], season: "2026").leagues
   end
 
-  # --- orderings, on the fixture file's six listed leagues (season 2026) ---
+  # --- orderings, on the fixture file's six leagues (season 2026) ---
 
   test "default orders by name, as plain case-sensitive strings" do
     listed = LeagueDirectory.load(FIXTURE, season: "2026").leagues(:default)
@@ -116,7 +96,7 @@ class LeagueDirectoryTest < ActiveSupport::TestCase
 
   # --- loading the file ---
 
-  test "load reads the fixture: eight listings, of which the six private ones are listed" do
+  test "load reads the fixture's six leagues" do
     assert_equal 6, LeagueDirectory.load(FIXTURE, season: "2026").leagues.length
   end
 
@@ -138,11 +118,11 @@ class LeagueDirectoryTest < ActiveSupport::TestCase
 
   test "blank lines, short lines and bad dates are skipped, and the bad ones logged with their line number" do
     with_tmp_listings(<<~TXT) do |path|
-      private|OK1|First|2018|2018-01-04|2018-06-17|One And Done|$1|http://one.test
+      OK1|First|2018|2018-01-04|2018-06-17|One And Done|$1|http://one.test
 
-      private|SHORT|Not enough fields
-      private|BADDATE|Bad|2018|2018-02-30|2018-06-17|One And Done|$1|http://bad.test
-      private|OK2|Second|2018|2018-03-01|2018-06-17|One And Done|$1|http://two.test
+      SHORT|Not enough fields
+      BADDATE|Bad|2018|2018-02-30|2018-06-17|One And Done|$1|http://bad.test
+      OK2|Second|2018|2018-03-01|2018-06-17|One And Done|$1|http://two.test
     TXT
       with_captured_log do |log|
         directory = LeagueDirectory.load(path, season: "2018")

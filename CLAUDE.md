@@ -66,10 +66,11 @@ file, picks which listings are shown, and sorts them five ways) in `app/models`,
 `LeaguesController` (`/leagues`, `/leagues/by_league_name|by_league_id|by_start_date|by_format`, same URLs as legacy,
 plus a redirect from `/leagues/index`, which legacy's dropdown sent for "Default"), and `sort_select_controller.js`
 for the dropdown (legacy's inline `onchange`). The page is one blue table headed "<season> Leagues" with a league
-count -- legacy had separate Public and Private tables; public leagues (the old $25 "FALL SERIES 1" one) are no longer
-listed and the page no longer distinguishes public from private. The listed leagues are every listing flagged private
-plus the "Summer" pool, whatever its flag (legacy's rule for its Private table). With the real 69-league file all five
-orderings produced the same rows, order, links and tooltips as legacy's Private table.
+count -- legacy had separate Public and Private tables. Every league is private now, so the file has **no
+public/private flag**: each line is 8 pipe-delimited fields (`LEAGUE ID|Name|since|start|end|format|fee|url`) and
+every line is listed (the "Summer" pool included, like any other). A line in the old 9-field format, with a leading
+`private|`/`public|`, doesn't parse and is skipped and logged, so the file has to be converted. With the real
+69-league file all five orderings produced the same rows, order, links and tooltips as legacy's Private table.
 - The page serves two audiences, people finding their league and people seeing how big PTFG is, so it has a live
   search box (`league_filter_controller.js`) and a stat line under the intro (league count, and `SITE_FOUNDED_YEAR`).
   The search filters the rows the server already rendered: every word typed must appear in a row's `data-search`
@@ -88,9 +89,7 @@ orderings produced the same rows, order, links and tooltips as legacy's Private 
 - Names sort as plain case-sensitive strings, as legacy's did ("BIG BOYS LEAGUE" before "Bottom Feeders").
 - No fragment caching, unlike legacy's `cache(controller, action)`: the page is ~70 parsed lines, and a cache keyed
   only on the action served stale rows until someone cleared it whenever the file was edited.
-- Differences from legacy: the summer pool appears once. Legacy added it to the private list even when the file
-  already flagged it private (as the dev copy does), so it listed it twice (70 rows vs 69). A missing or unreadable
-  file shows an empty table and logs a warning; legacy printed to stdout, and on a read error called `exit`, killing
+- Differences from legacy: a missing or unreadable file shows an empty table and logs a warning; legacy printed to stdout, and on a read error called `exit`, killing
   the server. A line that doesn't parse (wrong field count, bad date) is skipped and logged instead of raising.
 
 Phase 3 (Contact Us) complete: `ContactUsForm` (plain-Ruby form object, legacy's `EmailMsg` with the same method
