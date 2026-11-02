@@ -30,9 +30,11 @@ Rails.application.configure do
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
-  # Log to STDOUT with the current request id as a default log tag.
+  # Log to log/production.log (Capistrano links log/ into shared/log, and under Passenger STDOUT would end up in
+  # Apache's error_log instead), rotated at 10 MB keeping 5 files, with the current request id as a default log tag.
+  # A plain byte count: Active Support's `10.megabytes` isn't loaded yet when this file runs.
   config.log_tags = [ :request_id ]
-  config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
+  config.logger   = ActiveSupport::TaggedLogging.logger(Rails.root.join("log/production.log"), 5, 10 * 1024 * 1024)
 
   # Change to "debug" to log everything (including potentially personally-identifiable information!).
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
@@ -61,7 +63,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "smtp.postmarkapp.com",
-    port: 587,
+    port: 2525, # Postmark's alternative to 587, which failed TLS verification (hostname mismatch) from the server
     user_name: Rails.application.credentials.dig(:postmark, :server_token),
     password: Rails.application.credentials.dig(:postmark, :server_token), # required by Rails; any value works
     authentication: :plain,
@@ -81,10 +83,10 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  # Where the league listings file lives. The default is legacy's: Capistrano's deploy directory has
-  # releases/<timestamp>/ as Rails.root, so legacy's '../../..' reaches the admin user's home directory, i.e.
-  # /home/admin/league_listings.txt on the server. LEAGUE_LISTINGS_PATH overrides it (under Passenger it has to be set
-  # with passenger_env_var in the web server's site config).
+  # Where the league listings file lives. The default is legacy's relative path: Rails.root is
+  # <deploy_to>/releases/<timestamp>/, so '../../..' is the directory holding the app's deploy directory -- on the
+  # cPanel server /home/ptfghost/apps, i.e. /home/ptfghost/apps/league_listings.txt. LEAGUE_LISTINGS_PATH overrides it
+  # (under Passenger it has to be set with passenger_env_var in the web server's site config).
   config.x.league_listings_path = ENV.fetch("LEAGUE_LISTINGS_PATH") do
     Rails.root.join("../../../league_listings.txt").expand_path.to_s
   end

@@ -1,8 +1,8 @@
 # Must match the capistrano version pinned in the Gemfile.
 lock "~> 3.20.1"
 
-# Same deploy directory name as legacy pro-tour-v2.0 (/home/admin/protourfantasygolf.com), but on the new server for
-# the Rails 8 apps -- not legacy's VPS.
+# The new cPanel server for the Rails 8 apps. cPanel's Application Manager has this app registered at
+# /home/ptfghost/apps/protourfantasygolf.com (PassengerAppRoot ".../current"), so that is where it deploys.
 application = "protourfantasygolf.com"
 set :application, application
 
@@ -14,11 +14,17 @@ set :branch, "main"
 set :ssh_options, { forward_agent: true }
 set :pty, true
 
+# cPanel mounts /tmp noexec, so the git SSH wrapper script Capistrano uploads there can't be run ("cannot exec ...:
+# Permission denied"). The account's home directory is executable.
+set :tmp_dir, "/home/ptfghost/tmp"
+
 set :format, :airbrussh
 set :log_level, :info # :debug
 
-set :rvm_ruby_version, "3.4.11"
-set :deploy_to, "/home/admin/#{application}"
+# This server has no RVM: Ruby 3.4.11 lives in /opt/rubies and is what Passenger is set to run this app with
+# (cPanel Application Manager). Putting it first on the PATH makes the deploy's `bundle install` use the same Ruby.
+set :default_env, { path: "/opt/rubies/ruby-3.4.11/bin:$PATH" }
+set :deploy_to, "/home/ptfghost/apps/#{application}"
 set :keep_releases, 3 # how many old releases do we want to keep
 
 # config/master.key decrypts config/credentials.yml.enc and is not in git. Put it on the server once, at
@@ -33,7 +39,6 @@ namespace :deploy do
   task :restart do
     on roles(:all) do
       execute "chmod 755 #{release_path}/public"
-      execute "chown admin:nobody #{release_path} -R"
       # Restart Passenger
       execute "touch #{release_path}/tmp/restart.txt"
     end

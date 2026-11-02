@@ -7,7 +7,6 @@ require "capistrano/deploy"
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 
-require "capistrano/rvm"
 require "capistrano/bundler"
 
 # Precompiles Propshaft's assets on each deploy. No capistrano/rails/migrations: this app has no database.

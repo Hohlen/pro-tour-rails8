@@ -84,7 +84,7 @@ every line is listed (the "Summer" pool included, like any other). A line in the
 - The file's location is `config.x.league_listings_path`: `../my-docs/league_listings.txt` in development (the
   checkout next to this one), `test/fixtures/files/league_listings.txt` in test, and in production the
   `LEAGUE_LISTINGS_PATH` env var, defaulting to legacy's Capistrano-relative `../../../league_listings.txt`, which
-  from `releases/<timestamp>/` is `/home/admin/league_listings.txt` on the server (under Passenger an env var has to be
+  from `releases/<timestamp>/` is `/home/ptfghost/apps/league_listings.txt` on the server (under Passenger an env var has to be
   set with `passenger_env_var` in the site config).
 - Names sort as plain case-sensitive strings, as legacy's did ("BIG BOYS LEAGUE" before "Bottom Feeders").
 - No fragment caching, unlike legacy's `cache(controller, action)`: the page is ~70 parsed lines, and a cache keyed
@@ -141,14 +141,27 @@ Request" (legacy had that link commented out whenever it didn't want more league
 Phase 5 (deployment): **Capistrano + Passenger**, set up but not yet used (`Capfile`, `config/deploy.rb`,
 `config/deploy/production.rb`; Capistrano 3.20.1, whose version is pinned in the Gemfile and must match the `lock`
 line in `deploy.rb`). The Kamal/Docker scaffold (Dockerfile, `.kamal/`, `bin/kamal`, `bin/thrust`, ...) was removed, and
-the `kamal`/`thruster` Gemfile entries are commented out. It deploys to `/home/admin/protourfantasygolf.com` (the same
-directory name legacy uses) on a **new server for the Rails 8 apps, not legacy's VPS**; its address in
-`config/deploy/production.rb` is still the placeholder `w.x.y.z` (replace it with the new server's IP -- DNS still
-points at the old server at first), so a deploy can't land on legacy's machine by accident. Rails 8 specifics:
-`capistrano/rails/assets` precompiles Propshaft's assets, there is no `capistrano/rails/migrations` since there is no
-database, and `config/master.key` is a linked file the deploy requires to already exist in `shared/config/` on the
-server. Still to do on the server (one time): Ruby 3.4.11 under RVM, `master.key`, the league listings file, and a
-Passenger site for `current/public`.
+the `kamal`/`thruster` Gemfile entries are commented out. It targets the **new cPanel server for the Rails 8 apps**
+(68.183.164.91, as `ptfghost`; not legacy's VPS), by IP until DNS moves, deploying to
+`/home/ptfghost/apps/protourfantasygolf.com` -- **assumed** to be the path cPanel's Application Manager registers for
+this app (copied from storks-now's `.../apps/storksnow.com`; confirm it when the app is registered). Same server quirks
+as storks-now-rails8, which was deployed first:
+- No RVM: Ruby 3.4.11 is in `/opt/rubies`, and `deploy.rb` puts it first on the PATH (`default_env`); `capistrano-rvm`
+  was dropped.
+- cPanel mounts `/tmp` noexec, so `tmp_dir` is `/home/ptfghost/tmp` (for Capistrano's git SSH wrapper script).
+- `ed25519` and `bcrypt_pbkdf` are listed in the Gemfile: Net::SSH needs them for an ed25519 key, and they only came
+  with the `kamal` gem.
+- `Gemfile.lock`'s `BUNDLED WITH` must equal Ruby 3.4.11's bundled Bundler (2.6.9). A different one makes Bundler
+  auto-switch and re-exec through the system Ruby's shebang under Passenger ("Could not find rails-8.1.4"). Update with
+  `bundle update --bundler=2.6.9`.
+- Production logs to `log/production.log` (rotated, 10 MB x 5), since under Passenger STDOUT lands in Apache's
+  error_log and shared/log would stay empty; the byte count is plain because `10.megabytes` isn't loaded yet in
+  `config/environments/production.rb`.
+- Postmark uses port 2525: 587 failed TLS verification (hostname mismatch) from the server.
+Rails 8 specifics: `capistrano/rails/assets` precompiles Propshaft's assets, there is no
+`capistrano/rails/migrations` since there is no database, and `config/master.key` is a linked file the deploy requires
+to already exist in `shared/config/` on the server. Still to do on the server (one time): register the app in cPanel's
+Application Manager, `master.key`, and the league listings file.
 
 Conventions worth knowing before porting a page:
 - Legacy's Bootstrap 3 markup converts mechanically: `col-sm-*` -> `col-md-*` (Bootstrap 5's `sm` is 576px, its
@@ -188,11 +201,11 @@ reCAPTCHA test keys and a captured-mail delivery method, so none of this shows u
 - [x] **`postmark.server_token`** in encrypted credentials. Done: set to legacy's `POSTMARK_SERVER_TOKEN` (checked
   2026-10-09). Without it production can't send mail.
 - [ ] **`config/master.key`** is gitignored and was generated on this machine. Back it up somewhere safe -- without it
-  the encrypted credentials are unreadable -- and put a copy at `/home/admin/protourfantasygolf.com/shared/config/master.key`
+  the encrypted credentials are unreadable -- and put a copy at `/home/ptfghost/apps/protourfantasygolf.com/shared/config/master.key`
   on the server (Capistrano links it into every release and stops the deploy if it's missing).
-- [ ] **The league listings file**: put `league_listings.txt` at `/home/admin/league_listings.txt` on the server (what
+- [ ] **The league listings file**: put `league_listings.txt` at `/home/ptfghost/apps/league_listings.txt` on the server (what
   legacy's relative default resolves to under Capistrano), or set `LEAGUE_LISTINGS_PATH` with `passenger_env_var`.
-- [ ] **The server address** in `config/deploy/production.rb` (placeholder `w.x.y.z`), once the new server exists.
+- [ ] **Register the app** in cPanel's Application Manager at `/home/ptfghost/apps/protourfantasygolf.com` (Passenger app root `.../current`, Ruby 3.4), and confirm that path -- `deploy.rb` assumes it.
 - [ ] **`config.action_mailer.default_url_options`** host in `config/environments/production.rb` (currently
   `protourfantasygolf.com`), plus `force_ssl`/`assume_ssl` and `config.hosts` for the real domain.
 - [ ] Legacy `pro-tour-v2.0` stays live and untouched until cutover.

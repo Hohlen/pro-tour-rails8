@@ -50,8 +50,12 @@ group :development do
   # Deployment runs from the development workstation (see config/deploy.rb).
   gem "capistrano", "3.20.1" # when changing, update the `lock` version in config/deploy.rb to match
   gem "capistrano-bundler", "~> 2.0"
-  gem "capistrano-rvm"
   gem "capistrano-rails" # for the assets:precompile deploy step
+
+  # Net::SSH (what Capistrano connects with) can't use ed25519 keys without these two. They used to arrive with the
+  # kamal gem, which is why removing it broke deploys until they were added here.
+  gem "ed25519", ">= 1.2", "< 2.0"
+  gem "bcrypt_pbkdf", ">= 1.0", "< 2.0"
 end
 
 group :test do

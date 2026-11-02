@@ -26,17 +26,24 @@ keys, and sent mail is written to `log/development.log` instead of being deliver
 
 ## Deploying
 
-Capistrano deploys from your workstation to Passenger on the new server for the Rails 8 apps:
-`bundle exec cap production deploy`. See `config/deploy.rb` and `config/deploy/production.rb`. The server's address
-isn't set yet (`w.x.y.z` is a placeholder, to be replaced with the new server's IP; DNS still points at the old
-server, so the first deploys go by IP), and it deploys to `/home/admin/protourfantasygolf.com`, the same directory
-name legacy uses on its own VPS.
+Capistrano deploys from your workstation to the new cPanel server: `bundle exec cap production deploy`. See
+`config/deploy.rb` and `config/deploy/production.rb`. The first deploys go by IP address, since DNS still points at
+the old server until the new site is working.
 
-The server needs, once: Ruby 3.4.11 under RVM, a copy of `config/master.key` at
-`/home/admin/protourfantasygolf.com/shared/config/master.key` (the deploy stops early if it isn't there), the league
-listings file at `/home/admin/league_listings.txt` (or `LEAGUE_LISTINGS_PATH`), and a Passenger site pointing at
-`current/public`. The secrets (`recaptcha.secret_key` and `postmark.server_token`) live in the encrypted credentials.
-The full checklist is in `CLAUDE.md`, under "Before the first production deploy".
+The app deploys to `/home/ptfghost/apps/protourfantasygolf.com`, the path cPanel's Application Manager should have
+registered for it (Passenger's app root is `.../current`). Needed once on the server: a copy of `config/master.key`
+at `/home/ptfghost/apps/protourfantasygolf.com/shared/config/master.key` (the deploy stops early with a clear message
+if it's missing), the league listings file at `/home/ptfghost/apps/league_listings.txt` (or `LEAGUE_LISTINGS_PATH`), and
+Passenger set to run the app with Ruby 3.4.11, which is installed in `/opt/rubies/ruby-3.4.11` (there's no RVM;
+Capistrano puts that directory first on the PATH). cPanel's Application Manager lists Rubies by their
+`/usr/local/bin/rubyX.Y` name, so the server needs `ln -s /opt/rubies/ruby-3.4.11/bin/ruby /usr/local/bin/ruby3.4`
+(already there if another Rails 8 app is set up) and the app's Ruby set to 3.4. The deploy connects as `ptfghost`,
+which needs your SSH key in `~/.ssh/authorized_keys`, and GitHub access through your forwarded SSH agent.
+
+The secrets (`recaptcha.secret_key` and `postmark.server_token`) live in the encrypted credentials. `Gemfile.lock`'s
+`BUNDLED WITH` must stay equal to the Bundler that ships with Ruby 3.4.11 (2.6.9): a different one makes Bundler
+switch versions under Passenger, which fails with "Could not find rails-8.1.4". The full checklist is in `CLAUDE.md`,
+under "Before the first production deploy".
 
 ## More
 
