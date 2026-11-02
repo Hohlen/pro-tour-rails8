@@ -33,7 +33,7 @@ the old server until the new site is working.
 The app deploys to `/home/ptfghost/apps/protourfantasygolf.com`, the path cPanel's Application Manager should have
 registered for it (Passenger's app root is `.../current`). Needed once on the server: a copy of `config/master.key`
 at `/home/ptfghost/apps/protourfantasygolf.com/shared/config/master.key` (the deploy stops early with a clear message
-if it's missing), the league listings file at `/home/ptfghost/apps/league_listings.txt` (or `LEAGUE_LISTINGS_PATH`), and
+if it's missing), the league listings file at `/home/ptfghost/apps/protourfantasygolf.com/shared/league_listings.txt` (the deploy stops early, like for the key, if it isn't there), and
 Passenger set to run the app with Ruby 3.4.11, which is installed in `/opt/rubies/ruby-3.4.11` (there's no RVM;
 Capistrano puts that directory first on the PATH). cPanel's Application Manager lists Rubies by their
 `/usr/local/bin/rubyX.Y` name, so the server needs `ln -s /opt/rubies/ruby-3.4.11/bin/ruby /usr/local/bin/ruby3.4`

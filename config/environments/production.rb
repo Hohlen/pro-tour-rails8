@@ -83,12 +83,13 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  # Where the league listings file lives. The default is legacy's relative path: Rails.root is
-  # <deploy_to>/releases/<timestamp>/, so '../../..' is the directory holding the app's deploy directory -- on the
-  # cPanel server /home/ptfghost/apps, i.e. /home/ptfghost/apps/league_listings.txt. LEAGUE_LISTINGS_PATH overrides it
-  # (under Passenger it has to be set with passenger_env_var in the web server's site config).
+  # Where the league listings file lives: Capistrano's shared directory, which survives releases and is never in git.
+  # Rails.root is <deploy_to>/releases/<timestamp>/ (Rails resolves the `current` symlink), so '../../shared' is
+  # <deploy_to>/shared -- on the cPanel server /home/ptfghost/apps/protourfantasygolf.com/shared/league_listings.txt.
+  # LEAGUE_LISTINGS_PATH overrides it (under Passenger it has to be set with passenger_env_var in the web server's
+  # site config).
   config.x.league_listings_path = ENV.fetch("LEAGUE_LISTINGS_PATH") do
-    Rails.root.join("../../../league_listings.txt").expand_path.to_s
+    Rails.root.join("../../shared/league_listings.txt").expand_path.to_s
   end
 
   # reCAPTCHA for the Contact Us and Order Now forms. The site key is public -- it's in the page's HTML

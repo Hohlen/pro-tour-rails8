@@ -83,9 +83,10 @@ every line is listed (the "Summer" pool included, like any other). A line in the
   file that still lists earlier seasons' leagues shows them under that heading.
 - The file's location is `config.x.league_listings_path`: `../my-docs/league_listings.txt` in development (the
   checkout next to this one), `test/fixtures/files/league_listings.txt` in test, and in production the
-  `LEAGUE_LISTINGS_PATH` env var, defaulting to legacy's Capistrano-relative `../../../league_listings.txt`, which
-  from `releases/<timestamp>/` is `/home/ptfghost/apps/league_listings.txt` on the server (under Passenger an env var has to be
-  set with `passenger_env_var` in the site config).
+  `LEAGUE_LISTINGS_PATH` env var, defaulting to Capistrano's shared directory (`../../shared/league_listings.txt` from
+  `releases/<timestamp>/`, which is `/home/ptfghost/apps/protourfantasygolf.com/shared/league_listings.txt` on the
+  server; legacy's default was `../../../league_listings.txt`). A missing file would show an empty table, so it has to be put
+  there by hand, and `deploy.rb` stops the deploy (`deploy:check:league_listings`) if it isn't there. Under Passenger an env var has to be set with `passenger_env_var` in the site config.
 - Names sort as plain case-sensitive strings, as legacy's did ("BIG BOYS LEAGUE" before "Bottom Feeders").
 - No fragment caching, unlike legacy's `cache(controller, action)`: the page is ~70 parsed lines, and a cache keyed
   only on the action served stale rows until someone cleared it whenever the file was edited.
@@ -203,8 +204,9 @@ reCAPTCHA test keys and a captured-mail delivery method, so none of this shows u
 - [ ] **`config/master.key`** is gitignored and was generated on this machine. Back it up somewhere safe -- without it
   the encrypted credentials are unreadable -- and put a copy at `/home/ptfghost/apps/protourfantasygolf.com/shared/config/master.key`
   on the server (Capistrano links it into every release and stops the deploy if it's missing).
-- [ ] **The league listings file**: put `league_listings.txt` at `/home/ptfghost/apps/league_listings.txt` on the server (what
-  legacy's relative default resolves to under Capistrano), or set `LEAGUE_LISTINGS_PATH` with `passenger_env_var`.
+- [ ] **The league listings file**: put the converted (8-field) `league_listings.txt` at
+  `/home/ptfghost/apps/protourfantasygolf.com/shared/league_listings.txt` (the production default), or set
+  `LEAGUE_LISTINGS_PATH` with `passenger_env_var`.
 - [ ] **Register the app** in cPanel's Application Manager at `/home/ptfghost/apps/protourfantasygolf.com` (Passenger app root `.../current`, Ruby 3.4), and confirm that path -- `deploy.rb` assumes it.
 - [ ] **`config.action_mailer.default_url_options`** host in `config/environments/production.rb` (currently
   `protourfantasygolf.com`), plus `force_ssl`/`assume_ssl` and `config.hosts` for the real domain.

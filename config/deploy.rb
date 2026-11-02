@@ -35,7 +35,24 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache"
 
 after "deploy:publishing", "deploy:restart"
 
+# The league listings file isn't in git and the Leagues page only logs a warning, then shows an empty table, when it's
+# missing. So, like config/master.key above, the deploy stops early if it hasn't been put in shared/ yet.
+after "deploy:check:linked_files", "deploy:check:league_listings"
+
 namespace :deploy do
+  namespace :check do
+    desc "Check that league_listings.txt is in the shared directory"
+    task :league_listings do
+      on roles(:app) do
+        file = shared_path.join("league_listings.txt")
+        next if test("[ -f #{file} ]")
+
+        error "#{file} does not exist on #{host}. Copy the league listings file there (8 pipe-delimited fields per line), then deploy again."
+        exit 1
+      end
+    end
+  end
+
   task :restart do
     on roles(:all) do
       execute "chmod 755 #{release_path}/public"
