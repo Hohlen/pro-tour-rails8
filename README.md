@@ -26,19 +26,34 @@ keys, and sent mail is written to `log/development.log` instead of being deliver
 
 ## Deploying
 
-Capistrano deploys from your workstation to the new cPanel server: `bundle exec cap production deploy`. See
-`config/deploy.rb` and `config/deploy/production.rb`. The first deploys go by IP address, since DNS still points at
-the old server until the new site is working.
+Capistrano deploys from your workstation to the new cPanel server: `bundle exec cap production deploy`. The server's
+address and user are in `config/deploy/production.rb`; the repository, branch, deploy directory and Ruby path are in
+`config/deploy.rb`. Deploys go by IP address on purpose, not by hostname, so a DNS change (a repoint, a Cloudflare proxy) can never send
+a deploy to the wrong machine. The deploy connects as `ptfghost`, which needs your SSH key in `~/.ssh/authorized_keys`, and GitHub access
+through your forwarded SSH agent.
 
-The app deploys to `/home/ptfghost/apps/protourfantasygolf.com`, the path cPanel's Application Manager should have
-registered for it (Passenger's app root is `.../current`). Needed once on the server: a copy of `config/master.key`
-at `/home/ptfghost/apps/protourfantasygolf.com/shared/config/master.key` (the deploy stops early with a clear message
-if it's missing), the league listings file at `/home/ptfghost/apps/protourfantasygolf.com/shared/league_listings.txt` (the deploy stops early, like for the key, if it isn't there), and
-Passenger set to run the app with Ruby 3.4.11, which is installed in `/opt/rubies/ruby-3.4.11` (there's no RVM;
-Capistrano puts that directory first on the PATH). cPanel's Application Manager lists Rubies by their
-`/usr/local/bin/rubyX.Y` name, so the server needs `ln -s /opt/rubies/ruby-3.4.11/bin/ruby /usr/local/bin/ruby3.4`
-(already there if another Rails 8 app is set up) and the app's Ruby set to 3.4. The deploy connects as `ptfghost`,
-which needs your SSH key in `~/.ssh/authorized_keys`, and GitHub access through your forwarded SSH agent.
+The app deploys to `/home/ptfghost/apps/protourfantasygolf.com`, and Passenger serves `.../current`. Needed once on
+the server:
+- A copy of `config/master.key` at `/home/ptfghost/apps/protourfantasygolf.com/shared/config/master.key` (the deploy
+  stops early with a clear message if it's missing).
+- The league listings file at `/home/ptfghost/apps/protourfantasygolf.com/shared/league_listings.txt`, in the
+  8-field format (the deploy stops early, like for the key, if it isn't there).
+- Passenger configured for the hostname, as described below.
+
+**Passenger is configured by hand, not through cPanel's Application Manager.** That page (and
+`uapi PassengerApps list_applications`) lists nothing for this account, even for the apps that are running. Each app
+is an Apache include file, edited as root, in `/etc/apache2/conf.d/userdata/std/2_4/ptfghost/<hostname>/` and in the
+matching `ssl/2_4/...` directory (the same file twice, for http and https), named `*-passenger.conf`. For this app,
+under `ptfg.hosting.protourfantasygolf.com/`, it sets `PassengerAppRoot` (`.../protourfantasygolf.com/current`),
+`PassengerAppEnv "production"`, `PassengerAppGroupName` and **`PassengerRuby /usr/local/bin/ruby3.4`**. Ruby 3.4.11 is
+installed in `/opt/rubies/ruby-3.4.11`, and `/usr/local/bin/ruby3.4` is a symlink to it (create it with
+`ln -s /opt/rubies/ruby-3.4.11/bin/ruby /usr/local/bin/ruby3.4` if it's missing). There's no RVM: Capistrano puts
+`/opt/rubies/ruby-3.4.11/bin` first on the PATH for the deploy. After editing an include file, run
+`/scripts/rebuildhttpdconf && httpd -t && /scripts/restartsrv_httpd`.
+
+If the site returns a Passenger 500 ("Web application could not be started") with an Error ID, search for that ID in
+Apache's `/var/log/apache2/error_log`; the boot failure is there. "Could not find rails-8.1.4" with
+`/usr/share/gems/gems/bundler-...` in the trace means `PassengerRuby` is the system Ruby (`ruby3.3`), not `ruby3.4`.
 
 The secrets (`recaptcha.secret_key` and `postmark.server_token`) live in the encrypted credentials. `Gemfile.lock`'s
 `BUNDLED WITH` must stay equal to the Bundler that ships with Ruby 3.4.11 (2.6.9): a different one makes Bundler

@@ -143,10 +143,19 @@ Phase 5 (deployment): **Capistrano + Passenger**, set up but not yet used (`Capf
 `config/deploy/production.rb`; Capistrano 3.20.1, whose version is pinned in the Gemfile and must match the `lock`
 line in `deploy.rb`). The Kamal/Docker scaffold (Dockerfile, `.kamal/`, `bin/kamal`, `bin/thrust`, ...) was removed, and
 the `kamal`/`thruster` Gemfile entries are commented out. It targets the **new cPanel server for the Rails 8 apps**
-(68.183.164.91, as `ptfghost`; not legacy's VPS), by IP until DNS moves, deploying to
-`/home/ptfghost/apps/protourfantasygolf.com` -- **assumed** to be the path cPanel's Application Manager registers for
-this app (copied from storks-now's `.../apps/storksnow.com`; confirm it when the app is registered). Same server quirks
-as storks-now-rails8, which was deployed first:
+(68.183.164.91, as `ptfghost`; not legacy's VPS), always by IP address rather than hostname, so a DNS change can never
+send a deploy to the wrong machine, deploying to
+`/home/ptfghost/apps/protourfantasygolf.com` (the test hostname is `ptfg.hosting.protourfantasygolf.com`). Same server
+quirks as storks-now-rails8, which was deployed first:
+- **Passenger is configured by hand, not through cPanel's Application Manager**, which lists no apps for this account
+  (`uapi PassengerApps list_applications` is empty, though storks-now runs). Each app is an Apache include file, edited
+  as root, in `/etc/apache2/conf.d/userdata/std/2_4/ptfghost/<hostname>/*-passenger.conf` and the same file under
+  `ssl/2_4/...`, setting `PassengerAppRoot` (`.../current`), `PassengerAppEnv`, `PassengerAppGroupName` and
+  `PassengerRuby`. `PassengerRuby` must be `/usr/local/bin/ruby3.4`: the hostname's file once said `ruby3.3` (left from
+  the legacy copy it first served), and Passenger then used the system Ruby and failed with "Could not find
+  rails-8.1.4" and `/usr/share/gems/gems/bundler-...` in the trace -- only in Apache's `/var/log/apache2/error_log`,
+  under the 500 page's Error ID, since `production.log` stays empty when Rails never boots. After editing:
+  `/scripts/rebuildhttpdconf && httpd -t && /scripts/restartsrv_httpd`.
 - No RVM: Ruby 3.4.11 is in `/opt/rubies`, and `deploy.rb` puts it first on the PATH (`default_env`); `capistrano-rvm`
   was dropped.
 - cPanel mounts `/tmp` noexec, so `tmp_dir` is `/home/ptfghost/tmp` (for Capistrano's git SSH wrapper script).
@@ -161,8 +170,8 @@ as storks-now-rails8, which was deployed first:
 - Postmark uses port 2525: 587 failed TLS verification (hostname mismatch) from the server.
 Rails 8 specifics: `capistrano/rails/assets` precompiles Propshaft's assets, there is no
 `capistrano/rails/migrations` since there is no database, and `config/master.key` is a linked file the deploy requires
-to already exist in `shared/config/` on the server. Still to do on the server (one time): register the app in cPanel's
-Application Manager, `master.key`, and the league listings file.
+to already exist in `shared/config/` on the server. Needed on the server (one time): `master.key`, the league listings
+file, and the Passenger include file above (done for the test hostname).
 
 Conventions worth knowing before porting a page:
 - Legacy's Bootstrap 3 markup converts mechanically: `col-sm-*` -> `col-md-*` (Bootstrap 5's `sm` is 576px, its
@@ -207,9 +216,13 @@ reCAPTCHA test keys and a captured-mail delivery method, so none of this shows u
 - [ ] **The league listings file**: put the converted (8-field) `league_listings.txt` at
   `/home/ptfghost/apps/protourfantasygolf.com/shared/league_listings.txt` (the production default), or set
   `LEAGUE_LISTINGS_PATH` with `passenger_env_var`.
-- [ ] **Register the app** in cPanel's Application Manager at `/home/ptfghost/apps/protourfantasygolf.com` (Passenger app root `.../current`, Ruby 3.4), and confirm that path -- `deploy.rb` assumes it.
-- [ ] **`config.action_mailer.default_url_options`** host in `config/environments/production.rb` (currently
-  `protourfantasygolf.com`), plus `force_ssl`/`assume_ssl` and `config.hosts` for the real domain.
+- [ ] **Passenger include file** for the production hostname (copy the test hostname's `*-passenger.conf`, http and ssl, with
+  `PassengerRuby /usr/local/bin/ruby3.4`), once the production domain is chosen. Not done through Application Manager.
+- [x] **`config.hosts`** in `config/environments/production.rb`: protourfantasygolf.com, www, and the test hostname
+  `ptfg.hosting.protourfantasygolf.com`, with `/up` exempt (set 2026-11-03, like storks-now-rails8). Anything else, such
+  as the bare IP address, gets a 403.
+- [ ] **`force_ssl`/`assume_ssl`** (commented out) and `config.action_mailer.default_url_options` (currently
+  `protourfantasygolf.com`), once DNS is repointed and HTTPS is confirmed for the real domain.
 - [ ] Legacy `pro-tour-v2.0` stays live and untouched until cutover.
 
 To see which credentials are set (prints only true/false, never a value):

@@ -75,13 +75,14 @@ Rails.application.configure do
   config.i18n.fallbacks = true
 
   # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
-  #
+  config.hosts = [
+    "protourfantasygolf.com",
+    "www.protourfantasygolf.com",
+    "ptfg.hosting.protourfantasygolf.com" # test hostname from before the DNS cutover
+  ]
+
   # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   # Where the league listings file lives: Capistrano's shared directory, which survives releases and is never in git.
   # Rails.root is <deploy_to>/releases/<timestamp>/ (Rails resolves the `current` symlink), so '../../shared' is
