@@ -25,7 +25,7 @@ set :log_level, :info # :debug
 # (cPanel Application Manager). Putting it first on the PATH makes the deploy's `bundle install` use the same Ruby.
 set :default_env, { path: "/opt/rubies/ruby-3.4.11/bin:$PATH" }
 set :deploy_to, "/home/ptfghost/apps/#{application}"
-set :keep_releases, 3 # how many old releases do we want to keep
+set :keep_releases, 2 # how many old releases do we want to keep
 
 # config/master.key decrypts config/credentials.yml.enc and is not in git. Put it on the server once, at
 # #{deploy_to}/shared/config/master.key; every release then gets a symlink to it. The deploy stops early
