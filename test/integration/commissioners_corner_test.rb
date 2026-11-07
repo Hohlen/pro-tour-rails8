@@ -37,11 +37,6 @@ class CommissionersCornerTest < ActionDispatch::IntegrationTest
     get commissioners_corner_path
 
     assert_select ".ccPrice-amount", text: MIN_LEAGUE_FEE
-  end
-
-  test "the spam warning is bolded as a whole (legacy's had a stray empty <b></b> before it)" do
-    get commissioners_corner_path
-
-    assert_select ".card-body li b", text: "don’t mark PTFG emails as spam"
+    assert_select ".ccPrice", count: 3
   end
 end

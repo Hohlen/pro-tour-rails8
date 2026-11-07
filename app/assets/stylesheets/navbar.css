@@ -43,6 +43,11 @@
 .navbar-custom {
   --bs-navbar-nav-link-padding-x: 16px;
 }
+/* Below the 768px collapse point the links come from .navbar-nav's own --bs-nav-link-padding-x, which Bootstrap
+   sets to 0 there, so the selected pill's text sat flush against its left edge in the hamburger menu. */
+.navbar-custom .navbar-nav {
+  --bs-nav-link-padding-x: 16px;
+}
 .navbar-custom .nav-link {
   color: var(--ptfg-navy);
   border-radius: 20px;
@@ -65,9 +70,23 @@
 .navbar-custom .navbar-toggler {
   border-color: rgba(11, 26, 103, 0.4);
 }
-.navbar-custom .navbar-toggler:hover,
+/* Bootstrap 5.3 draws a 4px ring in the toggler's text color (black at 65%) whenever it has focus, and a tap leaves
+   it focused, so on a phone the button sat in a heavy dark frame. Instead: a soft navy ring only for keyboard focus,
+   and the light tint only while hovered with a real pointer (touch screens keep :hover after a tap) or while the
+   menu is open. */
 .navbar-custom .navbar-toggler:focus {
+  box-shadow: none;
+}
+.navbar-custom .navbar-toggler:focus-visible {
+  box-shadow: 0 0 0 3px rgba(11, 26, 103, 0.3);
+}
+.navbar-custom .navbar-toggler[aria-expanded="true"] {
   background-color: rgba(11, 26, 103, 0.12);
+}
+@media (hover: hover) {
+  .navbar-custom .navbar-toggler:hover {
+    background-color: rgba(11, 26, 103, 0.12);
+  }
 }
 /* Bootstrap's default toggler icon is a baked-in dark SVG background-image with no currentColor support, so
    recoloring it navy means replacing it with an equivalent inline SVG. */

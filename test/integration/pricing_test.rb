@@ -9,6 +9,8 @@ class PricingTest < ActionDispatch::IntegrationTest
     assert_select ".prPriceCard-amount", /#{Regexp.escape(MIN_LEAGUE_FEE)}\s*\/ season/
     assert_select ".prPriceCard-sub", "for up to #{MIN_TEAMS} teams"
     assert_select ".prPriceStat", 3
+    assert_select ".prPriceStat-label", "Per Team After 100 (Up To 300)"
+    assert_select ".hmHero-lead", /up to a maximum of 300 teams/
   end
 
   test "explains billing and lists the payment methods" do
