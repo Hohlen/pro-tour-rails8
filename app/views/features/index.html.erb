@@ -25,34 +25,100 @@
       </p>
     </div>
 
+    <div class="ftStats">
+      <div class="ftStat">
+        <i class="bi bi-controller ftStat-icon" aria-hidden="true"></i>
+        <span class="ftStat-value">1 &ndash; 4</span>
+        <span class="ftStat-label">game formats to choose from</span>
+      </div>
+      <div class="ftStat">
+        <i class="bi bi-flag ftStat-icon" aria-hidden="true"></i>
+        <span class="ftStat-value">18 &ndash; 33</span>
+        <span class="ftStat-label">tournaments, including all four majors</span>
+      </div>
+      <div class="ftStat">
+        <i class="bi bi-lightning-charge ftStat-icon" aria-hidden="true"></i>
+        <span class="ftStat-value">3 &ndash; 4 hrs</span>
+        <span class="ftStat-label">to final results after the round ends</span>
+      </div>
+      <div class="ftStat">
+        <i class="bi bi-telephone ftStat-icon" aria-hidden="true"></i>
+        <span class="ftStat-value">15 &ndash; 20 min</span>
+        <span class="ftStat-label">commissioner training call included</span>
+      </div>
+    </div>
+
     <div class="hmFeatures">
-      <div class="hmFeatureGroup hmFeatureGroup--blue">
-        <h4 class="hmFeatureGroup-title">As Commissioner, You'll Have the Ability To</h4>
-        <div class="hmFeatureGrid">
-          <%= render "shared/feature_item" do %>Customize prize structures for the season, segments, weekly winners, skins games, majors, and one &amp; done streaks.<% end %>
-          <%= render "shared/feature_item" do %>Make lineup changes on behalf of participants at any time&mdash;perfect for those who miss the deadline or can&rsquo;t get online, especially if you're a generous Commish.<% end %>
-          <%= render "shared/feature_item" do %>Set up league teams each season (unless you opt for self sign-up). From season two onward, you can even pre-load teams from the previous year to streamline setup.<% end %>
-          <%= render "shared/feature_item" do %>Keep track of who has paid their league entry fee.<% end %>
-          <%= render "shared/feature_item" do %>Email all league participants directly from the league website.<% end %>
-          <%= render "shared/feature_item" do %>Post important announcements on the league website.<% end %>
+      <div class="hmFeatureGroup hmFeatureGroup--blue ftGroup">
+        <h4 class="hmFeatureGroup-title ftGroup-title">
+          <i class="bi bi-person-gear" aria-hidden="true"></i>As Commissioner, You'll Have the Ability To
+        </h4>
+        <div class="hmFeatureGrid ftGrid">
+          <div class="hmFeatureItem ftItem">
+            <span class="hmFeatureItem-icon ftItem-icon"><i class="bi bi-trophy" aria-hidden="true"></i></span>
+            <span>
+              Customize prize structures for the season, segments, weekly winners, skins games, majors, and
+              one &amp; done streaks.
+            </span>
+          </div>
+          <div class="hmFeatureItem ftItem">
+            <span class="hmFeatureItem-icon ftItem-icon"><i class="bi bi-cash-coin" aria-hidden="true"></i></span>
+            <span>Keep track of who has paid their league entry fee.</span>
+          </div>
+          <div class="hmFeatureItem ftItem">
+            <span class="hmFeatureItem-icon ftItem-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+            <span>
+              Set up teams each season or let participants self sign-up (recommended). From season 2 on, you
+              can pre-load last year's teams to speed up setup.
+            </span>
+          </div>
+          <div class="hmFeatureItem ftItem">
+            <span class="hmFeatureItem-icon ftItem-icon"><i class="bi bi-pencil-square" aria-hidden="true"></i></span>
+            <span>
+              Make lineup changes on behalf of participants at any time &mdash; perfect for those who miss the deadline
+              or can&rsquo;t get online, especially if you're a generous Commish.
+            </span>
+          </div>
+          <div class="hmFeatureItem ftItem">
+            <span class="hmFeatureItem-icon ftItem-icon"><i class="bi bi-envelope" aria-hidden="true"></i></span>
+            <span>
+              Email all league participants directly from the league website, or create your own email distribution list.
+            </span>
+          </div>
+          <div class="hmFeatureItem ftItem">
+            <span class="hmFeatureItem-icon ftItem-icon"><i class="bi bi-megaphone" aria-hidden="true"></i></span>
+            <span>Post important announcements on the league website.</span>
+          </div>
         </div>
       </div>
 
-      <div class="hmFeatureGroup hmFeatureGroup--green">
-        <h4 class="hmFeatureGroup-title">All Participants Will Have Access To</h4>
-        <div class="hmFeatureGrid">
-          <%= render "shared/feature_item" do %>Selecting their time zone so lineup deadlines automatically display in their local time.<% end %>
-          <%= render "shared/feature_item" do %>Choosing whether to receive weekly lineup reminder emails and alerts for missed lineups.<% end %>
-          <%= render "shared/feature_item" do %>Receiving confirmation emails once a lineup is submitted.<% end %>
+      <div class="hmFeatureGroup hmFeatureGroup--green ftGroup">
+        <h4 class="hmFeatureGroup-title ftGroup-title">
+          <i class="bi bi-people" aria-hidden="true"></i>All Participants Will Have Access To
+        </h4>
+        <div class="hmFeatureGrid ftGrid">
+          <div class="hmFeatureItem ftItem">
+            <span class="hmFeatureItem-icon ftItem-icon"><i class="bi bi-globe2" aria-hidden="true"></i></span>
+            <span>Selecting their time zone so lineup deadlines automatically display in their local time.</span>
+          </div>
+          <div class="hmFeatureItem ftItem">
+            <span class="hmFeatureItem-icon ftItem-icon"><i class="bi bi-bell" aria-hidden="true"></i></span>
+            <span>Choosing whether to receive weekly lineup reminders and missing lineup notifications via email.</span>
+          </div>
+          <div class="hmFeatureItem ftItem">
+            <span class="hmFeatureItem-icon ftItem-icon"><i class="bi bi-envelope-check" aria-hidden="true"></i></span>
+            <span>Receiving confirmation emails once a lineup is submitted.</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="gfGrid" style="margin-top: 6px">
+    <div class="gfGrid ftInfoGrid" style="margin-top: 6px">
       <div class="gfCard gfCard--blue">
         <div class="gfCard-top"></div>
         <div class="gfCard-header">
-          <h4 class="gfCard-title">Fast, Automated Scoring</h4>
+          <span class="gfCard-number"><i class="bi bi-lightning-charge" aria-hidden="true"></i></span>
+          <h4 class="gfCard-title">Fast, Automated Post-Round Scoring</h4>
         </div>
         <div class="gfCard-body">
           <p class="gfCard-paragraph">
@@ -66,12 +132,13 @@
       <div class="gfCard gfCard--green">
         <div class="gfCard-top"></div>
         <div class="gfCard-header">
+          <span class="gfCard-number"><i class="bi bi-bell" aria-hidden="true"></i></span>
           <h4 class="gfCard-title">Automated Reminders</h4>
         </div>
         <div class="gfCard-body">
           <p class="gfCard-paragraph">
             The system automatically sends weekly lineup reminder emails every Wednesday morning. If a participant
-            hasn&rsquo;t submitted a lineup, a follow-up reminder goes out early Thursday morning.
+            hasn&rsquo;t submitted a lineup, a subsequent missing lineup email goes out early Thursday morning.
           </p>
         </div>
       </div>
@@ -79,6 +146,7 @@
       <div class="gfCard gfCard--purple">
         <div class="gfCard-top"></div>
         <div class="gfCard-header">
+          <span class="gfCard-number"><i class="bi bi-trophy" aria-hidden="true"></i></span>
           <h4 class="gfCard-title">History, Trophies &amp; Clubhouse</h4>
         </div>
         <div class="gfCard-body">
@@ -92,8 +160,8 @@
       </div>
     </div>
 
-    <div class="hmCallout">
-      <h4 class="hmCallout-title">Ready to Get Started?</h4>
+    <div class="hmCallout ftCta">
+      <h4 class="hmCallout-title"><i class="bi bi-flag-fill ftCta-icon" aria-hidden="true"></i>Ready to Get Started?</h4>
       <p class="hmCallout-text">
         We also include a 15–20 minute commissioner training call with your entry fee to help you get up to speed.
         The league setup fee is <b><%= MIN_LEAGUE_FEE %></b>, due before we get things rolling. The remaining
@@ -101,11 +169,12 @@
       </p>
       <p class="hmCallout-text">
         If you've been managing your fantasy golf league through spreadsheets and email, just imagine how much
-        time this will save you. So&hellip; what are you waiting for? Have questions? Just send us an
-        <%= obfuscated_mail_to ADMIN_FULL_EMAIL_ADDRESS, "email", subject: "PTFG Private League Inquiry" %>.
+        time this will save you. So&hellip; what are you waiting for?
       </p>
-      <%= obfuscated_mail_to ADMIN_FULL_EMAIL_ADDRESS, "Contact Us About A League",
-                             subject: "PTFG Private League Inquiry", class: "hmBtn hmBtn--primary" %>
+      <div class="ftCta-buttons">
+        <%= link_to "New League Request", order_now_path, class: "hmBtn hmBtn--primary" %>
+        <%= link_to "Not Sure Yet? Contact Us", contact_us_path, class: "hmBtn hmBtn--outline" %>
+      </div>
     </div>
   </div>
   <%= render "layouts/right_logo" %>

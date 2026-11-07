@@ -19,12 +19,13 @@ class FeaturesTest < ActionDispatch::IntegrationTest
     assert_select ".hmCallout b", MIN_LEAGUE_FEE
   end
 
-  test "both contact links are mailto links that keep the address out of the page as plain text" do
+  test "the call to action has a New League Request pill and a Contact Us pill, and the address isn't anywhere on the page" do
     get features_path
 
-    assert_select ".hmCallout a[href^='mailto:%']", 2
-    assert_select ".hmCallout a.hmBtn", "Contact Us About A League"
+    assert_select ".hmCallout a.hmBtn--primary[href='#{order_now_path}']", "New League Request"
+    assert_select ".hmCallout a.hmBtn--outline[href='#{contact_us_path}']", "Not Sure Yet? Contact Us"
+    assert_select ".hmCallout a", 2
+    assert_select "a[href^='mailto:']", 0
     assert_no_match(/FantasyGolfCommissioner/i, response.body)
-    assert_select ".hmCallout a[href*='subject=PTFG%20Private%20League%20Inquiry']", 2
   end
 end

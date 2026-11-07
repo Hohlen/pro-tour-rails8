@@ -25,14 +25,4 @@ module ApplicationHelper
     end
     active ? "nav-link active" : "nav-link"
   end
-
-  # A mailto: link whose address isn't in the page as plain text, to keep it away from simple scrapers. Rails 2's
-  # mail_to(..., encode: "hex") did this and was dropped in Rails 4, so this reproduces its output: letters and
-  # digits become %xx escapes, which every browser decodes when the link is clicked. The link text is whatever
-  # the caller passes (never the address itself).
-  def obfuscated_mail_to(address, text, subject: nil, **html_options)
-    href = "mailto:" + address.gsub(/[[:alnum:]]/) { |char| format("%%%02x", char.ord) }
-    href += "?subject=#{ERB::Util.url_encode(subject)}" if subject
-    link_to text, href, html_options
-  end
 end

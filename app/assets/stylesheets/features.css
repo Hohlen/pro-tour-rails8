@@ -1,0 +1,212 @@
+/* Features page: a stat strip under the hero, the two feature lists as cards with an icon on every row, icons on the
+   three info cards, and a navy call-to-action panel. Everything here hangs off ft* classes added in the view, because
+   the .hmFeatureGroup/.hmFeatureItem/.hmCallout rules are shared with Home and Pricing. */
+
+/* ---- Stat strip ---- */
+.ftStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 4px 0 28px 0;
+}
+
+.ftStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 12px;
+  background: #fff;
+  border: 1px solid var(--ptfg-border);
+  border-top: 4px solid var(--ptfg-navy);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(20, 20, 40, 0.06);
+}
+
+.ftStat:nth-child(2) { border-top-color: var(--ptfg-green); }
+.ftStat:nth-child(3) { border-top-color: var(--ptfg-red); }
+.ftStat:nth-child(4) { border-top-color: var(--ptfg-purple); }
+
+.ftStat-icon {
+  font-size: 22px;
+  color: var(--ptfg-navy);
+  margin-bottom: 4px;
+}
+
+.ftStat:nth-child(2) .ftStat-icon { color: var(--ptfg-green); }
+.ftStat:nth-child(3) .ftStat-icon { color: var(--ptfg-red); }
+.ftStat:nth-child(4) .ftStat-icon { color: var(--ptfg-purple); }
+
+.ftStat-value {
+  font-size: 26px;
+  font-weight: bold;
+  line-height: 1.1;
+  color: var(--ptfg-heading);
+}
+
+.ftStat-label {
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--ptfg-muted);
+}
+
+/* ---- The two feature lists, as cards ---- (selectors start with .ftGroup so they outrank home.css, which loads
+   after this file and styles the same elements) */
+.ftGroup {
+  background: #fff;
+  border: 1px solid var(--ptfg-border);
+  border-top: 5px solid var(--hm-accent);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(20, 20, 40, 0.06);
+  padding: 20px 22px 22px;
+}
+
+.ftGroup .ftGroup-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 0;
+  border-left: 0;
+  margin-bottom: 16px;
+}
+
+.ftGroup .ftGroup-title .bi {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--hm-accent);
+  color: #fff;
+  font-size: 18px;
+}
+
+.ftGroup .ftGrid {
+  gap: 12px 16px;
+}
+
+.ftGroup .ftItem {
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid var(--ptfg-border);
+  border-left: 4px solid var(--hm-accent);
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(20, 20, 40, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ftGroup .ftItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(20, 20, 40, 0.1);
+}
+
+.ftGroup .ftItem-icon {
+  width: 34px;
+  height: 34px;
+  margin-top: 0;
+  font-size: 17px;
+}
+
+/* ---- Icon in the three info cards: reuses the circle .gfCard-number draws, with a glyph instead of a digit ---- */
+.gfCard-number .bi {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* ---- The three info cards: one per row, so the third doesn't sit alone under two ---- */
+.gfGrid.ftInfoGrid {
+  grid-template-columns: 1fr;
+}
+
+/* ---- Call to action ---- (selectors start with .hmCallout so they outrank home.css, which loads after this file) */
+.hmCallout.ftCta {
+  position: relative;
+  overflow: hidden;
+  padding: 28px 30px;
+  background: linear-gradient(135deg, var(--ptfg-navy) 0%, #1d3197 100%);
+  border: 0;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(11, 26, 103, 0.3);
+}
+
+.ftCta::after {
+  content: "";
+  position: absolute;
+  right: -50px;
+  top: -50px;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+}
+
+.hmCallout.ftCta .hmCallout-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 22px;
+  color: #fff;
+}
+
+.ftCta-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 18px;
+}
+
+.hmCallout.ftCta .hmCallout-text {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.hmCallout.ftCta .hmCallout-text b {
+  color: #fff;
+}
+
+.hmCallout.ftCta .hmCallout-text a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.hmCallout.ftCta .hmBtn--primary {
+  background: #fff;
+  color: var(--ptfg-navy) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Two pills side by side (stacked on a narrow screen): the main action in white, the softer one outlined. */
+.ftCta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hmCallout.ftCta .hmBtn--outline {
+  background: transparent;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.hmCallout.ftCta .hmBtn--outline:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 575.98px) {
+  .ftGroup {
+    padding: 16px 14px 18px;
+  }
+
+  .ftCta {
+    padding: 22px 18px;
+  }
+}
