@@ -1,0 +1,143 @@
+/* Commissioner's Corner, "League Setup" panel: a lead paragraph, a note, then titled sections (schedule options as
+   cards, the two prices as tiles, menu paths as chips). The other two panels keep the classic look (panels.css). */
+.ccSetup > p,
+.ccSection > p {
+  line-height: 1.6;
+}
+
+.ccSetup-lead {
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+
+.ccNote {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background: var(--ptfg-navy-hover);
+  border-left: 4px solid var(--ptfg-navy);
+  border-radius: 8px;
+  line-height: 1.6;
+}
+
+.ccNote-icon {
+  color: var(--ptfg-navy);
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.ccSection {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--ptfg-border);
+}
+
+.ccSection-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--ptfg-navy);
+}
+
+.ccSection-title .bi {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ptfg-navy-light);
+  font-size: 16px;
+}
+
+/* Schedule options: three cards side by side on a wide screen, stacked on a narrow one. */
+.ccOptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.ccOption {
+  --cc-accent: var(--ptfg-navy);
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid var(--ptfg-border);
+  border-top: 4px solid var(--cc-accent);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(20, 20, 40, 0.06);
+}
+
+.ccOption--blue { --cc-accent: var(--ptfg-navy); }
+.ccOption--green { --cc-accent: var(--ptfg-green); }
+.ccOption--red { --cc-accent: var(--ptfg-red); }
+
+.ccOption-title {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: var(--cc-accent);
+}
+
+.ccOption p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.ccHint {
+  color: var(--ptfg-muted);
+  margin-bottom: 0;
+}
+
+/* The two prices as tiles. */
+.ccPrices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  max-width: 640px;
+  margin-bottom: 14px;
+}
+
+.ccPrice {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #eaf7ee 0%, #f6fbf7 100%);
+  border: 1px solid #cfe9d6;
+  border-radius: 10px;
+}
+
+.ccPrice-amount {
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1.1;
+  color: var(--ptfg-green);
+}
+
+.ccPrice-label {
+  color: var(--ptfg-body-gray);
+}
+
+/* A menu path ("Commish > PTFG Payment") as a chip. */
+.ccPath {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--ptfg-navy-light);
+  border-radius: 999px;
+  color: var(--ptfg-navy);
+}
+
+.ccPath .bi {
+  font-size: 12px;
+}

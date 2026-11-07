@@ -13,60 +13,106 @@
     <%= season %> season including:<br><br>
     <ol style="margin-left: 5px">
       <li>
-        PTFG has integrated with a <b>3rd party email delivery service</b> to help ensure that messages from
-        our website reach participant's inboxes.
+        There are no <b>Hawaii</b> tournaments this year so the <%= season %> PGA Tour season starts on January 21st
+        this year.
       </li>
       <li>
-        There is no <b>Tournament of Champions</b> tournament so the <%= season %> PGA Tour season starts a week
-        later than usual.
-      </li>
-      <li>
-        The <b>TOUR Championship</b> dropped the starting-strokes rule midway through last season.  For this tournament,
-        PTFG has always applied a <b>standard pro-rated earnings</b> instead of the oversized FedEx finale purse.
-      </li>
-      <li>
-        Removed all advertising from the PTFG league websites and made the previously optional $1 per team ad-free fee
-        mandatory for all leagues. As a result, the site fee is now $6 per team, with a league <b>minimum of $180</b>.
+        For the <b>TOUR Championship</b> season finale, PTFG has always used standard pro-rated earnings rather than the
+        inflated FedEx Cup finale purse (e.g., $40 million). The PGA Tour’s major overhaul to a two-week, match-play
+        format won't take effect until <b>2028</b>, so the 2027 season will remain unaffected. When the new format (and
+        location) are fully announced, I plan to make adjustments similar to those I previously used to accommodate the
+        Dell Match Play tournament.
       </li>
     </ol>
   </div>
 
   <div class="card ptfgPanel">
     <div class="card-header ptfgBluePanelBackground">
-      <h3 class="card-title"><b><%= season %> League Schedules</b></h3>
+      <h3 class="card-title"><b><%= season %> League Setup – Schedule, Settings & Payment</b></h3>
     </div>
-    <div class="card-body">
-      <b>I can only set up your league for the upcoming season once you let me know your desired tournament schedule,
-      number of segments, etc.</b>
-      Click <a href="https://oneanddone1.protourfantasygolf.com/schedule" target="_od1">here</a> for the list of PGA
-      tournaments available to PTFG leagues in <%= season %>. Remember, PTFG features only one PGA TOUR event
-      each week — always the <b>most prestigious</b> one when multiple tournaments are held. LIV events are <b>not</b>
-      an option.
-      <br>
-      <br>
-      When replying with your desired tournament schedule, please double-check that it reflects exactly what you want.
-      If you’d like to keep the same setup as <%= last_season %>, simply reply with <b>same as last
-      year</b>. This means you want to use the same number of tournaments, segments, and the same starting and ending
-      tournaments as in <%= last_season %>. However, if your league played the <b>Tournament of Champions</b> t
-      ournament last year, please make any adjustments you'd like for that. You can review your 2025 schedule by
-      selecting <%= last_season %> on your league’s Schedule page. If you’d like to make any changes for
-      2026, please include the specific updates you want in your reply.
-      <br>
-      <br>
-      Be sure to also review your current <b>League Settings</b> on your league website which can be found
-      under the <b>Home</b> tab. If there are league setting you'd like change, please let me know prior to setting
-      up your <%= season %> season.
-      <br>
-      <br>
-      Like prior year's, your league payment is due one month after your league season starts. By then, you should have
-      your final team count. The cost per league is the same as last year. <b><%= MIN_LEAGUE_FEE %></b> is the minimum
-      league fee and includes your first 30 teams. It's <b>$6</b> per team after that. You can check league cost from:
-      <br><br>
-      <b>Commish</b> (tab) &#8594; <b>PTFG Payment</b>
-      <br>
-      <br>
-      Finally, if you’d like to see what’s new with the <%= season %> PGA TOUR schedule, be sure to check out
-      this <a href="https://golf.com/news/pga-tour-schedule-changes-2026/" target="tour_updates">article</a>.
+    <div class="card-body ccSetup">
+      <p class="ccSetup-lead">
+        I can only begin setting up your league for the <%= season %> season once you provide your desired tournament
+        schedule, number of segments, and any other changes. You can view the <%= season %> schedule
+        <%= link_to 'here', "https://www.pgatour.com/schedule/#{season}", target: 'schedule' %>.
+      </p>
+      <div class="ccNote">
+        <i class="bi bi-info-circle ccNote-icon" aria-hidden="true"></i>
+        <div>
+          Keep in mind that PTFG features only <b>one PGA TOUR tournament per week</b>, always selecting the
+          <b>most prestigious event</b> when multiple tournaments are scheduled. The 4
+          <i>opposite-field/alternate events</i> on the <%= season %> schedule will not be available, as supporting
+          them would require significant website changes and could create unnecessary confusion for participants.
+        </div>
+      </div>
+
+      <section class="ccSection">
+        <h4 class="ccSection-title"><i class="bi bi-calendar-event" aria-hidden="true"></i>Tournament Schedule</h4>
+        <p>When submitting your schedule, please double-check that it reflects exactly what you want for <%= season %>:</p>
+        <div class="ccOptions">
+          <div class="ccOption ccOption--blue">
+            <div class="ccOption-title"><i class="bi bi-arrow-repeat" aria-hidden="true"></i>Keeping the same format?</div>
+            <p>
+              Simply reply <b>Same as last year</b>. This means retaining the same number of tournaments and segments,
+              along with the same starting and ending tournaments as <%= last_season %>, with the exception of the
+              <i>Sony Open</i>, which is not being played in <%= season %>.
+            </p>
+          </div>
+          <div class="ccOption ccOption--green">
+            <div class="ccOption-title"><i class="bi bi-trophy" aria-hidden="true"></i>Played the Tournament of Champions last year?</div>
+            <p>Please let me know how you'd like to adjust your schedule to account for that event.</p>
+          </div>
+          <div class="ccOption ccOption--red">
+            <div class="ccOption-title"><i class="bi bi-pencil-square" aria-hidden="true"></i>Want to make changes?</div>
+            <p>
+              Include the specific tournaments, segment structure, or other adjustments you'd like for <%= season %>.
+            </p>
+          </div>
+        </div>
+        <p class="ccHint">
+          For reference, you can review last season's schedule by selecting <b><%= last_season %></b> on your league's
+          <b>Schedule</b> page.
+        </p>
+      </section>
+
+      <section class="ccSection">
+        <h4 class="ccSection-title"><i class="bi bi-sliders" aria-hidden="true"></i>League Settings</h4>
+        <p>
+          Please also review your current <b>League Settings</b>, located under the <b>Home</b> tab on your league
+          website. If you'd like to make any changes, let me know <b>before I set up your <%= season %> season</b>.
+        </p>
+      </section>
+
+      <section class="ccSection">
+        <h4 class="ccSection-title"><i class="bi bi-credit-card" aria-hidden="true"></i>League Fees &amp; Payment</h4>
+        <p>
+          As in previous years, payment is due <b>one month after your league season begins</b>. By that time, you
+          should have your final team count. League pricing remains unchanged for <%= season %>:
+        </p>
+        <div class="ccPrices">
+          <div class="ccPrice">
+            <span class="ccPrice-amount"><%= MIN_LEAGUE_FEE %></span>
+            <span class="ccPrice-label"><b>Minimum league fee</b>, covering up to 30 teams</span>
+          </div>
+          <div class="ccPrice">
+            <span class="ccPrice-amount">$6</span>
+            <span class="ccPrice-label"><b>Per additional team</b>, beyond the first 30</span>
+          </div>
+        </div>
+        <p>You can review your league's payment information and calculate the total cost under:</p>
+        <div class="ccPath">
+          <b>Commish</b><i class="bi bi-chevron-right" aria-hidden="true"></i><b>PTFG Payment</b>
+        </div>
+      </section>
+
+      <section class="ccSection">
+        <h4 class="ccSection-title"><i class="bi bi-stars" aria-hidden="true"></i>What's New for <%= season %>?</h4>
+        <p>
+          Interested in learning more about the changes to next year's PGA TOUR schedule? Check out the PGA TOUR's
+          <%= link_to "#{season} schedule announcement", 'https://www.pgatour.com/article/news/latest/2026/08/26/pga-tour-announces-2027-schedule-through-tour-championship/',
+                      :target => '_pgaAnnouncement' %>.
+        </p>
+      </section>
     </div>
   </div>
 
@@ -112,9 +158,10 @@
           </span>.
           Instead, the prize pool matches the purse from the two prior FedEx events and is allocated on a pro-rated
           basis. For <%= season.to_i %>, both preceding tournaments have a $20M purse, so the winner receives
-          the usual 18% share, or $3.6M.  The TOUR Championship uses the same pro-rated structure. Full earnings for
+          the usual 18% share, or $3.6M. The TOUR Championship uses the same pro-rated structure. Full earnings for
           the 30-player field are available
-          <a href="https://oneanddone1.protourfantasygolf.com/schedule/purse_breakdown/507" target="_blank">here.</a>
+          <%= link_to 'here', 'https://oneanddone1.protourfantasygolf.com/schedule/purse_breakdown/507',
+            :target =>  "_blank" %>
         </li>
         <br>
         <li>
