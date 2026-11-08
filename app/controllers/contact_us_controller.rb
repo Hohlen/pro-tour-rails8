@@ -50,7 +50,7 @@ class ContactUsController < ApplicationController
   # empty submission, rather than a 400 error page. Anything but the form's own fields is dropped, as is a honeypot
   # field when the page doesn't send one.
   def contact_us_params
-    params.fetch(:contact_us_form, {}).permit(:from_email_address, :subject, :body, :token)
+    params.fetch(:contact_us_form, {}).permit(:from_email_address, :subject, :body, :website)
   end
 
   # Shows the form again, with what was typed still in it, and a message above. 422 so Turbo renders the response.

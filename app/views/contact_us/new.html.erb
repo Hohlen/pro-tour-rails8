@@ -42,7 +42,7 @@
         </div>
 
         <%# The honeypot: hidden from people (and from screen readers and the tab order), so only a bot fills it in. %>
-        <%= form.text_field :token, value: "", class: "ctHoneypot", tabindex: -1, autocomplete: "off",
+        <%= form.text_field :website, value: "", class: "ctHoneypot", tabindex: -1, autocomplete: "off",
                             aria: { hidden: true } %>
 
         <div class="ctForm-secLabel">Security Challenge</div>

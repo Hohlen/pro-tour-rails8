@@ -5,7 +5,7 @@ require "test_helper"
 class ContactUsFormTest < ActiveSupport::TestCase
   def form(overrides = {})
     ContactUsForm.new(**{ from_email_address: "jane@example.com", subject: "Question about leagues",
-                          body: "How many golfers can I pick each week?", token: "" }.merge(overrides))
+                          body: "How many golfers can I pick each week?", website: "" }.merge(overrides))
   end
 
   # --- all_fields_non_blank? ---
@@ -14,8 +14,8 @@ class ContactUsFormTest < ActiveSupport::TestCase
     assert form.all_fields_non_blank?
   end
 
-  test "all_fields_non_blank? is true even when the honeypot token is blank (it's meant to be)" do
-    assert form(token: "").all_fields_non_blank?
+  test "all_fields_non_blank? is true even when the honeypot website is blank (it's meant to be)" do
+    assert form(website: "").all_fields_non_blank?
   end
 
   test "all_fields_non_blank? is false when from_email_address is blank" do
@@ -110,7 +110,7 @@ class ContactUsFormTest < ActiveSupport::TestCase
   end
 
   test "nil fields are treated as empty rather than raising" do
-    nils = ContactUsForm.new(from_email_address: nil, subject: nil, body: nil, token: nil)
+    nils = ContactUsForm.new(from_email_address: nil, subject: nil, body: nil, website: nil)
 
     assert_not nils.all_fields_non_blank?
     assert_not nils.honeypot_filled?
@@ -118,9 +118,9 @@ class ContactUsFormTest < ActiveSupport::TestCase
 
   # --- honeypot ---
 
-  test "honeypot_filled? is true only when something was typed into the token field" do
-    assert form(token: "i-am-a-bot").honeypot_filled?
-    assert_not form(token: "").honeypot_filled?
-    assert_not form(token: "   ").honeypot_filled?
+  test "honeypot_filled? is true only when something was typed into the website field" do
+    assert form(website: "i-am-a-bot").honeypot_filled?
+    assert_not form(website: "").honeypot_filled?
+    assert_not form(website: "   ").honeypot_filled?
   end
 end

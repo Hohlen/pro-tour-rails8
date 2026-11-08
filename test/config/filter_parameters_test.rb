@@ -12,8 +12,7 @@ class FilterParametersTest < ActiveSupport::TestCase
     assert_equal "jane@example.com", filtered("order" => { "your_email" => "jane@example.com" })["order"]["your_email"]
   end
 
-  test "league passwords and the honeypot token are still filtered" do
+  test "league passwords are still filtered" do
     assert_equal "[FILTERED]", filtered("order" => { "league_password" => "hunter2" })["order"]["league_password"]
-    assert_equal "[FILTERED]", filtered("contact_us_form" => { "token" => "bot" })["contact_us_form"]["token"]
   end
 end

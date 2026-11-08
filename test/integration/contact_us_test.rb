@@ -4,7 +4,7 @@ require "test_helper"
 class ContactUsTest < ActionDispatch::IntegrationTest
   def valid_params(overrides = {})
     { from_email_address: "jane@example.com", subject: "Question about leagues",
-      body: "How many golfers can I pick each week?", token: "" }.merge(overrides)
+      body: "How many golfers can I pick each week?", website: "" }.merge(overrides)
   end
 
   # Sends the form with Google's verdict stubbed, so these never reach Google. Any other keyword overrides a form
@@ -38,7 +38,7 @@ class ContactUsTest < ActionDispatch::IntegrationTest
   test "the form has the honeypot, hidden from people and assistive tech and out of the tab order" do
     get contact_us_path
 
-    assert_select "input.ctHoneypot#contact_us_form_token[tabindex='-1'][autocomplete='off'][aria-hidden='true']"
+    assert_select "input.ctHoneypot#contact_us_form_website[tabindex='-1'][autocomplete='off'][aria-hidden='true']"
   end
 
   test "the reCAPTCHA widget is rendered by the Stimulus controller with this environment's site key" do
@@ -217,20 +217,20 @@ class ContactUsTest < ActionDispatch::IntegrationTest
 
   test "a filled-in honeypot is silently sent home, with nothing emailed" do
     assert_no_difference "ActionMailer::Base.deliveries.size" do
-      submit(token: "i-am-a-bot")
+      submit(website: "i-am-a-bot")
     end
 
     assert_redirected_to root_path
   end
 
   test "the honeypot is checked before anything else, so a bot's other mistakes tell it nothing" do
-    submit(token: "i-am-a-bot", subject: "", from_email_address: "nonsense", recaptcha_response: nil)
+    submit(website: "i-am-a-bot", subject: "", from_email_address: "nonsense", recaptcha_response: nil)
 
     assert_redirected_to root_path
   end
 
   test "the honeypot stop is logged" do
-    log = capture_log { submit(token: "i-am-a-bot", subject: "Buy cheap pills") }
+    log = capture_log { submit(website: "i-am-a-bot", subject: "Buy cheap pills") }
 
     assert_match(/Honeypot stopped a Contact Us message \(subject: "Buy cheap pills"\)/, log)
   end
