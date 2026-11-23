@@ -24,6 +24,13 @@ module ActiveSupport
     # Runs the block with Rails.logger writing to a StringIO and returns what was logged.
     def capture_log
       original = Rails.logger
+      # ActionView, ActionMailer and the log subscribers grab Rails.logger when first used, which is lazy -- the
+      # first render. Load them now so they keep the real logger, not the temporary one below; otherwise
+      # whichever test renders first leaks "Rendering ..." lines into the capture and the result depends on test
+      # order.
+      ActionView::Base.logger
+      ActionMailer::Base.logger
+      ActiveSupport::LogSubscriber.logger
       log = StringIO.new
       Rails.logger = ActiveSupport::Logger.new(log)
       yield

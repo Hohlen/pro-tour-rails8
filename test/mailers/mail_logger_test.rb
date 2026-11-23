@@ -47,6 +47,13 @@ class MailLoggerTest < ActiveSupport::TestCase
   def capture_log
     io = StringIO.new
     original = Rails.logger
+    # ActionView, ActionMailer and the log subscribers grab Rails.logger when first used, which is lazy -- the
+    # first render. Load them now so they keep the real logger, not the temporary one below; otherwise
+    # whichever test renders first leaks "Rendered layout ..." into the capture and the result depends on test
+    # order.
+    ActionView::Base.logger
+    ActionMailer::Base.logger
+    ActiveSupport::LogSubscriber.logger
     Rails.logger = ActiveSupport::Logger.new(io, level: :info) # production logs at info
     yield
     io.string
