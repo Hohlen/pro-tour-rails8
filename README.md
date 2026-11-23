@@ -45,10 +45,10 @@ the server:
 is an Apache include file, edited as root, in `/etc/apache2/conf.d/userdata/std/2_4/ptfghost/<hostname>/` and in the
 matching `ssl/2_4/...` directory (the same file twice, for http and https), named `*-passenger.conf`. For this app,
 under `ptfg.hosting.protourfantasygolf.com/`, it sets `PassengerAppRoot` (`.../protourfantasygolf.com/current`),
-`PassengerAppEnv "production"`, `PassengerAppGroupName` and **`PassengerRuby /usr/local/bin/ruby3.4`**. Ruby 3.4.11 is
-installed in `/opt/rubies/ruby-3.4.11`, and `/usr/local/bin/ruby3.4` is a symlink to it (create it with
-`ln -s /opt/rubies/ruby-3.4.11/bin/ruby /usr/local/bin/ruby3.4` if it's missing). There's no RVM: Capistrano puts
-`/opt/rubies/ruby-3.4.11/bin` first on the PATH for the deploy. After editing an include file, run
+`PassengerAppEnv "production"`, `PassengerAppGroupName` and **`PassengerRuby /usr/local/bin/ruby3.4`**. Ruby 3.4.13 is
+installed in `/opt/rubies/ruby-3.4.13`, and `/usr/local/bin/ruby3.4` is a symlink to it (create it with
+`ln -s /opt/rubies/ruby-3.4.13/bin/ruby /usr/local/bin/ruby3.4` if it's missing). There's no RVM: Capistrano puts
+`/opt/rubies/ruby-3.4.13/bin` first on the PATH for the deploy. After editing an include file, run
 `/scripts/rebuildhttpdconf && httpd -t && /scripts/restartsrv_httpd`.
 
 If the site returns a Passenger 500 ("Web application could not be started") with an Error ID, search for that ID in
@@ -56,7 +56,7 @@ Apache's `/var/log/apache2/error_log`; the boot failure is there. "Could not fin
 `/usr/share/gems/gems/bundler-...` in the trace means `PassengerRuby` is the system Ruby (`ruby3.3`), not `ruby3.4`.
 
 The secrets (`recaptcha.secret_key` and `postmark.server_token`) live in the encrypted credentials. `Gemfile.lock`'s
-`BUNDLED WITH` must stay equal to the Bundler that ships with Ruby 3.4.11 (2.6.9): a different one makes Bundler
+`BUNDLED WITH` must stay equal to the Bundler that ships with Ruby 3.4.13 (2.6.9): a different one makes Bundler
 switch versions under Passenger, which fails with "Could not find rails-8.1.4". The full checklist is in `CLAUDE.md`,
 under "Before the first production deploy".
 

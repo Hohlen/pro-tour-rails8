@@ -20,7 +20,7 @@ Solid Cache/Queue/Cable are skipped entirely rather than ported.
 
 ## Current status
 
-Phase 0 (scaffold) complete: Rails 8.1 on Ruby 3.4.11 with Propshaft, importmap, Turbo and Stimulus (no jQuery);
+Phase 0 (scaffold) complete: Rails 8.1 on Ruby 3.4.13 with Propshaft, importmap, Turbo and Stimulus (no jQuery);
 Bootstrap 5.3 vendored (`vendor/assets/stylesheets/bootstrap.min.css`, `app/assets/javascripts/vendor/`) with
 Bootstrap Icons served from `public/vendor/bootstrap-icons/`; shared layout, nav bar, footer, sidebar logo card
 (`layouts/_right_logo`), flash alerts, hero and button styles. (Pages not yet ported rendered a placeholder
@@ -156,12 +156,12 @@ quirks as storks-now-rails8, which was deployed first:
   rails-8.1.4" and `/usr/share/gems/gems/bundler-...` in the trace -- only in Apache's `/var/log/apache2/error_log`,
   under the 500 page's Error ID, since `production.log` stays empty when Rails never boots. After editing:
   `/scripts/rebuildhttpdconf && httpd -t && /scripts/restartsrv_httpd`.
-- No RVM: Ruby 3.4.11 is in `/opt/rubies`, and `deploy.rb` puts it first on the PATH (`default_env`); `capistrano-rvm`
+- No RVM: Ruby 3.4.13 is in `/opt/rubies`, and `deploy.rb` puts it first on the PATH (`default_env`); `capistrano-rvm`
   was dropped.
 - cPanel mounts `/tmp` noexec, so `tmp_dir` is `/home/ptfghost/tmp` (for Capistrano's git SSH wrapper script).
 - `ed25519` and `bcrypt_pbkdf` are listed in the Gemfile: Net::SSH needs them for an ed25519 key, and they only came
   with the `kamal` gem.
-- `Gemfile.lock`'s `BUNDLED WITH` must equal Ruby 3.4.11's bundled Bundler (2.6.9). A different one makes Bundler
+- `Gemfile.lock`'s `BUNDLED WITH` must equal Ruby 3.4.13's bundled Bundler (2.6.9). A different one makes Bundler
   auto-switch and re-exec through the system Ruby's shebang under Passenger ("Could not find rails-8.1.4"). Update with
   `bundle update --bundler=2.6.9`.
 - Production logs to `log/production.log` (rotated, 10 MB x 5), since under Passenger STDOUT lands in Apache's
@@ -234,7 +234,7 @@ RAILS_ENV=production bin/rails runner 'puts({ recaptcha_secret_key: Rails.applic
 ## Commands
 
 ```bash
-# This machine's default Ruby (via rbenv) predates Rails 8 -- everything in this repo needs 3.4.11, which
+# This machine's default Ruby (via rbenv) predates Rails 8 -- everything in this repo needs 3.4.13, which
 # .ruby-version already pins; RBENV_VERSION= only matters if running commands from outside the repo dir.
 bin/rails server          # dev server on 3002, Puma's default (legacy owns 3000, fantasy-golf-rails8 3001, storks-now-rails8 3003)
 bin/rails test

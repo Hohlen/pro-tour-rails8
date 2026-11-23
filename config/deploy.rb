@@ -21,9 +21,9 @@ set :tmp_dir, "/home/ptfghost/tmp"
 set :format, :airbrussh
 set :log_level, :info # :debug
 
-# This server has no RVM: Ruby 3.4.11 lives in /opt/rubies and is what Passenger is set to run this app with
+# This server has no RVM: Ruby 3.4.13 lives in /opt/rubies and is what Passenger is set to run this app with
 # (cPanel Application Manager). Putting it first on the PATH makes the deploy's `bundle install` use the same Ruby.
-set :default_env, { path: "/opt/rubies/ruby-3.4.11/bin:$PATH" }
+set :default_env, { path: "/opt/rubies/ruby-3.4.13/bin:$PATH" }
 set :deploy_to, "/home/ptfghost/apps/#{application}"
 set :keep_releases, 2 # how many old releases do we want to keep
 
