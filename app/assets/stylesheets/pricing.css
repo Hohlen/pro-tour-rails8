@@ -27,6 +27,7 @@
 }
 
 .prPriceCard-amount span {
+  white-space: nowrap; /* "/ season" moves down as one piece when there isn't room beside the amount */
   font-size: 18px;
   font-weight: bold;
   color: var(--ptfg-muted);
@@ -42,16 +43,32 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 28px;
+  gap: 16px;
   margin-top: 22px;
   padding-top: 22px;
   border-top: 1px solid var(--ptfg-border);
+}
+
+/* The two per-team rates, side by side (stacked on a narrow screen). */
+.prPriceStat {
+  flex: 1 1 190px;
+  max-width: 260px;
+  padding: 12px 10px;
+  border: 1px solid var(--ptfg-border);
+  border-radius: 10px;
+  background: #fff;
 }
 
 .prPriceStat-value {
   font-size: 22px;
   font-weight: bold;
   color: var(--ptfg-heading);
+}
+
+.prPriceStat-value span {
+  font-size: 13px;
+  font-weight: normal;
+  color: var(--ptfg-muted);
 }
 
 .prPriceStat-label {
