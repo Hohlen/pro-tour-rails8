@@ -25,8 +25,8 @@ class OrderNowTest < ActionDispatch::IntegrationTest
     get order_now_path
 
     assert_response :success
-    assert_select "title", /\AOrder Now \| Pro Tour Fantasy Golf \d{4}\z/
-    assert_select "h2#pageTitle", "Order Now"
+    assert_select "title", /\ANew League Request \| Pro Tour Fantasy Golf \d{4}\z/
+    assert_select "h2#pageTitle", "New League Request"
     assert_select "form.ctForm[action='/order_now'][method='post']"
     assert_select ".card-header h4.card-title", text: "League Details"
     assert_select ".card-header h4.card-title", text: "Contact Information"

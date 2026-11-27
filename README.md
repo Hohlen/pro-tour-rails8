@@ -3,8 +3,8 @@
 The marketing and sign-up site for [Pro Tour Fantasy Golf](https://www.protourfantasygolf.com): game formats,
 features, pricing, FAQs, a searchable list of leagues, and the Contact Us and New League Request forms.
 
-This is a from-scratch Rails 8 rewrite of the Rails 2.3 app in the sibling `pro-tour-v2.0` repo, which stays live
-and untouched until cutover. It is not the game itself; drafting, lineups and standings live in `fantasy-golf` and
+This is a from-scratch Rails 8 rewrite of the Rails 2.3 app in the sibling `pro-tour-v2.0` repo, and it is now the
+live site. It is not the game itself; drafting, lineups and standings live in `fantasy-golf` and
 `fantasy-golf-rails8`.
 
 There is no database. Pages are static views, the Leagues page reads a flat file, and the two forms send email.
@@ -44,7 +44,7 @@ the server:
 `uapi PassengerApps list_applications`) lists nothing for this account, even for the apps that are running. Each app
 is an Apache include file, edited as root, in `/etc/apache2/conf.d/userdata/std/2_4/ptfghost/<hostname>/` and in the
 matching `ssl/2_4/...` directory (the same file twice, for http and https), named `*-passenger.conf`. For this app,
-under `ptfg.hosting.protourfantasygolf.com/`, it sets `PassengerAppRoot` (`.../protourfantasygolf.com/current`),
+it sets `PassengerAppRoot` (`.../protourfantasygolf.com/current`),
 `PassengerAppEnv "production"`, `PassengerAppGroupName` and **`PassengerRuby /usr/local/bin/ruby3.4`**. Ruby 3.4.13 is
 installed in `/opt/rubies/ruby-3.4.13`, and `/usr/local/bin/ruby3.4` is a symlink to it (create it with
 `ln -s /opt/rubies/ruby-3.4.13/bin/ruby /usr/local/bin/ruby3.4` if it's missing). There's no RVM: Capistrano puts
@@ -58,7 +58,7 @@ Apache's `/var/log/apache2/error_log`; the boot failure is there. "Could not fin
 The secrets (`recaptcha.secret_key` and `postmark.server_token`) live in the encrypted credentials. `Gemfile.lock`'s
 `BUNDLED WITH` must stay equal to the Bundler that ships with Ruby 3.4.13 (2.6.9): a different one makes Bundler
 switch versions under Passenger, which fails with "Could not find rails-8.1.4". The full checklist is in `CLAUDE.md`,
-under "Before the first production deploy".
+under "Production checklist".
 
 ## More
 

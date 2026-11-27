@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 A from-scratch Rails 8 rewrite of the Pro Tour Fantasy Golf marketing/ordering site (protourfantasygolf.com),
-replacing the Rails 2.3 (LTS fork) app that lives in the sibling `pro-tour-v2.0` repo. That repo stays running
-and untouched throughout this migration -- it's both the production app and the spec for this rewrite's
+replacing the Rails 2.3 (LTS fork) app that lives in the sibling `pro-tour-v2.0` repo. This app is now the live site
+(since November 2026). The old repo was the spec for this rewrite's
 behavior and visual design (its pages were fully restyled just before this migration started), since nothing
 else documents the `Order`/`EmailMsg` validation rules or the reCAPTCHA/Postmark integrations.
 
@@ -139,13 +139,13 @@ Request" (legacy had that link commented out whenever it didn't want more league
   intro's "For 2026, ..." notice is still hard-coded text, as in legacy, so update it each season.
 - Needs the same production secrets as Contact Us (`recaptcha.secret_key`, `postmark.server_token`).
 
-Phase 5 (deployment): **Capistrano + Passenger**, set up but not yet used (`Capfile`, `config/deploy.rb`,
+Phase 5 (deployment): **Capistrano + Passenger**, in use (`Capfile`, `config/deploy.rb`,
 `config/deploy/production.rb`; Capistrano 3.20.1, whose version is pinned in the Gemfile and must match the `lock`
 line in `deploy.rb`). The Kamal/Docker scaffold (Dockerfile, `.kamal/`, `bin/kamal`, `bin/thrust`, ...) was removed, and
 the `kamal`/`thruster` Gemfile entries are commented out. It targets the **new cPanel server for the Rails 8 apps**
 (68.183.164.91, as `ptfghost`; not legacy's VPS), always by IP address rather than hostname, so a DNS change can never
 send a deploy to the wrong machine, deploying to
-`/home/ptfghost/apps/protourfantasygolf.com` (the test hostname is `ptfg.hosting.protourfantasygolf.com`). Same server
+`/home/ptfghost/apps/protourfantasygolf.com`. The site is live at `www.protourfantasygolf.com`. Same server
 quirks as storks-now-rails8, which was deployed first:
 - **Passenger is configured by hand, not through cPanel's Application Manager**, which lists no apps for this account
   (`uapi PassengerApps list_applications` is empty, though storks-now runs). Each app is an Apache include file, edited
@@ -171,7 +171,7 @@ quirks as storks-now-rails8, which was deployed first:
 Rails 8 specifics: `capistrano/rails/assets` precompiles Propshaft's assets, there is no
 `capistrano/rails/migrations` since there is no database, and `config/master.key` is a linked file the deploy requires
 to already exist in `shared/config/` on the server. Needed on the server (one time): `master.key`, the league listings
-file, and the Passenger include file above (done for the test hostname).
+file, and the Passenger include file above.
 
 Conventions worth knowing before porting a page:
 - Legacy's Bootstrap 3 markup converts mechanically: `col-sm-*` -> `col-md-*` (Bootstrap 5's `sm` is 576px, its
@@ -200,7 +200,7 @@ encrypted credentials (`bin/rails credentials:edit`), not plaintext config -- un
 constants. The values are in legacy's `config/environments/production.rb` and
 `ApplicationController#verify_google_recaptcha`. Neither is needed in development or test (see Phase 3 above).
 
-## Before the first production deploy
+## Production checklist
 
 Things that work locally but won't in production until someone does them (development and test use Google's always-pass
 reCAPTCHA test keys and a captured-mail delivery method, so none of this shows up as a failure on a dev machine):
@@ -210,20 +210,24 @@ reCAPTCHA test keys and a captured-mail delivery method, so none of this shows u
   "Unexpected error".
 - [x] **`postmark.server_token`** in encrypted credentials. Done: set to legacy's `POSTMARK_SERVER_TOKEN` (checked
   2026-10-09). Without it production can't send mail.
-- [ ] **`config/master.key`** is gitignored and was generated on this machine. Back it up somewhere safe -- without it
-  the encrypted credentials are unreadable -- and put a copy at `/home/ptfghost/apps/protourfantasygolf.com/shared/config/master.key`
-  on the server (Capistrano links it into every release and stops the deploy if it's missing).
-- [ ] **The league listings file**: put the converted (8-field) `league_listings.txt` at
-  `/home/ptfghost/apps/protourfantasygolf.com/shared/league_listings.txt` (the production default), or set
-  `LEAGUE_LISTINGS_PATH` with `passenger_env_var`.
-- [ ] **Passenger include file** for the production hostname (copy the test hostname's `*-passenger.conf`, http and ssl, with
-  `PassengerRuby /usr/local/bin/ruby3.4`), once the production domain is chosen. Not done through Application Manager.
-- [x] **`config.hosts`** in `config/environments/production.rb`: protourfantasygolf.com, www, and the test hostname
-  `ptfg.hosting.protourfantasygolf.com`, with `/up` exempt (set 2026-11-03, like storks-now-rails8). Anything else, such
-  as the bare IP address, gets a 403.
-- [ ] **`force_ssl`/`assume_ssl`** (commented out) and `config.action_mailer.default_url_options` (currently
-  `protourfantasygolf.com`), once DNS is repointed and HTTPS is confirmed for the real domain.
-- [ ] Legacy `pro-tour-v2.0` stays live and untouched until cutover.
+- [x] **`config/master.key`** is gitignored. Done: backed up off this machine (confirmed 2026-11-03), with a copy at
+  `/home/ptfghost/apps/protourfantasygolf.com/shared/config/master.key` on the server (Capistrano links it into every
+  release and stops the deploy if it's missing). Without it the encrypted credentials are unreadable.
+- [x] **The league listings file**: the converted (8-field) `league_listings.txt` goes at
+  `/home/ptfghost/apps/protourfantasygolf.com/shared/league_listings.txt` (the production default; the deploy stops if
+  it's missing), or set `LEAGUE_LISTINGS_PATH` with `passenger_env_var`.
+- [x] **Passenger serves the real domain** from the new server (`www.protourfantasygolf.com`, checked 2026-11-27).
+  Include files are edited by hand, not through Application Manager.
+- [x] **`config.hosts`** in `config/environments/production.rb`: `protourfantasygolf.com` and
+  `www.protourfantasygolf.com`, with `/up` exempt. Anything else, such as the bare IP address, gets a 403. The test
+  hostname used before launch was removed on 2026-11-27.
+- [ ] **Bare-domain DNS**: on 2026-11-27 `protourfantasygolf.com` still resolved to 173.232.10.18, which redirects to
+  `www` (`www` already points to the new server). The new server answers for the bare domain over HTTPS with a
+  certificate covering both names.
+- [ ] **`force_ssl`/`assume_ssl`** are still commented out. If `force_ssl` is turned on, set
+  `config.ssl_options = { hsts: { subdomains: false } }`: Rails' default HSTS covers subdomains, and sent from the bare
+  domain that would force HTTPS on every league subdomain.
+- [x] Legacy `pro-tour-v2.0` stayed live and untouched until cutover.
 
 To see which credentials are set (prints only true/false, never a value):
 

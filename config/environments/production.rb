@@ -77,8 +77,7 @@ Rails.application.configure do
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
     "protourfantasygolf.com",
-    "www.protourfantasygolf.com",
-    "ptfg.hosting.protourfantasygolf.com" # test hostname from before the DNS cutover
+    "www.protourfantasygolf.com"
   ]
 
   # Skip DNS rebinding protection for the default health check endpoint.
